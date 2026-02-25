@@ -9,21 +9,8 @@ const FOMO_NAMES = [
   'Giovanni', 'Roberto', 'Valentina', 'Alessia', 'Riccardo', 'Sara'
 ]
 
-function FadeIn({ children, className = '', delay = 0 }) {
-  const ref = useRef(null)
-  const [visible, setVisible] = useState(false)
-  useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) setVisible(true)
-    }, { threshold: 0.1 })
-    if (ref.current) observer.observe(ref.current)
-    return () => observer.disconnect()
-  }, [])
-  return (
-    <div ref={ref} className={`transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'} ${className}`} style={{ transitionDelay: `${delay}ms` }}>
-      {children}
-    </div>
-  )
+function FadeIn({ children, className = '' }) {
+  return <div className={className}>{children}</div>
 }
 
 function FomoNotification() {
@@ -63,9 +50,9 @@ function FomoNotification() {
 function InfiniteMarquee({ children }) {
   return (
     <div className="overflow-hidden w-full">
-      <div className="flex gap-3 animate-marquee" style={{ width: 'max-content' }}>
-        {children}
-        {children}
+      <div className="flex gap-4 animate-marquee" style={{ width: 'max-content', willChange: 'transform' }}>
+        <div className="flex gap-4 shrink-0">{children}</div>
+        <div className="flex gap-4 shrink-0">{children}</div>
       </div>
     </div>
   )
@@ -169,7 +156,7 @@ export default function App() {
             </div>
             <div className="bg-white/5 rounded-xl p-3 flex gap-2">
               <TrendingUp className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
-              <p className="text-[13px] text-[#c8d0dc] leading-relaxed">Strategia automatizzata attiva — risultati reali condivisi ogni settimana nel canale.</p>
+              <p className="text-[13px] text-[#c8d0dc] leading-relaxed">Strategia gratuita, copia e incolla — risultati reali condivisi ogni settimana nel canale.</p>
             </div>
           </div>
         </FadeIn>
@@ -187,7 +174,7 @@ export default function App() {
           <p className="text-[#8a9bb8]/50 text-xs uppercase tracking-widest text-center mb-3">Risultati reali dei membri</p>
           <InfiniteMarquee>
             {testimonials.map((src, i) => (
-              <img key={i} src={src} alt={`Risultato ${i + 1}`} className="w-48 h-auto rounded-xl border border-white/10 flex-shrink-0" loading="lazy" />
+              <img key={i} src={src} alt={`Risultato ${i + 1}`} className="w-48 h-64 object-cover rounded-xl border border-white/10 shrink-0" />
             ))}
           </InfiniteMarquee>
         </FadeIn>

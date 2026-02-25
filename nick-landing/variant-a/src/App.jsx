@@ -11,50 +11,25 @@ const FOMO_NAMES = [
 
 function AnimatedCounter({ end, suffix = '', duration = 2000 }) {
   const [count, setCount] = useState(0)
-  const ref = useRef(null)
-  const started = useRef(false)
 
   useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting && !started.current) {
-        started.current = true
-        const start = performance.now()
-        const step = (now) => {
-          const progress = Math.min((now - start) / duration, 1)
-          setCount(Math.floor(progress * end))
-          if (progress < 1) requestAnimationFrame(step)
-        }
-        requestAnimationFrame(step)
+    const timeout = setTimeout(() => {
+      const start = performance.now()
+      const step = (now) => {
+        const progress = Math.min((now - start) / duration, 1)
+        setCount(Math.floor(progress * end))
+        if (progress < 1) requestAnimationFrame(step)
       }
-    }, { threshold: 0.5 })
-    if (ref.current) observer.observe(ref.current)
-    return () => observer.disconnect()
+      requestAnimationFrame(step)
+    }, 600)
+    return () => clearTimeout(timeout)
   }, [end, duration])
 
-  return <span ref={ref}>{count.toLocaleString('it-IT')}{suffix}</span>
+  return <span>{count.toLocaleString('it-IT')}{suffix}</span>
 }
 
-function FadeIn({ children, className = '', delay = 0 }) {
-  const ref = useRef(null)
-  const [visible, setVisible] = useState(false)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) setVisible(true)
-    }, { threshold: 0.1 })
-    if (ref.current) observer.observe(ref.current)
-    return () => observer.disconnect()
-  }, [])
-
-  return (
-    <div
-      ref={ref}
-      className={`transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'} ${className}`}
-      style={{ transitionDelay: `${delay}ms` }}
-    >
-      {children}
-    </div>
-  )
+function FadeIn({ children, className = '' }) {
+  return <div className={className}>{children}</div>
 }
 
 function FomoNotification() {
@@ -94,9 +69,9 @@ function FomoNotification() {
 function InfiniteMarquee({ children }) {
   return (
     <div className="overflow-hidden w-full">
-      <div className="flex gap-3 animate-marquee" style={{ width: 'max-content' }}>
-        {children}
-        {children}
+      <div className="flex gap-4 animate-marquee" style={{ width: 'max-content', willChange: 'transform' }}>
+        <div className="flex gap-4 shrink-0">{children}</div>
+        <div className="flex gap-4 shrink-0">{children}</div>
       </div>
     </div>
   )
@@ -214,8 +189,7 @@ export default function App() {
                 key={i}
                 src={src}
                 alt={`Risultato ${i + 1}`}
-                className="w-56 h-auto rounded-xl border border-white/10 flex-shrink-0"
-                loading="lazy"
+                className="w-56 h-72 object-cover rounded-xl border border-white/10 shrink-0"
               />
             ))}
           </InfiniteMarquee>

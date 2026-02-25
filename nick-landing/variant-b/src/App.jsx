@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { CheckCircle, Send, Zap, Radio, TrendingUp } from 'lucide-react'
+import { CheckCircle, Send, Zap, Radio, TrendingUp, ChevronRight } from 'lucide-react'
 
 const CTA_LINK = 'https://t.me/+bewF8mb2oUhhOWZk'
 
@@ -131,7 +131,7 @@ export default function App() {
             <div className="bg-[#f0f7ff] rounded-xl p-3 text-left flex gap-2">
               <TrendingUp className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
               <div>
-                <p className="text-[13px] text-[#333] leading-relaxed">La strategia automatizzata ha chiuso +2.3% oggi. I risultati parlano da soli.</p>
+                <p className="text-[13px] text-[#333] leading-relaxed">Strategia gratuita, copia e incolla. I risultati parlano da soli.</p>
                 <p className="text-[10px] text-[#999] text-right mt-1">18:30</p>
               </div>
             </div>
