@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes neon-glow {
+  0%, 100% { box-shadow: 0 0 10px rgba(0, 230, 118, 0.4), 0 0 30px rgba(0, 200, 83, 0.2); }
+  50% { box-shadow: 0 0 20px rgba(0, 230, 118, 0.6), 0 0 50px rgba(0, 200, 83, 0.4), 0 0 80px rgba(0, 230, 118, 0.15); }
+}
+
+@keyframes cta-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.07); }
+}
+
+@keyframes bounce-x {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(4px); }
+}
+
+.animate-shimmer {
+  animation: shimmer 2.5s ease-in-out infinite;
+}
+
+.animate-neon-glow {
+  animation: neon-glow 2s ease-in-out infinite;
+}
+
+.animate-cta-pulse {
+  animation: cta-pulse 2s ease-in-out infinite;
+}
+
+.animate-bounce-x {
+  animation: bounce-x 1.5s ease-in-out infinite;
+}
