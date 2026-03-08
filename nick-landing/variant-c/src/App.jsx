@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { Users, BarChart3, Wallet, Target, CheckCircle, Send, Radio, TrendingUp, Zap } from 'lucide-react'
+import { trackCTA } from './posthog.js'
 
-const CTA_LINK = 'https://t.me/+bewF8mb2oUhhOWZk'
+const CTA_LINK = 'https://t.me/+xm4vsqS5IwdkYWRk'
+const VARIANT = 'c'
 
 const FOMO_NAMES = [
   'Marco', 'Luca', 'Alessandro', 'Sofia', 'Francesco', 'Andrea', 'Matteo',
@@ -58,10 +60,17 @@ function InfiniteMarquee({ children }) {
   )
 }
 
-function PulseCTA({ href, children, className = '' }) {
+function PulseCTA({ href, children, className = '', location = 'unknown' }) {
+
+  const handleClick = (e) => {
+    e.preventDefault()
+    trackCTA(VARIANT, location)
+    window.location.href = href
+  }
   return (
     <a
       href={href}
+      onClick={handleClick}
       className={`relative block w-full text-center text-white font-bold text-base py-4 rounded-2xl transition-all duration-300 hover:scale-[1.03] overflow-hidden group animate-cta-pulse ${className}`}
     >
       <span className="absolute inset-0 bg-gradient-to-r from-[#3390ec] via-[#5ba8f0] to-[#3390ec] bg-[length:200%_100%] animate-shimmer" />
@@ -74,7 +83,7 @@ function PulseCTA({ href, children, className = '' }) {
   )
 }
 
-const testimonials = Array.from({ length: 12 }, (_, i) => `/testi-${i + 1}.jpeg`)
+const testimonials = Array.from({ length: 12 }, (_, i) => `./testi-${i + 1}.jpeg`)
 
 export default function App() {
   return (
@@ -103,7 +112,7 @@ export default function App() {
         <FadeIn className="text-center mb-8">
           <div className="relative inline-block mb-5">
             <div className="absolute inset-0 bg-[#3390ec]/20 rounded-full blur-xl scale-125" />
-            <img src="/nick-photo.jpeg" alt="Nick Parodi" className="relative w-24 h-24 rounded-full object-cover border-2 border-[#3390ec]/40" />
+            <img src="./nick-photo.jpeg" alt="Nick Parodi" className="relative w-24 h-24 rounded-full object-cover border-2 border-[#3390ec]/40" />
             <div className="absolute -bottom-1 -right-1 bg-[#3390ec] rounded-full w-6 h-6 flex items-center justify-center">
               <CheckCircle className="w-3.5 h-3.5 text-white" />
             </div>
@@ -113,7 +122,7 @@ export default function App() {
             Il canale <span className="text-[#3390ec]">N1 in Italia</span> su Geopolitica, Economia e Finanza
           </h1>
           <p className="text-[#8a9bb8] text-base mb-6">Oltre 32.000 persone lo seguono ogni giorno. Accesso 100% gratuito.</p>
-          <PulseCTA href={CTA_LINK}>
+          <PulseCTA href={CTA_LINK} location="hero">
             Accedi al Canale Gratuito
           </PulseCTA>
           <p className="text-center text-[#8a9bb8]/50 text-xs mt-2 mb-0">Gratis — Unisciti in 10 secondi</p>
@@ -141,7 +150,7 @@ export default function App() {
         <FadeIn delay={400} className="w-full mb-8">
           <div className="bg-white/[0.07] backdrop-blur-md border border-white/10 rounded-2xl p-5">
             <div className="flex items-center gap-3 mb-4">
-              <img src="/nick-photo.jpeg" alt="" className="w-11 h-11 rounded-full object-cover" />
+              <img src="./nick-photo.jpeg" alt="" className="w-11 h-11 rounded-full object-cover" />
               <div className="text-left">
                 <p className="font-semibold text-white text-sm flex items-center gap-1.5">Nick's Life <TrendingUp className="w-4 h-4 text-[#3390ec]" /> <Radio className="w-4 h-4 text-red-400" /></p>
                 <p className="text-[#8a9bb8] text-xs">32 010 iscritti</p>
@@ -163,7 +172,7 @@ export default function App() {
 
         {/* CTA */}
         <FadeIn delay={500} className="w-full mb-8">
-          <PulseCTA href={CTA_LINK}>
+          <PulseCTA href={CTA_LINK} location="middle">
             Accedi al Canale Gratuito
           </PulseCTA>
           <p className="text-center text-[#8a9bb8]/50 text-xs mt-2">Gratis — Unisciti in 10 secondi</p>
@@ -184,7 +193,7 @@ export default function App() {
           <div className="bg-white/[0.04] border border-[#3390ec]/20 rounded-2xl p-6 text-center">
             <p className="text-lg font-semibold text-white mb-2">Non restare fuori</p>
             <p className="text-[#8a9bb8] text-sm mb-4">Ogni giorno perso è un'opportunità mancata. L'accesso è gratuito.</p>
-            <PulseCTA href={CTA_LINK}>
+            <PulseCTA href={CTA_LINK} location="final">
               Unisciti Ora — È Gratis
             </PulseCTA>
           </div>

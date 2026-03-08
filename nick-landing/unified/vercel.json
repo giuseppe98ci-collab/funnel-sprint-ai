@@ -1,0 +1,19 @@
+{
+  "outputDirectory": "public",
+  "functions": {
+    "api/*.js": {
+      "memory": 128,
+      "maxDuration": 10
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/guida-alla-crisi",
+      "destination": "https://nick-lowticket.vercel.app/"
+    },
+    {
+      "source": "/guida-alla-crisi/:path*",
+      "destination": "https://nick-lowticket.vercel.app/:path*"
+    }
+  ]
+}

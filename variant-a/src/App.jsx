@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Radio, Users, Award, Target, ChevronRight, Shield, TrendingUp, Zap, Send } from 'lucide-react'
+import { Radio, Users, Award, Target, ChevronRight, Shield, TrendingUp, Zap, Send, Play } from 'lucide-react'
 
 const CTA_LINK = 'https://t.me/+bewF8mb2oUhhOWZk'
 
@@ -118,6 +118,27 @@ function PulseCTA({ href, children, className = '' }) {
   )
 }
 
+function VTurbPlayer() {
+  useEffect(() => {
+    const existingScript = document.querySelector('script[data-vturb="69a93eb3e8b32ee3313cc7cc"]')
+    if (!existingScript) {
+      const s = document.createElement('script')
+      s.src = 'https://scripts.converteai.net/41361394-101c-44d4-877d-f1d8fb2bd110/players/69a93eb3e8b32ee3313cc7cc/v4/player.js'
+      s.async = true
+      s.dataset.vturb = '69a93eb3e8b32ee3313cc7cc'
+      document.head.appendChild(s)
+    }
+  }, [])
+
+  return (
+    <div className="w-full max-w-md mx-auto mb-6">
+      <div className="relative aspect-video overflow-hidden rounded-xl border border-[#c9a44e]/30 shadow-[0_0_30px_rgba(201,164,78,0.15)]">
+        <vturb-smartplayer id="vid-69a93eb3e8b32ee3313cc7cc" style={{ display: 'block', margin: '0 auto', width: '100%', height: '100%' }}></vturb-smartplayer>
+      </div>
+    </div>
+  )
+}
+
 const testimonials = Array.from({ length: 12 }, (_, i) => `/testi-${i + 1}.jpeg`)
 
 export default function App() {
@@ -175,6 +196,11 @@ export default function App() {
           <p className="text-[#8a9bb8] text-base mb-8 leading-relaxed">
             Unisciti a oltre <strong className="text-white">32.000 persone</strong> che seguono Nick Parodi ogni giorno — <strong className="text-[#c9a44e]">100% gratuito</strong>
           </p>
+        </FadeIn>
+
+        {/* VSL Video - VTurb */}
+        <FadeIn delay={450}>
+          <VTurbPlayer />
         </FadeIn>
 
         {/* Stats */}

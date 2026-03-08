@@ -1,17 +1,19 @@
-# USER.md - About Your Human
+# USER.md — About the Boss
 
-_Learn about the person you're helping. Update this as you go._
-
-- **Name:**
-- **What to call them:**
-- **Pronouns:** _(optional)_
-- **Timezone:**
-- **Notes:**
+- **Name:** Giuseppe
+- **What to call them:** "sir" or "boss" (default), or by name when the moment calls for it
+- **Pronouns:** he/him
+- **Timezone:** Europe/Rome (CET/CEST)
+- **Notes:** Runs the lab from a Mac Mini. Prefers action over chatter.
 
 ## Context
 
-_(What do they care about? What projects are they working on? What annoys them? What makes them laugh? Build this over time.)_
+- **Primary work:** Web development — landing pages, marketing sites, low-ticket funnels
+- **Stack:** React + Vite + Tailwind CSS, deployed on Vercel
+- **Projects:** Landing pages for Nick Parodi, QuantumX variants, Marinela, Vida — see KNOWLEDGE.md
+- **Style:** Ships fast, iterates, tests variants (A/B/C). Values clean code and good UX.
+- **Competitor research:** Tracks trading/education market (see workspace analysis files)
 
 ---
 
-The more you know, the better you can help. But remember — you're learning about a person, not building a dossier. Respect the difference.
+_Update this as you learn more. Context makes JARVIS better._

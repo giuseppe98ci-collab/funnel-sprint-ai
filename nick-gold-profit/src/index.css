@@ -1,0 +1,200 @@
+@import "tailwindcss";
+
+/* ===== CUSTOM PROPERTIES ===== */
+:root {
+  --gold: #C4A95B;
+  --gold-light: #E5D4A1;
+  --bg-dark: #0D0D0D;
+  --bg-card: #1A1A1A;
+}
+
+/* ===== BASE ===== */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--bg-dark);
+  color: #ffffff;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== GOLD GRADIENT TEXT ===== */
+.gold-text {
+  background: linear-gradient(135deg, #C4A95B, #E5D4A1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ===== HEADLINE FONT ===== */
+.font-headline {
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+/* ===== GLASSMORPHISM CARD ===== */
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(196, 169, 91, 0.25);
+  border-radius: 1rem;
+  position: relative;
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 1rem;
+  background: radial-gradient(ellipse at center, rgba(196, 169, 91, 0.08), transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+  filter: blur(40px);
+}
+
+/* ===== GOLD GLOW BEHIND SECTIONS ===== */
+.gold-glow {
+  position: relative;
+}
+
+.gold-glow::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 60%;
+  background: radial-gradient(ellipse, rgba(196, 169, 91, 0.12), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(80px);
+}
+
+/* ===== CTA SHIMMER ===== */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.cta-btn {
+  position: relative;
+  overflow: hidden;
+  background: #C4A95B;
+  color: #000;
+  font-weight: 700;
+  font-size: 1.125rem;
+  padding: 1rem 2.5rem;
+  border-radius: 0.75rem;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: inline-block;
+  text-decoration: none;
+  text-align: center;
+}
+
+.cta-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(196, 169, 91, 0.4);
+}
+
+.cta-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+  animation: shimmer 2.5s infinite;
+}
+
+/* ===== PULSE ===== */
+@keyframes pulse-gold {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(196, 169, 91, 0.5); }
+  50% { box-shadow: 0 0 0 12px rgba(196, 169, 91, 0); }
+}
+
+.cta-pulse {
+  animation: pulse-gold 2s infinite;
+}
+
+/* ===== FADE IN ===== */
+.fade-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== FOMO POPUP ===== */
+@keyframes slide-in {
+  from { transform: translateX(-120%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slide-out {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(-120%); opacity: 0; }
+}
+
+.fomo-enter { animation: slide-in 0.4s ease-out forwards; }
+.fomo-exit { animation: slide-out 0.4s ease-in forwards; }
+
+/* ===== FAQ ACCORDION ===== */
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+
+.faq-answer.open {
+  max-height: 500px;
+}
+
+/* ===== SECTION GLOW ===== */
+.section-glow {
+  position: relative;
+}
+
+.section-glow::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(196,169,91,0.3), transparent);
+}
+
+/* ===== STRIKETHROUGH PRICE ===== */
+.price-old {
+  text-decoration: line-through;
+  color: #EF4444;
+  opacity: 0.8;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #0D0D0D; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #C4A95B; }
+
+/* ===== BUMP CHECKBOX ===== */
+.bump-box {
+  background: linear-gradient(135deg, rgba(196,169,91,0.1), rgba(196,169,91,0.05));
+  border: 2px dashed #C4A95B;
+  border-radius: 1rem;
+  padding: 1.5rem;
+}

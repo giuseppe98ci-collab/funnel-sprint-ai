@@ -79,6 +79,27 @@ const TelegramPattern = () => (
   </svg>
 )
 
+function VTurbPlayer() {
+  useEffect(() => {
+    const existingScript = document.querySelector('script[data-vturb="69a93eb3e8b32ee3313cc7cc"]')
+    if (!existingScript) {
+      const s = document.createElement('script')
+      s.src = 'https://scripts.converteai.net/41361394-101c-44d4-877d-f1d8fb2bd110/players/69a93eb3e8b32ee3313cc7cc/v4/player.js'
+      s.async = true
+      s.dataset.vturb = '69a93eb3e8b32ee3313cc7cc'
+      document.head.appendChild(s)
+    }
+  }, [])
+
+  return (
+    <div className="w-full mb-5">
+      <div className="relative aspect-video overflow-hidden rounded-xl border border-gray-200 shadow-md">
+        <vturb-smartplayer id="vid-69a93eb3e8b32ee3313cc7cc" style={{ display: 'block', margin: '0 auto', width: '100%', height: '100%' }}></vturb-smartplayer>
+      </div>
+    </div>
+  )
+}
+
 export default function App() {
   return (
     <div className="min-h-screen relative flex items-center justify-center p-4" style={{background: 'linear-gradient(160deg, #a8b86a 0%, #7aaa7a 40%, #5a9a7a 100%)'}}>
@@ -118,6 +139,9 @@ export default function App() {
 
           {/* Separator */}
           <div className="border-t border-gray-100 mb-6" />
+
+          {/* VSL Video - VTurb */}
+          <VTurbPlayer />
 
           {/* Preview messages */}
           <div className="space-y-3 mb-6">

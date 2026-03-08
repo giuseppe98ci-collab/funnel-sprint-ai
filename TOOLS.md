@@ -1,40 +1,26 @@
-# TOOLS.md - Local Notes
+# TOOLS.md — Workshop Equipment
 
-Skills define _how_ tools work. This file is for _your_ specifics — the stuff that's unique to your setup.
+## Dev Environment
 
-## What Goes Here
+- **Host:** Mac Mini (Apple Silicon, macOS)
+- **Runtime:** Node.js v25.6.1
+- **Package managers:** npm (check for pnpm/yarn per project)
+- **Deploy target:** Vercel (primary)
 
-Things like:
+## Project Stack
 
-- Camera names and locations
-- SSH hosts and aliases
-- Preferred voices for TTS
-- Speaker/room names
-- Device nicknames
-- Anything environment-specific
+- **Framework:** React (Vite)
+- **Styling:** Tailwind CSS v4
+- **Build:** `npm run build` / `npx vite build`
+- **Dev:** `npm run dev` / `npx vite`
 
-## Examples
+## Conventions
 
-```markdown
-### Cameras
-
-- living-room → Main area, 180° wide angle
-- front-door → Entrance, motion-triggered
-
-### SSH
-
-- home-server → 192.168.1.100, user: admin
-
-### TTS
-
-- Preferred voice: "Nova" (warm, slightly British)
-- Default speaker: Kitchen HomePod
-```
-
-## Why Separate?
-
-Skills are shared. Your setup is yours. Keeping them apart means you can update skills without losing your notes, and share skills without leaking your infrastructure.
+- Landing pages typically live in workspace subdirectories
+- Each variant (A/B/C) gets its own Vercel deployment
+- Testimonial images: `/testi-1.jpeg` through `/testi-12.jpeg`
+- CTA links usually point to Telegram groups
 
 ---
 
-Add whatever helps you do your job. This is your cheat sheet.
+_Add specifics as they come up — camera names, SSH hosts, TTS voices, speaker configs._

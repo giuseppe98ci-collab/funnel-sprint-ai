@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/guida-alla-crisi",
+      "destination": "https://nick-lowticket.vercel.app/"
+    },
+    {
+      "source": "/guida-alla-crisi/:path*",
+      "destination": "https://nick-lowticket.vercel.app/:path*"
+    }
+  ]
+}

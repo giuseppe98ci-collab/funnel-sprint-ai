@@ -87,6 +87,27 @@ function PulseCTA({ href, children, className = '' }) {
   )
 }
 
+function VTurbPlayer() {
+  useEffect(() => {
+    const existingScript = document.querySelector('script[data-vturb="69a93eb3e8b32ee3313cc7cc"]')
+    if (!existingScript) {
+      const s = document.createElement('script')
+      s.src = 'https://scripts.converteai.net/41361394-101c-44d4-877d-f1d8fb2bd110/players/69a93eb3e8b32ee3313cc7cc/v4/player.js'
+      s.async = true
+      s.dataset.vturb = '69a93eb3e8b32ee3313cc7cc'
+      document.head.appendChild(s)
+    }
+  }, [])
+
+  return (
+    <div className="w-full">
+      <div className="relative aspect-video overflow-hidden rounded-2xl border border-white/10 shadow-[0_0_40px_rgba(51,144,236,0.1)]">
+        <vturb-smartplayer id="vid-69a93eb3e8b32ee3313cc7cc" style={{ display: 'block', margin: '0 auto', width: '100%', height: '100%' }}></vturb-smartplayer>
+      </div>
+    </div>
+  )
+}
+
 const testimonials = Array.from({ length: 12 }, (_, i) => `/testi-${i + 1}.jpeg`)
 
 export default function App() {
@@ -130,6 +151,11 @@ export default function App() {
             Accedi al Canale Gratuito
           </PulseCTA>
           <p className="text-center text-[#8a9bb8]/50 text-xs mt-2 mb-0">Gratis — Unisciti in 10 secondi</p>
+        </FadeIn>
+
+        {/* VSL Video - VTurb */}
+        <FadeIn delay={150} className="w-full mb-8">
+          <VTurbPlayer />
         </FadeIn>
 
         {/* Stats - glass cards */}

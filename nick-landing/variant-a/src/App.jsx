@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { Radio, Users, Award, Target, ChevronRight, Shield, TrendingUp, Zap, Send } from 'lucide-react'
+import { trackCTA } from './posthog.js'
 
-const CTA_LINK = 'https://t.me/+bewF8mb2oUhhOWZk'
+const CTA_LINK = 'https://t.me/+xm4vsqS5IwdkYWRk'
+const VARIANT = 'a'
 
 const FOMO_NAMES = [
   'Marco', 'Luca', 'Alessandro', 'Sofia', 'Francesco', 'Andrea', 'Matteo',
@@ -77,10 +79,17 @@ function InfiniteMarquee({ children }) {
   )
 }
 
-function PulseCTA({ href, children, className = '' }) {
+function PulseCTA({ href, children, className = '', location = 'unknown' }) {
+
+  const handleClick = (e) => {
+    e.preventDefault()
+    trackCTA(VARIANT, location)
+    window.location.href = href
+  }
   return (
     <a
       href={href}
+      onClick={handleClick}
       className={`relative block w-full text-center font-bold text-base uppercase tracking-wider py-4 px-6 rounded-xl transition-all duration-300 hover:scale-[1.03] overflow-hidden group animate-cta-pulse ${className}`}
     >
       <span className="absolute inset-0 bg-gradient-to-r from-[#1a7a6d] via-[#22a88f] to-[#1a7a6d] bg-[length:200%_100%] animate-shimmer" />
@@ -93,7 +102,7 @@ function PulseCTA({ href, children, className = '' }) {
   )
 }
 
-const testimonials = Array.from({ length: 12 }, (_, i) => `/testi-${i + 1}.jpeg`)
+const testimonials = Array.from({ length: 12 }, (_, i) => `./testi-${i + 1}.jpeg`)
 
 export default function App() {
   return (
@@ -120,7 +129,7 @@ export default function App() {
           <div className="relative mb-6">
             <div className="absolute inset-0 bg-[#c9a44e]/30 rounded-full blur-xl scale-110" />
             <img
-              src="/nick-photo.jpeg"
+              src="./nick-photo.jpeg"
               alt="Nick Parodi"
               className="relative w-28 h-28 rounded-full object-cover border-2 border-[#c9a44e]/60"
             />
@@ -172,7 +181,7 @@ export default function App() {
 
         {/* CTA */}
         <FadeIn delay={600}>
-          <PulseCTA href={CTA_LINK}>
+          <PulseCTA href={CTA_LINK} location="hero">
             Accedi al Canale Telegram Gratuito
           </PulseCTA>
           <p className="text-[#8a9bb8]/60 text-xs mb-10 mt-3">
@@ -197,7 +206,7 @@ export default function App() {
 
         {/* Second CTA */}
         <FadeIn delay={800} className="w-full mt-8">
-          <PulseCTA href={CTA_LINK}>
+          <PulseCTA href={CTA_LINK} location="final">
             Unisciti Ora — È Gratis
           </PulseCTA>
         </FadeIn>

@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { CheckCircle, Send, Zap, Radio, TrendingUp, ChevronRight } from 'lucide-react'
+import { trackCTA } from './posthog.js'
 
-const CTA_LINK = 'https://t.me/+bewF8mb2oUhhOWZk'
+const CTA_LINK = 'https://t.me/+xm4vsqS5IwdkYWRk'
+const VARIANT = 'b'
 
 const FOMO_NAMES = [
   'Marco', 'Luca', 'Alessandro', 'Sofia', 'Francesco', 'Andrea', 'Matteo',
@@ -91,7 +93,7 @@ export default function App() {
           <div className="flex justify-center mb-4">
             <div className="relative">
               <img
-                src="/nick-photo.jpeg"
+                src="./nick-photo.jpeg"
                 alt="Nick Parodi"
                 className="w-[110px] h-[110px] rounded-full object-cover border-4 border-white shadow-lg"
               />
@@ -140,6 +142,7 @@ export default function App() {
           {/* CTA - vivid neon pulse */}
           <a
             href={CTA_LINK}
+            onClick={() => trackCTA(VARIANT, 'main')}
             className="relative block w-full overflow-hidden text-white font-bold text-[16px] py-4 rounded-xl transition-all duration-200 hover:-translate-y-0.5 animate-cta-pulse group"
           >
             <span className="absolute inset-0 bg-gradient-to-r from-[#00e676] via-[#00c853] to-[#00e676] bg-[length:200%_100%] animate-shimmer" />
