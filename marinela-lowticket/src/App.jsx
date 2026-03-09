@@ -135,7 +135,7 @@ function ExitIntentPopup() {
                 <path fill="currentColor" d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z"></path>
               </svg>
             </div></div>
-            <span>ACCEDI ADESSO A SOLI 7€</span>
+            <span>ACCEDI ADESSO A SOLI 27€</span>
           </a>
         </div>
         <button className="mt-4 block mx-auto text-gray-400 text-sm hover:text-gray-600 transition-colors" onClick={() => setOpen(false)}>No grazie, non mi interessa</button>
@@ -562,7 +562,7 @@ export default function App() {
             <p>E cio&egrave; a guadagnare oltre <span className="highlight"><strong>10.000&euro; al mese</strong></span>, lavorando meno di 25 ore a settimana con clienti che mi pagano in anticipo senza fiatare... e dopo avermi pagato mi ringraziano.</p>
             <p>Tutto questo avendo la libert&agrave; di vivere serenamente senza ansia e stress, fare vacanze e godermi ci&ograve; che la vita ha di bello da offrire.</p>
             <p className="text-xl font-bold">E ora tu PUOI DUPLICARE l'intero sistema che ho costruito.</p>
-            <p>Scaricando un mini-corso da <strong><u>7€</u></strong> (invece di <span className="line-through">97€</span>) chiamato <strong>The Wealthy SMM</strong>.</p>
+            <p>Scaricando un mini-corso da <strong><u>27€</u></strong> (invece di <span className="line-through">97€</span>) chiamato <strong>The Wealthy SMM</strong>.</p>
           </div>
         </div>
       </section>
@@ -772,12 +772,12 @@ export default function App() {
             <TrustpilotCard
               name="Marco Bianchi"
               date="1 mese fa"
-              text="Avevo fatto tipo 3 corsi sul SMM prima di questo. Tutti uguali: 'posta di più, usa i Reels, fai engagement'. Con 7€ ho capito più che con 2.000€ spesi in formazione. Il riposizionamento come consulente strategico ha cambiato tutto. Primo contratto da 3K chiuso il mese scorso."
+              text="Avevo fatto tipo 3 corsi sul SMM prima di questo. Tutti uguali: 'posta di più, usa i Reels, fai engagement'. Con 27€ ho capito più che con 2.000€ spesi in formazione. Il riposizionamento come consulente strategico ha cambiato tutto. Primo contratto da 3K chiuso il mese scorso."
             />
             <TrustpilotCard
               name="Alessia Rossi"
               date="5 giorni fa"
-              text="Sono sincera, quando ho visto '7€' pensavo fosse la solita fregatura. Invece è il miglior investimento che ho fatto quest'anno. Il Closing Script Pack da solo vale oro. Ho usato lo script 'costa troppo' con un cliente che stava per scappare e ho chiuso a 2.000€/mese. Roba che prima non mi sarei mai sognata."
+              text="Sono sincera, quando ho visto '27€' pensavo fosse la solita fregatura. Invece è il miglior investimento che ho fatto quest'anno. Il Closing Script Pack da solo vale oro. Ho usato lo script 'costa troppo' con un cliente che stava per scappare e ho chiuso a 2.000€/mese. Roba che prima non mi sarei mai sognata."
             />
             <TrustpilotCard
               name="Davide Moretti"
@@ -1269,7 +1269,7 @@ export default function App() {
             />
             <FaqItem
               q={'"Ma 7\u20AC sono pochi. \u00C8 davvero completo o \u00E8 solo un\'anteprima per vendermi qualcos\'altro?"'}
-              a={'7\u20AC \u00E8 il prezzo reale. Pagamento unico. Accesso immediato. Zero abbonamenti. Zero sorprese sulla carta. Dentro ci sono 7 lezioni, ~90 minuti di contenuto step-by-step, pi\u00F9 5 regali del valore di 685\u20AC.\n\nIl corso \u00E8 completo cos\u00EC com\'\u00E8. Ti d\u00E0 il "cosa fare" e il "perch\u00E9" in modo cristallino.\n\nPoi s\u00EC, esiste un percorso avanzato \u2014 la SMM Academy \u2014 per chi vuole essere seguito personalmente. Ma \u00E8 una scelta tua, non un obbligo.\n\nMolti dopo il corso mi scrivono: "Marinela, ho gi\u00E0 cambiato approccio e ho alzato i prezzi solo con quello che ho imparato nelle 7 lezioni."'}
+              a={'27\u20AC \u00E8 il prezzo reale. Pagamento unico. Accesso immediato. Zero abbonamenti. Zero sorprese sulla carta. Dentro ci sono 7 lezioni, ~90 minuti di contenuto step-by-step, pi\u00F9 5 regali del valore di 685\u20AC.\n\nIl corso \u00E8 completo cos\u00EC com\'\u00E8. Ti d\u00E0 il "cosa fare" e il "perch\u00E9" in modo cristallino.\n\nPoi s\u00EC, esiste un percorso avanzato \u2014 la SMM Academy \u2014 per chi vuole essere seguito personalmente. Ma \u00E8 una scelta tua, non un obbligo.\n\nMolti dopo il corso mi scrivono: "Marinela, ho gi\u00E0 cambiato approccio e ho alzato i prezzi solo con quello che ho imparato nelle 7 lezioni."'}
             />
             <FaqItem
               q={'"Non ho tempo di seguire un altro corso, lavoro gi\u00E0 80 ore a settimana"'}
