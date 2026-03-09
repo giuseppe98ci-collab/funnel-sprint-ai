@@ -61,10 +61,16 @@ export default function CheckoutPage() {
                   </div>
                   <div>
                     <p className="text-white font-bold text-base">
-                      SÌ! Aggiungi anche la Sala Crypto (BTC & ETH) per soli 27€ invece di <span className="price-old">97€</span>
+                      SÌ! Aggiungi anche la Sala Crypto (BTC & ETH) al mio ordine per soli 27€ invece di <span className="price-old">97€</span>
                     </p>
                     <p className="text-[#B0B0B0] text-sm mt-2 leading-relaxed">
-                      Oltre all'oro, vuoi ricevere anche segnali operativi su Bitcoin ed Ethereum? La Sala Crypto ti dà accesso ai segnali sulle due criptovalute più importanti al mondo, con lo stesso formato della Sala Gold: entry point, stop loss e take profit pronti da copiare. Aggiungi questa opportunità al tuo ordine per soli 27€ (invece di 97€) e diversifica i tuoi profitti.
+                      L'oro non è l'unico mercato su cui puoi guadagnare. Bitcoin e Ethereum si muovono ogni giorno con oscillazioni enormi — e chi sa leggere quei movimenti ci guadagna, sia che salgano sia che scendano.
+                    </p>
+                    <p className="text-[#B0B0B0] text-sm mt-2 leading-relaxed">
+                      Con la Sala Crypto ricevi i miei segnali operativi anche su BTC e ETH. Stessa logica: ricevi, copi, incassi. Due mercati, due fonti di profitto, un unico telefono.
+                    </p>
+                    <p className="text-[#B0B0B0] text-sm mt-2 leading-relaxed">
+                      Questa offerta esiste SOLO adesso — non dopo, non domani, non mandando un'email al supporto. Solo qui, prima di completare l'ordine.
                     </p>
                   </div>
                 </div>

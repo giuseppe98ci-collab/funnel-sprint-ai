@@ -1,29 +1,29 @@
 const PRODUCTS = [
   {
-    title: "Sala Segnali Gold",
+    title: "Gold Profit System",
     tag: "PRODOTTO PRINCIPALE",
-    desc: "Accesso alla sala segnali operativa sull'oro. Ricevi ogni giorno i segnali con entry point, stop loss e take profit già calcolati. Basta copiare.",
+    desc: "Sala segnali Gold — I segnali operativi di Nick sull'oro, ogni giorno, direttamente sul tuo telefono. Corso \"Le basi del trading\" + Ebook \"La mia strategia\" inclusi.",
     value: "Valore: 497€",
     image: "/sala-gold.png",
   },
   {
-    title: "Trading da Telefono",
+    title: "Trading da telefono",
     tag: "BONUS #1 — GRATIS",
-    desc: "Guida completa per operare direttamente dal tuo smartphone. Imposta i trade in 2 minuti, ovunque tu sia.",
+    desc: "Come fare trading ovunque tu sia senza stare ore davanti al computer. Configuri tutto una volta e operi in 2 minuti dal telefono ovunque tu sia.",
     value: "Valore: 97€",
     image: "/corso-trading.png",
   },
   {
     title: "Zero Risk Protocol",
     tag: "BONUS #2 — GRATIS",
-    desc: "Il sistema di gestione del rischio che protegge il tuo capitale. Impara a non perdere mai più di quanto puoi permetterti.",
+    desc: "Come fare trading azzerando la probabilità di bruciare il conto. Le regole di gestione del rischio che il 90% dei trader non conosce (e non conoscerà)",
     value: "Valore: 197€",
     image: "/bonus-zerorisk.png",
   },
   {
-    title: "Piccolo Capitale, Grandi Risultati",
+    title: "Piccolo capitale, Grandi risultati",
     tag: "BONUS #3 — GRATIS",
-    desc: "Strategie specifiche per chi inizia con 100-500€. Come massimizzare i rendimenti anche con un piccolo capitale iniziale.",
+    desc: "Come iniziare con 100€ e moltiplicarli nel tempo. Esempi reali di quanto puoi generare grazie all'interesse composto anche partendo da cifre minime.",
     value: "Valore: 97€",
     image: "/bonus-piccolo-capitale.png",
   },
@@ -44,8 +44,9 @@ export default function ValueStack() {
         <h2 className="font-headline text-3xl md:text-4xl gold-text text-center mb-4">
           ECCO COSA RICEVI + 3 BONUS GRATUITI
         </h2>
-        <p className="text-center text-[#B0B0B0] mb-12 text-lg">
-          Valore totale: <span className="price-old">888€</span> — Oggi <span className="gold-text font-bold">SOLO 17€</span>
+        <p className="text-center text-white text-lg mb-2">Gold Profit System</p>
+        <p className="text-center text-[#B0B0B0] mb-12 text-base">
+          Tutto quello che ti serve per iniziare a fare trading da zero (in profitto) sull'oro
         </p>
         <div className="grid md:grid-cols-2 gap-6">
           {PRODUCTS.map((p, i) => (
@@ -59,6 +60,22 @@ export default function ValueStack() {
               <p className="text-[#C4A95B] text-sm font-semibold">{p.value}</p>
             </div>
           ))}
+        </div>
+        
+        {/* ECCO COSA SARAI IN GRADO DI FARE */}
+        <div className="mt-16 max-w-3xl mx-auto">
+          <h3 className="font-headline text-2xl md:text-3xl gold-text text-center mb-8">
+            ECCO COSA SARAI IN GRADO DI FARE:
+          </h3>
+          <div className="space-y-4 text-[#B0B0B0] text-base leading-relaxed">
+            <p>💰 Ricevere segnali operativi sull'oro e copiarli sul tuo conto broker in pochi minuti;</p>
+            <p>💰 Generare dai 50 ai 300€ al giorno seguendo le indicazioni di un esperto con 3+ anni di risultati verificati;</p>
+            <p>💰 Operare con sicurezza anche se non sai nemmeno cos'è un grafico, grazie al corso base incluso;</p>
+            <p>💰 Proteggere il tuo capitale con il protocollo di gestione del rischio che usa Nick stesso;</p>
+            <p>💰 Fare trading ovunque ti trovi, direttamente dal telefono, senza dover stare incollato a un computer;</p>
+            <p>💰 Iniziare con un piccolo capitale e moltiplicarlo nel tempo man mano che copi le operazioni di Nick;</p>
+            <p>💰 E molto altro…</p>
+          </div>
         </div>
       </div>
     </section>

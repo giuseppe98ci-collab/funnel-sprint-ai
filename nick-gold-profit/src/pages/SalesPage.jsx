@@ -22,7 +22,7 @@ function useFadeIn() {
 /* ===== HERO ===== */
 function Hero() {
   return (
-    <section className="pt-28 pb-16 px-4 bg-[#0D0D0D] relative overflow-hidden">
+    <section className="pt-20 pb-10 md:pb-16 px-4 bg-[#0D0D0D] relative overflow-hidden">
       {/* Radial glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-[radial-gradient(ellipse,rgba(196,169,91,0.08),transparent_70%)] pointer-events-none" />
       
@@ -31,16 +31,19 @@ function Hero() {
           Per chi vuole iniziare a guadagnare con il trading sull'oro
         </p>
         <h1 className="font-headline text-3xl md:text-5xl lg:text-6xl leading-tight text-white mb-6">
-          Come guadagnare <span className="gold-text">dai 300€ ai 500€ a Settimana</span> facendo trading <span className="gold-text">30 minuti al giorno</span> sull'asset più capitalizzato al mondo… <span className="gold-text">l'oro</span>
+          Genera <span className="gold-text">dai 300€ ai 500€ a settimana</span> con il trading copiando i segnali di un esperto con <span className="gold-text">17 milioni di euro in gestione</span> e 3 anni di risultati verificati — in soli <span className="gold-text">30 minuti al giorno</span>
         </h1>
         <p className="text-base text-[#777] max-w-2xl mx-auto mb-10">
           Senza analisi tecnica, passare ore davanti ai grafici, rischiare di bruciare il conto, e anche se non hai mai fatto trading o hai un piccolo capitale
         </p>
         
         {/* Mockup */}
-        <div className="max-w-4xl mx-auto relative">
+        <div className="max-w-4xl mx-auto relative mb-8">
           <img src="/hero-mockup.png" alt="Gold Profit System" className="w-full h-auto" />
         </div>
+
+        {/* CTA sotto mockup */}
+        <CtaBox id="cta-hero" />
       </div>
     </section>
   )
@@ -49,44 +52,35 @@ function Hero() {
 /* ===== COS'È IL GOLD PROFIT SYSTEM ===== */
 function WhatIsSection() {
   return (
-    <section className="py-20 px-4 bg-[#111111] section-glow fade-in">
+    <section className="py-12 md:py-20 px-4 bg-[#111111] section-glow fade-in">
       <div className="max-w-3xl mx-auto">
         <h2 className="font-headline text-3xl md:text-4xl gold-text text-center mb-8">
           Cos'è il Gold Profit System?
         </h2>
         <div className="space-y-6 text-[#B0B0B0] text-base leading-relaxed">
           <p>
-            Il Gold Profit System è un sistema completo che ti permette di guadagnare con il trading sull'oro <strong className="text-white">senza esperienza, senza analisi tecnica e in soli 30 minuti al giorno</strong>.
+            Il Gold Profit System ti dà accesso diretto ai segnali operativi sull'oro di Nick Parodi — uno dei maggiori esperti di geopolitica applicata ai mercati finanziari in Italia…
           </p>
           <p>
-            Ecco come funziona in 3 semplici passi:
+            <strong className="text-white">…Gli stessi su cui mette i suoi soldi.</strong>
           </p>
-          <div className="space-y-4">
-            <div className="glass-card p-5 flex items-start gap-4">
-              <span className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-[#C4A95B] to-[#E5D4A1] flex items-center justify-center text-black font-bold">1</span>
-              <div>
-                <p className="text-white font-semibold">Ricevi il segnale</p>
-                <p className="text-sm text-[#B0B0B0] mt-1">Ogni giorno ricevi nella Sala Segnali Gold un'operazione pronta con entry point, stop loss e take profit già calcolati.</p>
-              </div>
-            </div>
-            <div className="glass-card p-5 flex items-start gap-4">
-              <span className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-[#C4A95B] to-[#E5D4A1] flex items-center justify-center text-black font-bold">2</span>
-              <div>
-                <p className="text-white font-semibold">Copia l'operazione</p>
-                <p className="text-sm text-[#B0B0B0] mt-1">Apri il tuo broker, copia i parametri esatti del segnale. Ci vogliono meno di 5 minuti.</p>
-              </div>
-            </div>
-            <div className="glass-card p-5 flex items-start gap-4">
-              <span className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-[#C4A95B] to-[#E5D4A1] flex items-center justify-center text-black font-bold">3</span>
-              <div>
-                <p className="text-white font-semibold">Raccogli i profitti</p>
-                <p className="text-sm text-[#B0B0B0] mt-1">Il take profit scatta automaticamente. Tu incassi e aspetti il segnale successivo.</p>
-              </div>
-            </div>
-          </div>
           <p>
-            Non devi studiare nulla. Non devi passare ore davanti ai grafici. Non devi avere un grande capitale.
-            <strong className="text-white"> Devi solo copiare.</strong>
+            Questo vuol dire che ricevi i segnali di ingresso e uscita sul telefono. Li copi. Attendi. Incassi… e fine.
+          </p>
+          <p>
+            Con appena 30 minuti al giorno sei capace di crearti una rendita extra con il trading senza stare ore davanti a grafici, candele o news economiche che ti confondono.
+          </p>
+          <p>
+            In più, nel pacchetto trovi un corso completo per imparare le basi del trading da zero e un ebook con la strategia personale di Nick spiegata step-by-step.
+          </p>
+          <p>
+            Insomma…
+          </p>
+          <p>
+            <strong className="text-white">Gold Profit System ti dà tutto quello che ti serve per iniziare a operare sull'oro già dalla prossima settimana</strong> — anche se adesso non sai nemmeno cos'è uno spread.
+          </p>
+          <p>
+            Anche se non hai mai fatto trading in vita tua, non ti intendi di finanza o di economia… e anche se non hai molti soldi da investire e vedi il trading più come una passione.
           </p>
         </div>
       </div>
@@ -121,30 +115,42 @@ function MediaLogos() {
 /* ===== STORYTELLING ===== */
 function Storytelling() {
   return (
-    <section className="py-20 px-4 bg-[#0D0D0D] fade-in">
+    <section className="py-12 md:py-20 px-4 bg-[#0D0D0D] fade-in">
       <div className="max-w-3xl mx-auto">
         <h2 className="font-headline text-3xl md:text-4xl gold-text text-center mb-8">
           Gold Profit System è una scorciatoia
         </h2>
         <div className="space-y-6 text-[#B0B0B0] text-base leading-relaxed">
-          <p>
-            Il Gold Profit System non è nato dal nulla. È il risultato di <strong className="text-white">anni di esperienza, errori, e milioni di euro gestiti</strong>.
-          </p>
-          <p>
-            Nick Parodi ha iniziato con 5€ su un conto demo. Oggi gestisce <strong className="text-white">17 milioni di euro</strong> per investitori privati e istituzionali.
-          </p>
-          <p>
-            Ma la cosa che lo distingue non è il patrimonio gestito — è la <strong className="text-white">trasparenza</strong>. Nick pubblica ogni singola operazione. Ogni profitto. Ogni perdita. Tutto verificabile, tutto pubblico, da oltre 3 anni.
-          </p>
-          <p>
-            Ha creato il Gold Profit System per un motivo semplice: permettere a <strong className="text-white">chiunque</strong> di accedere alle stesse operazioni che fa per i suoi clienti da milioni di euro.
-          </p>
-          <p>
-            Non devi imparare a fare trading. Non devi diventare un analista. <strong className="text-white">Devi solo copiare quello che fa lui.</strong>
-          </p>
-          <p>
-            È la scorciatoia più onesta che esista: prendi i segnali di chi ha già dimostrato di saper fare, copiali, e raccogli i risultati.
-          </p>
+          <p>5 anni fa avevo 5 euro sul conto in banca.</p>
+          <p>In più ero in debito di 15.500 euro.</p>
+          <p>Soldi della mia famiglia che avevo bruciato cercando di fare trading come tutti gli altri.</p>
+          <p>Seguendo le stesse strategie che insegnano ovunque.</p>
+          <p>Quelle che "dovrebbero funzionare"...</p>
+          <p><strong className="text-white">…Ma che nella realtà non funzionano MAI.</strong></p>
+          <p>Ho provato l'analisi tecnica.</p>
+          <p>Ore e ore a studiare candele giapponesi, supporti e resistenze…e il risultato?</p>
+          <p><strong className="text-white">PERDITE SU PERDITE - una dietro l'altra</strong></p>
+          <p>Ho provato RSI, MACD, Bande di Bollinger.</p>
+          <p>Tutti indicatori che dovevano dirmi quando comprare e quando vendere. Risultato?</p>
+          <p><strong className="text-white">Stop loss colpiti ogni volta.</strong></p>
+          <p>Ero demotivato. Avevo chiuso i rapporti con gli amici.</p>
+          <p>Litigavo con la mia ragazza ogni giorno.</p>
+          <p>Poi ho smesso di seguire i "guru". Ho smesso di inseguire le strategie "magiche" di chi ti vuole vendere il sogno…</p>
+          <p><strong className="text-white">…E ho iniziato a studiare SUL SERIO.</strong></p>
+          <p>Ho studiato la <strong className="text-white">GEOPOLITICA</strong>.</p>
+          <p>La <strong className="text-white">MACROECONOMIA</strong>.</p>
+          <p>I <strong className="text-white">MOVIMENTI DELLE BANCHE CENTRALI</strong>.</p>
+          <p>Perché ho capito una cosa: i mercati non si muovono per caso. Si muovono per ragioni precise.</p>
+          <p><strong className="text-white">E se capisci quelle ragioni, puoi anticipare i movimenti.</strong></p>
+          <p>Da quel momento tutto è cambiato.</p>
+          <p>Adesso gestisco, insieme al mio team, più di <strong className="text-white">17 milioni di dollari</strong> in conti finanziati.</p>
+          <p>Ho una community di oltre <strong className="text-white">25.000 membri attivi</strong>.</p>
+          <p>Sono stato intervistato da testate giornalistiche nazionali.</p>
+          <p>E negli ultimi 3 anni ho aiutato più di <strong className="text-white">1.000 persone</strong> a crearsi una rendita con il trading online…</p>
+          <p><strong className="text-white">…Da 100, 200, 300€ al giorno.</strong></p>
+          <p>Persone normali.</p>
+          <p>Come te.</p>
+          <p>Che non sapevano niente di trading online.</p>
         </div>
       </div>
     </section>
@@ -154,50 +160,36 @@ function Storytelling() {
 /* ===== COSA SIGNIFICA PER TE ===== */
 function WhatItMeans() {
   return (
-    <section className="py-20 px-4 bg-[#111111] section-glow fade-in">
-      <div className="max-w-4xl mx-auto">
-        <h2 className="font-headline text-3xl md:text-4xl gold-text text-center mb-12">
+    <section className="py-12 md:py-20 px-4 bg-[#111111] section-glow fade-in">
+      <div className="max-w-3xl mx-auto">
+        <h2 className="font-headline text-3xl md:text-4xl gold-text text-center mb-8 md:mb-12">
           Cosa significa per te avere accesso al Gold Profit System nel 2026...
         </h2>
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* Senza */}
-          <div className="glass-card p-6 border-[rgba(239,68,68,0.3)]">
-            <h3 className="text-[#EF4444] font-headline text-xl mb-6 text-center">❌ Senza Gold Profit System</h3>
-            <ul className="space-y-3 text-[#B0B0B0] text-sm">
-              {[
-                "Continui a cercare la strategia perfetta senza mai trovarla",
-                "Perdi soldi provando sistemi non verificati",
-                "Passi ore davanti ai grafici senza capirci nulla",
-                "Il tuo capitale si erode lentamente tra commissioni e perdite",
-                "Lo stress del trading ti toglie il sonno",
-                "Rimani fermo mentre l'oro continua a salire",
-              ].map((t, i) => (
-                <li key={i} className="flex items-start gap-2">
-                  <span className="text-[#EF4444] mt-0.5">✗</span>
-                  <span>{t}</span>
-                </li>
-              ))}
-            </ul>
+        <div className="space-y-6 text-[#B0B0B0] text-base leading-relaxed">
+          <p>Una volta dentro, non dovrai più chiederti…</p>
+          <p><strong className="text-white">…"Cosa compro?" o "quando entro?"</strong></p>
+          <p>Riceverai i miei segnali operativi sull'oro direttamente sul telefono. Segnali basati su geopolitica, macroeconomia e la mia lunga esperienza sul campo.</p>
+          
+          <div className="space-y-3">
+            <p className="flex items-start gap-2"><span className="text-[#EF4444]">❌</span> Non dovrai più preoccuparti di studiare grafici per ore.</p>
+            <p className="flex items-start gap-2"><span className="text-[#EF4444]">❌</span> Non dovrai più preoccuparti di bruciare il conto per un errore o un'operazione andata male.</p>
+            <p className="flex items-start gap-2"><span className="text-[#EF4444]">❌</span> Non dovrai più preoccuparti di non sapere quando uscire da un'operazione.</p>
+            <p className="flex items-start gap-2"><span className="text-[#EF4444]">❌</span> E non dovrai più preoccuparti di perderti le opportunità migliori — perché te le manderò io.</p>
           </div>
-          {/* Con */}
-          <div className="glass-card p-6 border-[rgba(196,169,91,0.4)]">
-            <h3 className="text-[#C4A95B] font-headline text-xl mb-6 text-center">✅ Con Gold Profit System</h3>
-            <ul className="space-y-3 text-[#B0B0B0] text-sm">
-              {[
-                "Ricevi segnali pronti da un esperto con 17M in gestione",
-                "Operi solo 30 minuti al giorno, il resto è vita",
-                "Zero analisi tecnica — copi e incassi",
-                "Il tuo capitale è protetto dallo Zero Risk Protocol",
-                "Fai trading dal telefono, ovunque tu sia",
-                "Guadagni dai 300€ ai 500€ a settimana in modo consistente",
-              ].map((t, i) => (
-                <li key={i} className="flex items-start gap-2">
-                  <span className="text-[#22C55E] mt-0.5">✓</span>
-                  <span>{t}</span>
-                </li>
-              ))}
-            </ul>
+
+          <p>Al contrario…</p>
+
+          <div className="space-y-3">
+            <p className="flex items-start gap-2"><span className="text-[#22C55E]">✅</span> Potrai svegliarti la mattina, prendere il caffè, aprire il telefono... e trovare un segnale operativo già pronto. Copiarlo in 2 minuti. E tornare a vivere la tua giornata.</p>
+            <p className="flex items-start gap-2"><span className="text-[#22C55E]">✅</span> Potrai finalmente vedere il tuo conto di trading crescere giorno dopo giorno, invece di pregare che non scenda.</p>
+            <p className="flex items-start gap-2"><span className="text-[#22C55E]">✅</span> Potrai operare ovunque ti trovi — a lavoro, in palestra, in vacanza — con il telefono in tasca e i segnali che arrivano in automatico.</p>
+            <p className="flex items-start gap-2"><span className="text-[#22C55E]">✅</span> Potrai iniziare anche con un piccolo capitale e vederlo moltiplicarsi nel tempo, senza la paura di perderlo.</p>
+            <p className="flex items-start gap-2"><span className="text-[#22C55E]">✅</span> E potrai smettere di sperare che "prima o poi le cose cambieranno da sole" — perché avrai uno strumento concreto che lavora per te. Ogni giorno.</p>
           </div>
+
+          <p><strong className="text-white">Questo è quello che il Gold Profit System rende possibile.</strong></p>
+          <p>Ed è esattamente ciò che stanno già vivendo più di 1.000 persone che hanno deciso di fidarsi del mio sistema.</p>
+          <p className="gold-text font-semibold text-lg">Accedi al Gold Profit System per soli 17€ (invece di 97€).</p>
         </div>
       </div>
     </section>
@@ -208,32 +200,32 @@ function WhatItMeans() {
 function ProductDetails() {
   const products = [
     {
-      title: "Sala Segnali Gold",
-      desc: "Il cuore del sistema. Ogni giorno ricevi operazioni pronte sull'oro con entry, stop loss e take profit. 3 anni di risultati verificati pubblicamente.",
+      title: "Gold Profit System",
+      desc: "Sala segnali Gold — I segnali operativi di Nick sull'oro, ogni giorno, direttamente sul tuo telefono. Corso \"Le basi del trading\" + Ebook \"La mia strategia\" inclusi.",
       image: "/sala-gold.png",
     },
     {
-      title: "Trading da Telefono",
-      desc: "Setup completo per operare dal tuo smartphone. Quale broker usare, come impostare i trade in 2 minuti, notifiche istantanee.",
+      title: "Trading da telefono",
+      desc: "Come fare trading ovunque tu sia senza stare ore davanti al computer. Configuri tutto una volta e operi in 2 minuti dal telefono ovunque tu sia.",
       image: "/corso-trading.png",
     },
     {
       title: "Zero Risk Protocol",
-      desc: "Il protocollo di gestione del rischio di Nick. Come proteggere il capitale, quanto rischiare per trade, come non bruciare mai il conto.",
+      desc: "Come fare trading azzerando la probabilità di bruciare il conto. Le regole di gestione del rischio che il 90% dei trader non conosce (e non conoscerà)",
       image: "/bonus-zerorisk.png",
     },
     {
-      title: "Piccolo Capitale, Grandi Risultati",
-      desc: "Strategie dedicate a chi parte con 100-500€. Come massimizzare i rendimenti anche con un capitale ridotto, senza rischi eccessivi.",
+      title: "Piccolo capitale, Grandi risultati",
+      desc: "Come iniziare con 100€ e moltiplicarli nel tempo. Esempi reali di quanto puoi generare grazie all'interesse composto anche partendo da cifre minime.",
       image: "/bonus-piccolo-capitale.png",
     },
   ]
 
   return (
-    <section className="py-20 px-4 bg-[#0D0D0D] fade-in">
+    <section className="py-12 md:py-20 px-4 bg-[#0D0D0D] fade-in">
       <div className="max-w-5xl mx-auto">
-        <h2 className="font-headline text-3xl md:text-4xl gold-text text-center mb-12">
-          Cosa ottieni accedendo adesso
+        <h2 className="font-headline text-3xl md:text-4xl gold-text text-center mb-8 md:mb-12">
+          Cosa ottieni accedendo adesso al Gold Profit System investendo soli 17€ (invece di 97€)
         </h2>
         <div className="grid md:grid-cols-2 gap-6">
           {products.map((p, i) => (
@@ -256,9 +248,9 @@ function ProductDetails() {
 /* ===== CHI È NICK ===== */
 function NickBio() {
   return (
-    <section className="py-20 px-4 bg-[#111111] section-glow fade-in">
+    <section className="py-12 md:py-20 px-4 bg-[#111111] section-glow fade-in">
       <div className="max-w-4xl mx-auto">
-        <h2 className="font-headline text-3xl md:text-4xl gold-text text-center mb-12">
+        <h2 className="font-headline text-3xl md:text-4xl gold-text text-center mb-8 md:mb-12">
           Chi è Nick Parodi?
         </h2>
         <div className="glass-card p-8 md:flex gap-8 items-start">
@@ -268,25 +260,24 @@ function NickBio() {
           </div>
           <div className="space-y-4 text-[#B0B0B0] text-sm leading-relaxed">
             <p className="text-white text-base">
-              Nick Parodi è un trader professionista e gestore patrimoniale specializzato nell'oro.
+              Non sono l'ennesimo "guru" che ha scoperto il trading ieri e oggi vende corsi su Instagram. Sono uno che opera, guadagna e aiuta altre persone a farlo ogni singolo giorno.
             </p>
-            <ul className="space-y-2">
+            <ul className="space-y-3">
               {[
-                "→ 17 milioni di euro in gestione per clienti privati e istituzionali",
-                "→ 3+ anni di track record pubblico e verificabile",
-                "→ Specializzato esclusivamente nel trading sull'oro (XAUUSD)",
-                "→ Intervistato da testate finanziarie nazionali",
-                "→ Ha iniziato con un conto demo da 5€, oggi gestisce patrimoni a 7 cifre",
-                "→ Fondatore della Sala Segnali Gold con centinaia di membri attivi",
-                "→ Approccio trasparente: ogni operazione è pubblicata in tempo reale",
-                "→ Creatore dello Zero Risk Protocol per la protezione del capitale",
+                "→  Da 5 euro sul conto e 15.500 euro di debiti a trader professionista con oltre 17 milioni di dollari gestiti in conti finanziati — costruito da zero, senza raccomandazioni, senza soldi di famiglia, senza scorciatoie;",
+                "→  Oltre 1.000 persone seguite personalmente nel percorso da \"principiante che perde soldi\" a trader che genera dai 100 ai 300 euro al giorno — con risultati documentati e verificabili;",
+                "→  Creatore di un sistema di trading automatico basato su intelligenza artificiale che è costato 1.3 milioni di euro sviluppare — lo stesso sistema che oggi lavora 24/7 per centinaia di persone;",
+                "→  Gestisce una community di oltre 25.000 membri attivi — non follower passivi, ma persone che ogni giorno seguono le sue analisi, i suoi segnali e le sue previsioni sui mercati;",
+                "→  Intervistato dalle principali testate giornalistiche italiane quando scoppia una crisi geopolitica, quando la Fed alza i tassi, quando i mercati tremano — perché i giornalisti sanno che le sue analisi hanno peso e che 9 volte su 10 ci prende;",
+                "→  Esperto di geopolitica applicata ai mercati finanziari — non analisi tecnica da manuale, ma lo studio delle decisioni di Putin, Trump, Xi Jinping, delle banche centrali e dei flussi di capitale che DAVVERO muovono i prezzi;",
+                "→  Ha previsto il rally del 2022 durante l'invasione russa dell'Ucraina — mentre tutti vendevano nel panico, lui ha aperto posizioni precise e ha fatto +40% in 3 settimane;",
+                "→  Ha investito anni di studio, milioni in tecnologia e migliaia di ore di operatività — così tu non devi farlo. Ha già pagato il prezzo degli errori al posto tuo;",
+                "→  Ogni giorno opera sui mercati, invia segnali alla community e analizza gli eventi geopolitici — non è uno che \"faceva trading 5 anni fa e ora fa solo corsi\". È nel mercato. Ogni giorno. Con i suoi soldi in gioco;",
+                "→  Ha visto centinaia di trader bruciarsi il conto seguendo strategie che non funzionano, guru che vendono fumo e indicatori che un giorno dicono BUY e il giorno dopo SELL — e sa esattamente come evitarlo perché ci è passato in prima persona;",
               ].map((item, i) => (
                 <li key={i} className="text-[#B0B0B0]">{item}</li>
               ))}
             </ul>
-            <p>
-              La sua missione è semplice: rendere il trading sull'oro <strong className="text-white">accessibile a tutti</strong>, non solo ai professionisti con anni di esperienza e grandi capitali.
-            </p>
           </div>
         </div>
       </div>
@@ -297,7 +288,7 @@ function NickBio() {
 /* ===== GARANZIA ===== */
 function Guarantee() {
   return (
-    <section className="py-20 px-4 bg-[#0D0D0D] fade-in">
+    <section className="py-12 md:py-20 px-4 bg-[#0D0D0D] fade-in">
       <div className="max-w-2xl mx-auto text-center">
         <div className="glass-card p-8 md:p-10 border-[rgba(196,169,91,0.4)]">
           <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-[#C4A95B] to-[#E5D4A1] flex items-center justify-center">
@@ -306,15 +297,25 @@ function Guarantee() {
             </svg>
           </div>
           <h2 className="font-headline text-2xl md:text-3xl gold-text mb-4">
-            Garanzia Soddisfatto o Rimborsato — 30 Giorni
+            Gold Profit System è coperto dalla Garanzia "Soddisfatto o Rimborsato" di 30 giorni
           </h2>
-          <div className="space-y-4 text-[#B0B0B0] text-base leading-relaxed">
-            <p>
-              Prova il Gold Profit System per 30 giorni interi. Se per qualsiasi motivo non sei soddisfatto, ti basta inviare una semplice email e riceverai il <strong className="text-white">rimborso completo</strong>. Nessuna domanda, nessuna complicazione.
-            </p>
-            <p>
-              Il rischio è <strong className="text-white">tutto nostro</strong>. Se il sistema non fa per te, non perdi un centesimo. Questa è la fiducia che abbiamo nei risultati del Gold Profit System.
-            </p>
+          <div className="space-y-4 text-[#B0B0B0] text-base leading-relaxed text-left">
+            <p>Se per qualsiasi motivo — e dico qualsiasi — decidi che il Gold Profit System non fa per te, mandami un messaggio entro 30 giorni.</p>
+            <p><strong className="text-white">Ti rimborso ogni singolo centesimo.</strong></p>
+            <p>Nessuna domanda.</p>
+            <p>Nessuna giustificazione richiesta.</p>
+            <p>Nessun problema.</p>
+            <p>Scrivi "rimborso", ricevi i soldi indietro, fine della storia.</p>
+            <p><strong className="text-white">Il rischio è completamente su di me.</strong></p>
+            <p>Perché sono così sicuro? Perché so cosa c'è dentro.</p>
+            <p>So quanto vale.</p>
+            <p>E so che quando riceverai il primo segnale, lo copierai sul tuo conto,</p>
+            <p>E vedrai il profitto entrare... capirai anche tu che appena 17€ è un insulto rispetto a quello che stai ricevendo.</p>
+            <p>Perché stai accedendo agli stessi identici segnali su cui metto i miei soldi.</p>
+            <p><strong className="text-white">OGNI GIORNO.</strong> Gli stessi che hanno permesso a più di 1.000 persone di generare dai 100 ai 300 euro al giorno.</p>
+            <p>Ma anche se non fossi d'accordo, hai 30 giorni per cambiare idea.</p>
+            <p><strong className="text-white">Zero rischio.</strong></p>
+            <p>Tutta la pressione è su di me, esattamente come deve essere.</p>
           </div>
         </div>
       </div>
@@ -325,23 +326,15 @@ function Guarantee() {
 /* ===== SARÀ L'ULTIMO SISTEMA ===== */
 function LastSystem() {
   return (
-    <section className="py-20 px-4 bg-[#111111] section-glow fade-in">
+    <section className="py-12 md:py-20 px-4 bg-[#111111] section-glow fade-in">
       <div className="max-w-3xl mx-auto text-center">
-        <h2 className="font-headline text-3xl md:text-4xl gold-text mb-8">
-          Sarà l'ultimo sistema di trading che comprerai
+        <h2 className="font-headline text-3xl md:text-4xl gold-text mb-4">
+          OFFERTA LANCIO — Accedi al Gold Profit System per soli 17€
         </h2>
+        <p className="text-[#B0B0B0] text-lg mb-8">Sarà l'ultimo "sistema di trading" che comprerai. Perché dopo non te ne serviranno altri</p>
         <div className="space-y-6 text-[#B0B0B0] text-base leading-relaxed text-left">
           <p>
-            Quanti corsi hai comprato che promettevano di insegnarti a fare trading? Quanti "guru" ti hanno venduto strategie che non funzionano?
-          </p>
-          <p>
-            Il Gold Profit System è diverso perché <strong className="text-white">non ti chiede di imparare nulla</strong>. Non è un corso. Non è formazione. È un servizio operativo: ricevi segnali, copi, guadagni.
-          </p>
-          <p>
-            Non devi diventare un trader. Devi solo seguire chi lo è già — e lo dimostra ogni giorno con risultati pubblici e verificabili.
-          </p>
-          <p className="text-white font-semibold">
-            Questo è l'ultimo sistema che comprerai, perché è l'unico che ti serve.
+            Ho messo dentro tutto quello che ho imparato, tutto quello che uso io stesso ogni giorno, dentro questo sistema. Così puoi saltare anni di errori, di soldi buttati e di strategie che non funzionano — e iniziare direttamente da ciò che funziona davvero.
           </p>
         </div>
       </div>
@@ -360,7 +353,7 @@ function ProofSection() {
     { image: "/proof-5.jpg", name: "Francesco P.", city: "Bologna", result: "+407$ in un giorno", desc: "Partito con soli 500€ di capitale" },
   ]
   return (
-    <section className="py-20 px-4 bg-[#111111] section-glow gold-glow fade-in">
+    <section className="py-12 md:py-20 px-4 bg-[#111111] section-glow gold-glow fade-in">
       <div className="max-w-5xl mx-auto">
         <h2 className="font-headline text-3xl md:text-4xl gold-text text-center mb-4">
           "MOSTRAMI LE PROVE"
@@ -395,24 +388,31 @@ function ProofSection() {
 
 function Closing() {
   return (
-    <section className="py-20 px-4 bg-[#0D0D0D] fade-in">
+    <section className="py-12 md:py-20 px-4 bg-[#0D0D0D] fade-in">
       <div className="max-w-3xl mx-auto text-center">
         <h2 className="font-headline text-3xl md:text-4xl gold-text mb-8">
           Ora la scelta è tua… cosa fai?
         </h2>
         <div className="space-y-6 text-[#B0B0B0] text-base leading-relaxed">
-          <p>
-            Puoi chiudere questa pagina e tornare alla tua routine. Continuare a cercare la strategia perfetta, spendere centinaia di euro in corsi che non funzionano, e guardare l'oro salire senza di te.
-          </p>
-          <p>
-            Oppure puoi investire <strong className="text-white">17€</strong> — meno di una pizza e una birra — e accedere a un sistema che ha già generato risultati reali per centinaia di persone.
-          </p>
-          <p>
-            Con una <strong className="text-white">garanzia di 30 giorni</strong>, non rischi letteralmente nulla. Se non funziona, riavrai i tuoi soldi. Se funziona, avrai trovato il tuo sistema.
-          </p>
-          <p className="text-white font-semibold text-lg">
-            La domanda non è se puoi permettertelo. La domanda è: puoi permetterti di NON provarlo?
-          </p>
+          <p>Ora tocca a te decidere.</p>
+          <p>Puoi iniziare a ricevere i segnali operativi sull'oro di uno dei maggiori esperti di trading e geopolitica in Italia... e generare dai 50 ai 300 euro al giorno.</p>
+          <p>Oppure puoi chiudere questa pagina e continuare come stai facendo adesso.</p>
+          <p><strong className="text-white">Stesse strategie. Stessi risultati. Stessa frustrazione.</strong></p>
+          <p>Il prezzo qui non conta.</p>
+          <p>Perché tra un secondo capirai che tutto questo non ti costa praticamente niente...</p>
+          <p>Anzi. Alla fine dei conti si ripaga da solo. E ti fa guadagnare.</p>
+          <p>Pensaci.</p>
+          <p>Ti sto dando accesso allo stesso sistema di segnali che ha già permesso a più di 1.000 persone di generare dai 100 ai 300 euro al giorno.</p>
+          <p>Persone normali. Come te. Che non sapevano niente di trading.</p>
+          <p>E il tutto è coperto da una garanzia di 30 giorni soddisfatto o rimborsato.</p>
+          <p>Quindi la vera domanda NON è se puoi permettertelo...</p>
+          <p>Perché dai... <strong className="text-white">stiamo parlando di 17 euro.</strong></p>
+          <p>Li spendi senza pensarci per una pizza e una birra il sabato sera.</p>
+          <p>Quei 17 euro li spenderai comunque.</p>
+          <p><strong className="text-white">La vera domanda è: per cosa?</strong></p>
+          <p>Per l'ennesima cavolata su Amazon che finisce nel cassetto dopo due giorni...</p>
+          <p>…Oppure per qualcosa che può farti guadagnare soldi veri e cambiarti la situazione finanziaria per sempre?</p>
+          <p className="text-white font-semibold text-lg">Clicca il pulsante qui sotto e accedi adesso a Gold Profit System.</p>
         </div>
       </div>
     </section>
@@ -451,7 +451,7 @@ export default function SalesPage() {
       <WhatIsSection />
       
       {/* 3. CTA Box #1 */}
-      <section className="py-16 px-4 bg-[#0D0D0D] fade-in">
+      <section className="py-10 md:py-16 px-4 bg-[#0D0D0D] fade-in">
         <CtaBox id="cta-1" />
       </section>
       
@@ -477,7 +477,7 @@ export default function SalesPage() {
       <ValueStack />
       
       {/* 11. CTA Box #2 */}
-      <section className="py-16 px-4 bg-[#111111] fade-in">
+      <section className="py-10 md:py-16 px-4 bg-[#111111] fade-in">
         <CtaBox id="cta-2" />
       </section>
       
@@ -500,7 +500,7 @@ export default function SalesPage() {
       <FaqSection />
       
       {/* 18. CTA Finale */}
-      <section className="py-16 px-4 bg-[#0D0D0D] fade-in">
+      <section className="py-10 md:py-16 px-4 bg-[#0D0D0D] fade-in">
         <CtaBox id="cta-final" />
       </section>
       

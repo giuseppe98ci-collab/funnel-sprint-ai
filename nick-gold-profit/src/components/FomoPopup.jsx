@@ -36,7 +36,7 @@ export default function FomoPopup() {
   if (!show) return null
 
   return (
-    <div className={`fixed bottom-4 left-4 z-40 glass-card px-4 py-3 max-w-xs ${exiting ? 'fomo-exit' : 'fomo-enter'}`}>
+    <div className={`fixed bottom-4 left-4 right-4 sm:right-auto z-40 glass-card px-4 py-3 max-w-xs ${exiting ? 'fomo-exit' : 'fomo-enter'}`}>
       <p className="text-sm text-white">
         <span className="font-semibold text-[#C4A95B]">{person[0]}</span> da {person[1]}
       </p>

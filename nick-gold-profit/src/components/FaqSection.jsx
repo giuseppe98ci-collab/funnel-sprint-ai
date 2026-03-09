@@ -2,36 +2,36 @@ import { useState } from 'react'
 
 const FAQS = [
   {
-    q: "Devo avere esperienza di trading per usare Gold Profit System?",
-    a: "No, assolutamente. Il sistema è progettato per chi parte da zero. Ricevi segnali pronti da copiare — non devi analizzare grafici, studiare pattern o avere competenze tecniche. Se sai usare uno smartphone, puoi farlo."
+    q: "Perché costa così poco? Qual è il trucco?",
+    a: "Il prezzo è così basso perché si tratta di una promozione di lancio per renderlo accessibile al maggior numero di persone possibile. Non dipendo dalla vendita di questo prodotto per vivere — ho già le mie entrate dal trading e dalla gestione di oltre 17 milioni di dollari in conti finanziati. Il mio obiettivo è farti entrare nel mondo del trading sull'oro nel modo giusto, senza farti spendere una fortuna."
   },
   {
-    q: "Quanto tempo ci vuole ogni giorno?",
-    a: "30 minuti al giorno, massimo. Ricevi il segnale, apri l'operazione, imposti stop loss e take profit, e vai avanti con la tua giornata. Molti membri lo fanno durante la pausa pranzo."
+    q: "Cos'è esattamente il Gold Profit System?",
+    a: "Il Gold Profit System è un pacchetto completo che include: la sala segnali Gold dove ricevi i miei segnali operativi sull'oro ogni giorno, il corso \"Le basi del trading\" per chi parte da zero, e il mio ebook \"La mia strategia\" dove ti spiego il metodo che uso personalmente. In più ricevi 3 bonus gratuiti per proteggerti, operare dal telefono e iniziare anche con poco capitale."
   },
   {
-    q: "Quanto capitale mi serve per iniziare?",
-    a: "Puoi iniziare anche con 100-200€. Uno dei bonus inclusi ('Piccolo Capitale, Grandi Risultati') è specificamente pensato per chi parte con cifre ridotte. Non servono migliaia di euro."
+    q: "È l'ennesimo \"sistema per fare soldi facili\"?",
+    a: "No. Non ti prometto milioni dal giorno alla notte. Ti do accesso ai segnali operativi di un trader con più di 3 anni di risultati verificati, 17 milioni gestiti e oltre 1.000 persone che stanno già generando risultati concreti. I risultati dipendono da te e dal tuo impegno. Ma gli strumenti che ti do sono gli stessi che uso io. Ogni giorno."
   },
   {
-    q: "Il trading sull'oro non è rischioso?",
-    a: "Ogni forma di trading comporta rischi, ma il Gold Profit System include lo 'Zero Risk Protocol' — un sistema di gestione del rischio che protegge il tuo capitale. Non opererai mai alla cieca."
+    q: "Per chi è questo sistema?",
+    a: "Per chiunque voglia iniziare a guadagnare con il trading sull'oro senza dover diventare un analista finanziario. Che tu sia un dipendente che vuole un'entrata extra, uno studente, un imprenditore, o qualcuno che ha già provato e ha fallito. Il motivo? Il Gold Profit System funziona perché il lavoro lo faccio io. Tu copi."
   },
   {
-    q: "Come ricevo i segnali?",
-    a: "Tramite la Sala Segnali Gold, accessibile dal telefono o dal computer. Ricevi notifiche in tempo reale con entry point, stop loss e take profit già calcolati. Devi solo copiare."
+    q: "In cosa è diverso da tutti gli altri corsi di trading?",
+    a: "Non ti sto vendendo un corso teorico da guardare e dimenticare. Ti sto dando accesso ai miei segnali operativi REALI — quelli su cui metto i miei soldi. In più hai la formazione base per capire cosa stai facendo e tre bonus strategici per proteggerti, operare ovunque e partire anche con poco."
   },
   {
-    q: "Posso fare trading dal telefono?",
-    a: "Sì, il BONUS 1 'Trading da Telefono' ti mostra esattamente come operare comodamente dal tuo smartphone, ovunque tu sia."
+    q: "C'è supporto o assistenza?",
+    a: "Sì. All'interno della sala segnali hai accesso alla community dove puoi fare domande, ricevere supporto e confrontarti con altri che stanno facendo lo stesso percorso. Compreso me medesimo (Nick Parodi)."
   },
   {
-    q: "C'è una garanzia?",
-    a: "Sì, hai una garanzia Soddisfatto o Rimborsato di 30 giorni. Se il sistema non fa per te, scrivi una email e ricevi il rimborso completo. Zero rischi."
+    q: "Quanto tempo ci vuole per vedere i risultati?",
+    a: "I segnali li ricevi da subito, quindi puoi iniziare a operare già dal primo giorno. I risultati concreti dipendono dal tuo capitale, dalla tua disciplina e dal tuo impegno. Ma gli strumenti per generare profitti li hai in mano dal momento in cui accedi."
   },
   {
-    q: "Perché costa solo 17€ invece di 97€?",
-    a: "È un'offerta di lancio a tempo limitato. Vogliamo che il maggior numero possibile di persone provi il sistema e veda i risultati. Il prezzo tornerà a 97€ presto."
+    q: "C'è una Garanzia di Rimborso?",
+    a: "Sì, certamente. Ecco come funziona… Accedi al Gold Profit System, prova tutto, applica i segnali. Se non sei completamente soddisfatto, mandaci un messaggio entro 30 giorni e ti rimborsiamo tutto. Senza fare domande."
   }
 ]
 
@@ -41,9 +41,10 @@ export default function FaqSection() {
   return (
     <section className="py-20 px-4 bg-[#0D0D0D] gold-glow">
       <div className="max-w-3xl mx-auto">
-        <h2 className="font-headline text-3xl md:text-4xl gold-text text-center mb-12">
-          Domande Frequenti
+        <h2 className="font-headline text-3xl md:text-4xl gold-text text-center mb-4">
+          Domande frequenti
         </h2>
+        <p className="text-center text-[#B0B0B0] mb-12">Hai bisogno di aiuto? <a href="mailto:support@nickparodi.com" className="text-[#C4A95B] hover:underline">support@nickparodi.com</a></p>
         <div className="space-y-3">
           {FAQS.map((faq, i) => (
             <div key={i} className="glass-card overflow-hidden">

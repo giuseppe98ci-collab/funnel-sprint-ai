@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-const GHL_CHECKOUT_URL = 'https://pagamenti.markmaker.it/smm-10k-checkout-page'
+const GHL_CHECKOUT_URL = 'https://markmaker.online/smm-10k-checkout'
 
 export default function CheckoutPage() {
   useEffect(() => {
