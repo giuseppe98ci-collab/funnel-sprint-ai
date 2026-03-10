@@ -4,7 +4,7 @@
 Creare 3 landing page varianti per Nick Parodi (@nicktrading_) che servono come bridge tra Facebook Ads e il canale Telegram gratuito. L'utente clicca l'ad → atterra sulla landing → clicca CTA → entra nel canale Telegram.
 
 ## CTA LINK (TUTTE LE VARIANTI)
-**https://t.me/+bewF8mb2oUhhOWZk**
+**https://t.me/+xm4vsqS5IwdkYWRk**
 
 Il link porta al canale "Nick's Life" (32.010 iscritti) — Canale N1 in ITALIA su Geopolitica, economia e Finanza.
 
@@ -199,7 +199,7 @@ cd variant-c && npx vercel --prod --yes --token="$VERCEL_TOKEN"
 
 ## VERIFICA POST-DEPLOY
 1. Aprire ogni URL su mobile (Chrome DevTools mobile view)
-2. Verificare CTA → deve aprire t.me/+bewF8mb2oUhhOWZk
+2. Verificare CTA → deve aprire t.me/+xm4vsqS5IwdkYWRk
 3. Verificare animazioni fluide
 4. Verificare loading speed < 2s
 5. Screenshot e invio a Giuseppe per approvazione
