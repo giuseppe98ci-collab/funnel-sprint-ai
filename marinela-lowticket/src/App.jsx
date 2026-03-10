@@ -179,7 +179,7 @@ function CountdownBar() {
   )
 }
 
-function CtaButton({ text = 'ACCEDI ADESSO A SOLI 7\u20AC', className = '' }) {
+function CtaButton({ text = 'ACCEDI ADESSO A SOLI 27\u20AC', className = '' }) {
   return (
     <div className={`text-center py-4 ${className}`}>
       <a href={CTA_URL} className="uiverse-cta">
@@ -530,7 +530,7 @@ export default function App() {
           </p>
           <p className="text-xl font-bold text-center mb-4">Questo &egrave; The Wealthy SMM.</p>
           <p className="text-lg leading-relaxed text-center">
-            E adesso puoi fare tuo QUESTO metodo in 3 step che usiamo, semplicemente investendo <strong className="text-green-600 text-2xl"><u>7 euro</u></strong>.
+            E adesso puoi fare tuo QUESTO metodo in 3 step che usiamo, semplicemente investendo <strong className="text-green-600 text-2xl"><u>27 euro</u></strong>.
           </p>
           <CtaButton />
         </div>
@@ -814,7 +814,7 @@ export default function App() {
             <p><strong>Il rischio &egrave; completamente su di me.</strong></p>
             <p>Perch&eacute; sono cos&igrave; sicura? Perch&eacute; so cosa c'&egrave; dentro.</p>
             <p>So quanto vale. E so che quando aprirai la prima lezione e vedrai il calcolo matematico che dimostra perch&eacute; il tuo modello attuale &egrave; impossibile da scalare... <strong>ti cadr&agrave; la mascella</strong>.</p>
-            <p>E capirai che 7&euro; &egrave; un insulto rispetto a quello che stai per ricevere.</p>
+            <p>E capirai che 27&euro; &egrave; un insulto rispetto a quello che stai per ricevere.</p>
             <p>Ma anche se non fossi d'accordo, hai 30 giorni per cambiare idea.</p>
             <p><strong><span className="bg-yellow-200 px-1 rounded">Zero rischio.</span> Tutta la pressione è su di me. Esattamente come deve essere.</strong></p>
           </div>
@@ -1268,7 +1268,7 @@ export default function App() {
               a={'Soprattutto se sei all\'inizio.\n\nPerch\u00E9 il momento peggiore per imparare queste cose \u00E8 DOPO aver preso 10 clienti a 300\u20AC che ti trattano come uno schiavo. A quel punto sei gi\u00E0 intrappolato.\n\nIl momento migliore \u00E8 ADESSO, prima di costruire abitudini sbagliate.\n\nSara non aveva mai avuto un cliente premium in vita sua. Oggi ne ha 4 che la pagano 2.500-3.000\u20AC al mese ciascuno.\n\nNon ti serve esperienza pregressa. Ti serve il metodo giusto.'}
             />
             <FaqItem
-              q={'"Ma 7\u20AC sono pochi. \u00C8 davvero completo o \u00E8 solo un\'anteprima per vendermi qualcos\'altro?"'}
+              q={'"Ma 27\u20AC sono pochi. \u00C8 davvero completo o \u00E8 solo un\'anteprima per vendermi qualcos\'altro?"'}
               a={'27\u20AC \u00E8 il prezzo reale. Pagamento unico. Accesso immediato. Zero abbonamenti. Zero sorprese sulla carta. Dentro ci sono 7 lezioni, ~90 minuti di contenuto step-by-step, pi\u00F9 5 regali del valore di 685\u20AC.\n\nIl corso \u00E8 completo cos\u00EC com\'\u00E8. Ti d\u00E0 il "cosa fare" e il "perch\u00E9" in modo cristallino.\n\nPoi s\u00EC, esiste un percorso avanzato \u2014 la SMM Academy \u2014 per chi vuole essere seguito personalmente. Ma \u00E8 una scelta tua, non un obbligo.\n\nMolti dopo il corso mi scrivono: "Marinela, ho gi\u00E0 cambiato approccio e ho alzato i prezzi solo con quello che ho imparato nelle 7 lezioni."'}
             />
             <FaqItem
@@ -1293,7 +1293,7 @@ export default function App() {
             />
             <FaqItem
               q={'"E se non mi piace, posso avere il rimborso?"'}
-              a={'S\u00EC. Senza se e senza ma.\n\nHai 30 giorni di garanzia soddisfatti o rimborsati.\n\nSe per qualsiasi motivo \u2014 e dico qualsiasi \u2014 decidi che The Wealthy SMM non fa per te, mandami un\'email.\n\nTi rimborso i 7\u20AC. Ti lascio tenere il corso. E non ti chiedo nemmeno perch\u00E9.\n\nIl rischio \u00E8 zero. Tutto su di me.'}
+              a={'S\u00EC. Senza se e senza ma.\n\nHai 30 giorni di garanzia soddisfatti o rimborsati.\n\nSe per qualsiasi motivo \u2014 e dico qualsiasi \u2014 decidi che The Wealthy SMM non fa per te, mandami un\'email.\n\nTi rimborso i 27\u20AC. Ti lascio tenere il corso. E non ti chiedo nemmeno perch\u00E9.\n\nIl rischio \u00E8 zero. Tutto su di me.'}
             />
           </div>
         </div>

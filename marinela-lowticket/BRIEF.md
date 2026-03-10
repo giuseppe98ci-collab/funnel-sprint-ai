@@ -117,8 +117,8 @@ Il flusso deve essere:
 ## Regole
 - Il copy nel doc è in ITALIANO — mantieni tutto in italiano
 - Dove dice [MOCKUP], [IMMAGINE], [SCREENSHOT] → genera l'immagine appropriata
-- CTA button text: "ACCEDI ADESSO" o "SCARICA ORA A SOLI 7€"
-- Prezzo: 7€ (barrato 97€)
+- CTA button text: "ACCEDI ADESSO" o "SCARICA ORA A SOLI 27€"
+- Prezzo: 27€ (barrato 97€)
 - Ripeti CTA almeno 5-6 volte nel flusso della pagina
 - La pagina deve essere LUNGA (è una sales letter, non una landing corta)
 - Stile direct response — enfasi con **bold**, _underline_, MAIUSCOLO, colori
