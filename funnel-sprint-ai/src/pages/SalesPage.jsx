@@ -1,623 +1,1098 @@
-import CtaButton from '../components/CtaButton'
-import Testimonial from '../components/Testimonial'
-import FaqItem from '../components/FaqItem'
+import { useState, useEffect } from 'react'
 import {
-  Search, BarChart3, FileText, PenTool, Megaphone, Target,
-  Mail, Send, Layout, Monitor, Palette, Image,
-  Check, CheckCircle, X, XCircle, DollarSign, TrendingUp,
-  Shield, ShieldCheck, Clock, Timer, Star,
-  ClipboardList, Bot, RefreshCw, Zap, Lock
+  ShieldCheck, CheckCircle, XCircle, ChevronDown, ArrowRight,
+  Star, X, Check, BadgeCheck, RefreshCw
 } from 'lucide-react'
 
-const Section = ({ bg = 'bg-bg-primary', children, className = '' }) => (
-  <section className={`${bg} px-5 py-16 md:py-24 ${className}`}>
-    <div className="max-w-[800px] mx-auto">{children}</div>
-  </section>
-)
+const CTA_URL = '/checkout'
 
-const faqs = [
-  {
-    q: '"Non sono un esperto di AI. Riesco a usare i bot?"',
-    a: 'Sì. Se sai usare WhatsApp, sai usare i bot. Ogni modulo ha un tutorial passo-passo con screen recording. Copi il prompt, lo incolli, e il bot fa il resto. Non serve nessuna competenza tecnica.',
-  },
-  {
-    q: '"Funziona nel mio settore?"',
-    a: 'Il sistema funziona per qualsiasi business che ha bisogno di marketing: infobusiness, e-commerce, servizi, consulenza, coaching, SaaS, agenzia. Il Business DNA è progettato per adattarsi a QUALSIASI nicchia — perché sei TU a personalizzarlo con le informazioni del tuo business.',
-  },
-  {
-    q: '"Ma ChatGPT non scrive già copy gratis?"',
-    a: 'Certo. E il risultato è copy generico che suona come tutti gli altri. La differenza è che i bot di Funnel Sprint AI sono specializzati, alimentati con i TUOI dati e strutturati con framework di copywriting professionali (RMBC, PASTOR, Value Equation). È la differenza tra chiedere a un passante di cucinarti la cena e avere uno chef personale.',
-  },
-  {
-    q: '"€17 è troppo bello per essere vero. Dov\'è la fregatura?"',
-    a: 'Nessuna fregatura. Il prezzo basso è una scelta strategica: voglio che il maggior numero possibile di imprenditori italiani acceda a questo sistema. Il mio business non si regge sui €17 — si regge sulla fiducia che costruisco con te oggi e sui servizi premium che offro a chi vuole andare più in profondità.',
-  },
-  {
-    q: '"Quanto tempo serve per configurare tutto?"',
-    a: 'Il Business DNA richiede 30-45 minuti. Ogni bot si configura in 10-15 minuti. In un weekend hai tutto pronto e puoi iniziare a generare materiale marketing. Totale: 3-4 ore di lavoro per un sistema che usi per sempre.',
-  },
-  {
-    q: '"Devo pagare anche Poe, ChatGPT o Claude?"',
-    a: 'I bot funzionano con i piani gratuiti di tutte e tre le piattaforme. Per un uso intenso, un piano a pagamento (€20/mese circa) ti dà accesso illimitato — ma non è obbligatorio per iniziare.',
-  },
-  {
-    q: '"E se non funziona per me?"',
-    a: 'Hai 30 giorni di garanzia completa. Se non sei soddisfatto per qualsiasi motivo, ti rimborso tutto. Nessuna domanda, nessuna procedura. Il rischio è zero.',
-  },
-  {
-    q: '"In cosa è diverso dai mille corsi di marketing che esistono?"',
-    a: 'I corsi ti insegnano la teoria. Funnel Sprint AI ti dà gli STRUMENTI per fare. Non impari a scrivere copy — hai un bot che lo scrive per te. Non studi le ads — hai un bot che le genera. E soprattutto: il sistema migliora con l\'uso grazie al feedback loop. Nessun corso fa questo.',
-  },
+/* ===== STICKY CTA BAR (mobile only) ===== */
+function StickyCta() {
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    function onScroll() {
+      const scrollY = window.scrollY
+      const hero = document.getElementById('hero-section')
+      const pricing = document.getElementById('pricing-section')
+      if (!hero || !pricing) { setVisible(scrollY > 500); return }
+      const heroBottom = hero.getBoundingClientRect().bottom
+      const pricingTop = pricing.getBoundingClientRect().top
+      const pricingBottom = pricing.getBoundingClientRect().bottom
+      const inHero = heroBottom > 0 && scrollY < 500
+      const inPricing = pricingTop < window.innerHeight && pricingBottom > 0
+      setVisible(scrollY > 500 && !inHero && !inPricing)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  return (
+    <a
+      href={CTA_URL}
+      className={`sticky-cta-bar ${visible ? 'sticky-cta-visible' : ''}`}
+    >
+      ACCEDI AL CORSO A SOLI €17 <ArrowRight size={18} />
+    </a>
+  )
+}
+
+/* ===== SOCIAL PROOF TICKER ===== */
+const SOCIAL_PROOF_DATA = [
+  ['Marco', 'Torino'], ['Alessandra', 'Milano'], ['Davide', 'Roma'],
+  ['Federica', 'Napoli'], ['Simone', 'Firenze'], ['Luca', 'Bologna'],
+  ['Sara', 'Padova'], ['Andrea', 'Verona'], ['Chiara', 'Bari'],
+  ['Giovanni', 'Palermo'],
 ]
 
-/* Bot card with mockup image */
-function BotCard({ icon: Icon, name, desc, mockup }) {
+function SocialProofTicker() {
+  const [toast, setToast] = useState(null)
+  const [show, setShow] = useState(false)
+
+  useEffect(() => {
+    let timeout
+    function showNext() {
+      const [name, city] = SOCIAL_PROOF_DATA[Math.floor(Math.random() * SOCIAL_PROOF_DATA.length)]
+      const mins = Math.floor(Math.random() * 12) + 1
+      setToast({ name, city, mins })
+      setShow(true)
+      setTimeout(() => setShow(false), 4000)
+      timeout = setTimeout(showNext, (Math.random() * 10 + 15) * 1000)
+    }
+    timeout = setTimeout(showNext, 8000)
+    return () => clearTimeout(timeout)
+  }, [])
+
+  if (!toast) return null
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition-shadow overflow-hidden">
-      <div className="flex flex-col md:flex-row">
-        {mockup && (
-          <div className="md:w-2/5 shrink-0 bg-bg-secondary flex items-center justify-center p-4">
-            <img src={mockup} alt={name} className="w-full max-w-[240px] rounded-xl" />
+    <div className={`social-proof-ticker ${show ? 'spt-visible' : ''}`}>
+      <div className="spt-icon"><Check size={16} /></div>
+      <div className="spt-text">
+        <strong>{toast.name} da {toast.city}</strong> ha acquistato Funnel Sprint AI <em>{toast.mins} {toast.mins === 1 ? 'minuto' : 'minuti'} fa</em>
+      </div>
+    </div>
+  )
+}
+
+/* ===== EXIT INTENT POPUP ===== */
+function ExitIntentPopup() {
+  const [open, setOpen] = useState(false)
+  const [countdown, setCountdown] = useState(300)
+
+  useEffect(() => {
+    if (localStorage.getItem('fsa_exit_shown')) return
+    function onLeave(e) {
+      if (e.clientY > 0) return
+      trigger()
+    }
+    document.addEventListener('mouseleave', onLeave)
+    const mobileTimer = setTimeout(() => {
+      if (window.innerWidth < 768) trigger()
+    }, 45000)
+
+    let triggered = false
+    function trigger() {
+      if (triggered) return
+      triggered = true
+      localStorage.setItem('fsa_exit_shown', '1')
+      setOpen(true)
+      document.removeEventListener('mouseleave', onLeave)
+    }
+    return () => {
+      document.removeEventListener('mouseleave', onLeave)
+      clearTimeout(mobileTimer)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!open) return
+    const id = setInterval(() => setCountdown(c => Math.max(0, c - 1)), 1000)
+    return () => clearInterval(id)
+  }, [open])
+
+  if (!open) return null
+  const mm = String(Math.floor(countdown / 60)).padStart(2, '0')
+  const ss = String(countdown % 60).padStart(2, '0')
+
+  return (
+    <div className="exit-overlay" onClick={() => setOpen(false)}>
+      <div className="exit-box" onClick={e => e.stopPropagation()}>
+        <button className="exit-close" onClick={() => setOpen(false)}><X size={20} /></button>
+        <h3 className="text-red-600 text-2xl md:text-3xl font-extrabold mb-3 text-center">Aspetta! Stai per perdere questa offerta...</h3>
+        <p className="text-gray-700 text-center mb-4">Funnel Sprint AI a soli <strong>€17</strong> — il prezzo sale a €97 tra poco</p>
+        <p className="text-center font-mono text-3xl font-bold text-red-600 mb-6">{mm}:{ss}</p>
+        <div className="text-center">
+          <a href={CTA_URL} className="uiverse-cta">
+            <div className="svg-wrapper-1"><div className="svg-wrapper">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                <path fill="none" d="M0 0h24v24H0z"></path>
+                <path fill="currentColor" d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z"></path>
+              </svg>
+            </div></div>
+            <span>ACCEDI AL CORSO A SOLI €17</span>
+          </a>
+        </div>
+        <button className="mt-4 block mx-auto text-gray-400 text-sm hover:text-gray-600 transition-colors" onClick={() => setOpen(false)}>No grazie, non mi interessa</button>
+      </div>
+    </div>
+  )
+}
+
+/* ===== COUNTDOWN BAR ===== */
+function CountdownBar() {
+  const [timeLeft, setTimeLeft] = useState({ d: 0, h: 0, m: 0, s: 0 })
+
+  useEffect(() => {
+    const STORAGE_KEY = 'fsa_countdown_end'
+    let end = localStorage.getItem(STORAGE_KEY)
+    if (!end) {
+      end = Date.now() + 7 * 24 * 60 * 60 * 1000
+      localStorage.setItem(STORAGE_KEY, end)
+    }
+    end = Number(end)
+
+    function tick() {
+      const diff = Math.max(0, end - Date.now())
+      setTimeLeft({
+        d: Math.floor(diff / 86400000),
+        h: Math.floor((diff % 86400000) / 3600000),
+        m: Math.floor((diff % 3600000) / 60000),
+        s: Math.floor((diff % 60000) / 1000),
+      })
+    }
+    tick()
+    const id = setInterval(tick, 1000)
+    return () => clearInterval(id)
+  }, [])
+
+  const pad = (n) => String(n).padStart(2, '0')
+
+  return (
+    <div className="bg-red-700 text-white text-center py-2 px-3 sticky top-0 z-50">
+      <div className="text-xs md:text-sm font-semibold">{'\uD83D\uDD25'} OFFERTA SPECIALE — Scade tra: <span className="font-mono font-bold text-yellow-300">{timeLeft.d}g {pad(timeLeft.h)}h {pad(timeLeft.m)}m {pad(timeLeft.s)}s</span></div>
+    </div>
+  )
+}
+
+/* ===== CTA BUTTON ===== */
+function CtaButton({ text = 'SÌ, VOGLIO ACCEDERE AL CORSO A SOLI €17', className = '' }) {
+  return (
+    <div className={`text-center py-4 ${className}`}>
+      <a href={CTA_URL} className="uiverse-cta">
+        <div className="svg-wrapper-1">
+          <div className="svg-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+              <path fill="none" d="M0 0h24v24H0z"></path>
+              <path fill="currentColor" d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z"></path>
+            </svg>
           </div>
-        )}
-        <div className="flex-1 p-5 md:p-6 flex gap-4 items-start">
-          <div className="w-10 h-10 rounded-lg bg-bg-accent flex items-center justify-center shrink-0">
-            <Icon className="w-5 h-5 text-accent" />
+        </div>
+        <span>{text}</span>
+      </a>
+      <img src="/assets/secure-checkout.png" alt="Pagamento sicuro" className="mx-auto mt-3 max-w-[280px] md:max-w-[320px] opacity-80" loading="lazy" />
+    </div>
+  )
+}
+
+/* ===== PRICING BOX ===== */
+function PricingBox() {
+  return (
+    <div className="bg-white border-2 border-green-500 rounded-2xl p-6 md:p-8 max-w-lg mx-auto shadow-xl">
+      <p className="text-center text-sm font-bold text-green-700 uppercase tracking-wide mb-2">Offerta Speciale</p>
+      <h3 className="text-center text-2xl md:text-3xl font-extrabold text-gray-900 mb-4">Funnel Sprint AI</h3>
+      <img src="/assets/mockup-main.png" alt="Funnel Sprint AI" className="w-full max-w-md mx-auto mb-6 drop-shadow-2xl" loading="lazy" />
+
+      <ul className="space-y-2 mb-4 text-sm">
+        {[
+          ['\uD83D\uDCDA', 'Corso Funnel Sprint AI — Il sistema completo passo dopo passo', '€197'],
+          ['\uD83C\uDF81', 'BONUS: Bot Analisi Mercato', '€97'],
+          ['\uD83C\uDF81', 'BONUS: Bot Ads Creator', '€147'],
+          ['\uD83C\uDF81', 'BONUS: Bot Email Sequences', '€97'],
+          ['\uD83C\uDF81', 'BONUS: Bot VSL Writer', '€147'],
+          ['\uD83C\uDF81', 'BONUS: Bot Landing Page Copy', '€97'],
+          ['\uD83C\uDF81', 'BONUS: Bot Creativo Gemini per Statiche', '€97'],
+        ].map(([emoji, item, value], i) => (
+          <li key={i} className="flex items-start gap-2">
+            <CheckCircle size={18} className="text-green-500 mt-0.5 shrink-0" />
+            <span className="flex-1">{emoji} {item}</span>
+            <span className="text-gray-400 shrink-0">{value}</span>
+          </li>
+        ))}
+      </ul>
+      <p className="text-center text-xs text-gray-500 mb-4">Valore totale: <strong>€879</strong></p>
+
+      <div className="text-center mb-4">
+        <span className="text-gray-400 line-through text-2xl mr-3">€97</span>
+        <span className="text-5xl font-black text-green-600">€17</span>
+      </div>
+      <p className="text-center text-sm text-gray-600 mb-6">Pagamento unico. Accesso immediato. Zero abbonamenti.</p>
+
+      <a href={CTA_URL} className="uiverse-cta w-full">
+        <div className="svg-wrapper-1">
+          <div className="svg-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+              <path fill="none" d="M0 0h24v24H0z"></path>
+              <path fill="currentColor" d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z"></path>
+            </svg>
+          </div>
+        </div>
+        <span>SÌ, VOGLIO TUTTO A SOLI €17</span>
+      </a>
+      <p className="text-center text-xs text-gray-500 mt-3 flex items-center justify-center gap-1">
+        <ShieldCheck size={14} /> Pagamento sicuro con Stripe · Garanzia 30 giorni · Nessun abbonamento
+      </p>
+    </div>
+  )
+}
+
+/* ===== TRUSTPILOT CARD ===== */
+function TrustpilotCard({ name, role, date, text }) {
+  return (
+    <div className="bg-white rounded-xl p-5 shadow-md border border-gray-100">
+      <div className="flex gap-1 mb-3">
+        {[...Array(5)].map((_, i) => (
+          <Star key={i} size={20} className="fill-[#00b67a] text-[#00b67a]" />
+        ))}
+      </div>
+      <p className="text-gray-800 mb-4 text-[15px] leading-relaxed">{text}</p>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center text-white font-bold text-sm">
+            {name.split(' ').map(n => n[0]).join('')}
           </div>
           <div>
-            <p className="font-bold text-text-primary">{name}</p>
-            <p className="text-sm text-text-secondary mt-1">{desc}</p>
+            <p className="font-semibold text-gray-900 text-sm">{name}</p>
+            <p className="text-xs text-gray-400">{role} · {date}</p>
           </div>
         </div>
+        <span className="text-xs font-semibold text-[#00b67a] flex items-center gap-1">
+          <BadgeCheck size={14} /> Verificato
+        </span>
       </div>
     </div>
   )
 }
 
-/* Stack item card with optional mockup */
-function StackCard({ icon: Icon, title, desc, value, mockup }) {
+/* ===== FAQ ITEM ===== */
+function FaqItem({ q, a }) {
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition-shadow overflow-hidden">
-      <div className="flex flex-col md:flex-row">
-        {mockup && (
-          <div className="md:w-2/5 shrink-0 bg-bg-secondary flex items-center justify-center p-4">
-            <img src={mockup} alt={title} className="w-full max-w-[240px] rounded-xl" />
+    <details className="group border-b border-gray-200 py-4">
+      <summary className="flex items-start justify-between cursor-pointer list-none font-bold text-gray-900 text-lg">
+        <span>{q}</span>
+        <ChevronDown size={20} className="shrink-0 mt-1 transition-transform group-open:rotate-180" />
+      </summary>
+      <div className="mt-3 text-gray-700 leading-relaxed whitespace-pre-line">{a}</div>
+    </details>
+  )
+}
+
+/* ===== FLOWCHART SECTION ===== */
+function FlowchartSection() {
+  return (
+    <section className="py-12 md:py-16 px-4" style={{ background: '#1a1a2e' }}>
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-10 text-white">
+          Hai due strade davanti a te.
+        </h2>
+        <div className="grid md:grid-cols-2 gap-6">
+          {/* Strada 1 */}
+          <div className="bg-white/5 border border-red-500/30 rounded-2xl p-6">
+            <h3 className="text-red-400 font-extrabold text-xl mb-4 flex items-center gap-2"><XCircle size={24} /> Il Vecchio Metodo</h3>
+            <div className="space-y-3 text-gray-300 text-sm">
+              {[
+                'Compri un corso di marketing (€497-€2.997)',
+                'Studi per settimane',
+                'Ti siedi davanti allo schermo vuoto',
+                'Non riesci a scrivere nulla',
+                'Paghi un\'agenzia (€1.500-€4.500/mese)',
+                'Risultati mediocri',
+                'Ricominci da capo',
+              ].map((step, i) => (
+                <div key={i} className="flex items-start gap-2">
+                  <ChevronDown size={14} className="text-red-400 mt-1 shrink-0" />
+                  <span>{step}</span>
+                </div>
+              ))}
+              <p className="text-red-400 font-bold text-center mt-4">{'\uD83D\uDD04'} LOOP INFINITO DI FRUSTRAZIONE</p>
+            </div>
           </div>
-        )}
-        <div className="flex-1 p-5 md:p-6 flex gap-4 items-start text-left">
-          <div className="w-10 h-10 rounded-lg bg-bg-accent flex items-center justify-center shrink-0">
-            <Icon className="w-5 h-5 text-accent" />
+          {/* Strada 2 */}
+          <div className="bg-white/5 border border-green-500/30 rounded-2xl p-6 ring-2 ring-green-400/20">
+            <h3 className="text-green-400 font-extrabold text-xl mb-4 flex items-center gap-2"><CheckCircle size={24} /> Funnel Sprint AI</h3>
+            <div className="space-y-3 text-gray-300 text-sm">
+              {[
+                'Guardi il corso (5-6 ore)',
+                'Compili il Business DNA (45 min)',
+                'L\'AI genera TUTTO il tuo marketing',
+                'Lanci in un weekend',
+                'Raccogli dati reali',
+                'Il sistema migliora da solo',
+              ].map((step, i) => (
+                <div key={i} className="flex items-start gap-2">
+                  <ChevronDown size={14} className="text-green-400 mt-1 shrink-0" />
+                  <span>{step}</span>
+                </div>
+              ))}
+              <p className="text-green-400 font-bold text-center mt-4">{'\uD83D\uDE80'} LOOP INFINITO DI MIGLIORAMENTO</p>
+            </div>
           </div>
-          <div className="flex-1">
-            <p className="font-bold text-text-primary mb-1">{title}</p>
-            <p className="text-sm text-text-secondary">{desc}</p>
-          </div>
-          <span className="font-bold text-accent shrink-0">{value}</span>
         </div>
+        <div className="text-center mt-8 text-gray-300 text-lg">
+          <p><strong className="text-white">Stessa destinazione. Due percorsi completamente diversi.</strong></p>
+          <p className="mt-2">Il primo ti costa migliaia di euro e mesi di tempo.</p>
+          <p>Il secondo ti costa <strong className="text-green-400">€17</strong> e un weekend.</p>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ===== SHOCKING TRUTH TABLE ===== */
+function ShockingTruthTable() {
+  return (
+    <section className="bg-white py-12 md:py-16 px-4">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-10 text-red-600">
+          I numeri non mentono.
+        </h2>
+        <div className="grid md:grid-cols-3 gap-4">
+          {/* Col 1 - Fai da solo */}
+          <div className="border-2 border-red-300 rounded-xl overflow-hidden">
+            <div className="bg-red-600 text-white text-center py-3 px-4 font-extrabold text-lg">Fai Da Solo</div>
+            <div className="p-5 space-y-4">
+              <div><p className="text-sm text-gray-500 uppercase tracking-wide">Costo iniziale</p><p className="text-lg font-bold text-gray-900">€0 (ma butti €500+ in ads sbagliate)</p></div>
+              <div><p className="text-sm text-gray-500 uppercase tracking-wide">Tempo per avere tutto</p><p className="text-lg font-bold text-gray-900">3-6 mesi</p></div>
+              <div><p className="text-sm text-gray-500 uppercase tracking-wide">Competenze richieste</p><p className="text-lg font-bold text-gray-900">Copywriting, ads, email, design</p></div>
+              <div><p className="text-sm text-gray-500 uppercase tracking-wide">Qualità output</p><p className="text-lg font-bold text-red-600 flex items-center gap-1"><XCircle size={18} /> Amatoriale</p></div>
+              <div><p className="text-sm text-gray-500 uppercase tracking-wide">Soldi buttati</p><p className="text-lg font-bold"><span className="bg-yellow-200 px-1 rounded">€2.000-€8.000/anno</span></p></div>
+            </div>
+          </div>
+          {/* Col 2 - Corsi generici */}
+          <div className="border-2 border-yellow-300 rounded-xl overflow-hidden">
+            <div className="bg-yellow-500 text-white text-center py-3 px-4 font-extrabold text-lg">Corsi Generici</div>
+            <div className="p-5 space-y-4">
+              <div><p className="text-sm text-gray-500 uppercase tracking-wide">Costo iniziale</p><p className="text-lg font-bold text-gray-900">€497-€2.997</p></div>
+              <div><p className="text-sm text-gray-500 uppercase tracking-wide">Tempo per avere tutto</p><p className="text-lg font-bold text-gray-900">2-4 mesi (se implementi)</p></div>
+              <div><p className="text-sm text-gray-500 uppercase tracking-wide">Competenze richieste</p><p className="text-lg font-bold text-gray-900">Devi imparare tutto</p></div>
+              <div><p className="text-sm text-gray-500 uppercase tracking-wide">Qualità output</p><p className="text-lg font-bold text-yellow-600 flex items-center gap-1"><XCircle size={18} /> Dipende da te</p></div>
+              <div><p className="text-sm text-gray-500 uppercase tracking-wide">Soldi buttati</p><p className="text-lg font-bold"><span className="bg-yellow-200 px-1 rounded">€1.500-€5.000</span></p></div>
+            </div>
+          </div>
+          {/* Col 3 - FSA */}
+          <div className="border-2 border-green-400 rounded-xl overflow-hidden shadow-lg ring-2 ring-green-200">
+            <div className="bg-green-600 text-white text-center py-3 px-4 font-extrabold text-lg">Funnel Sprint AI</div>
+            <div className="p-5 space-y-4">
+              <div><p className="text-sm text-gray-500 uppercase tracking-wide">Costo iniziale</p><p className="text-lg font-bold text-green-600">€17</p></div>
+              <div><p className="text-sm text-gray-500 uppercase tracking-wide">Tempo per avere tutto</p><p className="text-lg font-bold text-green-600">1 weekend</p></div>
+              <div><p className="text-sm text-gray-500 uppercase tracking-wide">Competenze richieste</p><p className="text-lg font-bold text-green-600">Zero — l'AI fa il lavoro</p></div>
+              <div><p className="text-sm text-gray-500 uppercase tracking-wide">Qualità output</p><p className="text-lg font-bold text-green-600 flex items-center gap-1"><CheckCircle size={18} /> Livello professionale</p></div>
+              <div><p className="text-sm text-gray-500 uppercase tracking-wide">Costo totale</p><p className="text-lg font-bold"><span className="bg-yellow-200 px-1 rounded">€17. Una volta. Per sempre.</span></p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ===== SOCIAL PROOF CARDS ===== */
+function SocialProofCards() {
+  const proofs = [
+    { stat: '€2.847', label: 'Fatturato nel primo mese', desc: 'Con soli €340 di budget ads. ROAS 8.4x. Funnel creato in un weekend usando il sistema Funnel Sprint AI.' },
+    { stat: '7.3%', label: 'Conversion rate landing page', desc: 'Dal 1.2% al 7.3% — solo riscrivendo il copy con il Bot Landing Page. Stessa offerta, stesso traffico.' },
+    { stat: '4 ore', label: 'Per un funnel completo', desc: 'Ricerca mercato + 6 ads + landing + 5 email + VSL. Quello che prima richiedeva 3 settimane.' },
+  ]
+  return (
+    <section className="bg-gray-50 py-12 md:py-16 px-4">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="red-headline text-3xl md:text-4xl text-center mb-10">
+          I numeri parlano chiaro:
+        </h2>
+        <div className="grid md:grid-cols-3 gap-6">
+          {proofs.map(({ stat, label, desc }, i) => (
+            <div key={i} className="bg-white rounded-xl p-6 shadow-md border-l-4 border-green-500 text-center">
+              <p className="text-4xl font-black text-red-600 mb-2">{stat}</p>
+              <p className="font-bold text-gray-900 mb-2">{label}</p>
+              <p className="text-gray-600 text-sm">{desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ===== HAMSTER WHEEL ===== */
+function HamsterWheelVisual() {
+  const phases = [
+    'Compri un corso',
+    'Studi la teoria',
+    'Ti blocchi',
+    'Provi a scrivere',
+    'Fa schifo',
+    'Butti soldi in ads',
+    'Zero risultati',
+    '"Compro un altro corso"',
+  ]
+  return (
+    <div className="my-10 mx-auto max-w-md">
+      <div className="relative w-72 h-72 md:w-80 md:h-80 mx-auto">
+        <div className="absolute inset-0 rounded-full border-4 border-red-300 border-dashed" style={{ background: 'rgba(254,202,202,0.15)' }} />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-center">
+            <RefreshCw size={32} className="text-red-400 mx-auto mb-1 animate-spin" style={{ animationDuration: '8s' }} />
+            <p className="text-red-600 text-xs font-bold">CICLO<br />INFINITO</p>
+          </div>
+        </div>
+        {phases.map((phase, i) => {
+          const angle = (i / phases.length) * 2 * Math.PI - Math.PI / 2
+          const r = 48
+          const x = 50 + r * Math.cos(angle)
+          const y = 50 + r * Math.sin(angle)
+          return (
+            <div
+              key={i}
+              className="absolute text-center"
+              style={{
+                left: `${x}%`,
+                top: `${y}%`,
+                transform: 'translate(-50%, -50%)',
+                width: '90px',
+              }}
+            >
+              <span className="text-xs font-bold text-red-700 leading-tight block bg-white/80 rounded px-1 py-0.5 shadow-sm">
+                {phase}
+              </span>
+            </div>
+          )
+        })}
       </div>
     </div>
   )
 }
 
+/* ===== MAIN PAGE ===== */
 export default function SalesPage() {
   return (
-    <main className="min-h-screen">
-      {/* SEZIONE 1 — HERO */}
-      <Section bg="bg-bg-accent">
-        <p className="text-text-secondary text-base md:text-lg mb-4 text-center">
-          Per marketer e imprenditori digitali che sono stanchi di pagare corsi, agenzie e freelancer... senza risultati.
-        </p>
-        <h1 className="text-3xl md:text-5xl font-black leading-tight mb-6 text-text-primary">
-          Crea il Tuo Team di 5 Bot AI Che Scrivono Ads, Landing Page, Email e VSL al Posto Tuo — E Che Diventano Più Bravi Ogni Volta Che Li Usi
-        </h1>
-        <p className="text-lg md:text-xl text-text-secondary mb-8 leading-relaxed text-center">
-          Non devi diventare copywriter. Non devi studiare marketing per 6 mesi. Ti basta compilare UN documento sul tuo business — e i 5 bot fanno tutto il resto. Per sempre. A €17.
-        </p>
+    <div className="min-h-[100dvh]">
+      <CountdownBar />
 
-        {/* Hero mockup */}
-        <div className="flex justify-center mb-8">
-          <img src="/mockup-main.png" alt="Funnel Sprint AI" className="w-full max-w-[480px] rounded-2xl shadow-lg" />
-        </div>
-
-        <div className="flex flex-wrap justify-center gap-4 md:gap-6 text-sm md:text-base text-text-secondary mb-8">
-          <span className="flex items-center gap-1.5"><Zap className="w-4 h-4 text-accent" /> Setup in un weekend</span>
-          <span className="flex items-center gap-1.5"><RefreshCw className="w-4 h-4 text-accent" /> Si auto-migliorano con i tuoi risultati</span>
-          <span className="flex items-center gap-1.5"><DollarSign className="w-4 h-4 text-accent" /> Meno di una pizza e una birra</span>
-        </div>
-        <CtaButton
-          text="SÌ, VOGLIO I MIEI 5 BOT AI A €17"
-          subtext="Garanzia 30 giorni soddisfatto o rimborsato — zero rischi."
-        />
-      </Section>
-
-      {/* SEZIONE 2 — SOCIAL PROOF BAR */}
-      <section className="bg-white border-y border-gray-200 px-5 py-6">
-        <div className="max-w-[800px] mx-auto text-center">
-          <p className="font-bold mb-3 flex items-center justify-center gap-1.5">
-            <span className="flex gap-0.5 text-yellow-500">
-              {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 fill-current" />)}
-            </span>
-            <span className="text-text-primary ml-2">4.8/5</span> <span className="text-text-secondary font-normal">da 127+ recensioni</span>
+      {/* ===== 2. HERO ===== */}
+      <section id="hero-section" className="bg-white py-4 md:py-10 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <p className="text-gray-500 text-sm md:text-base mb-3">
+            Per marketer, freelancer, coach e imprenditori digitali che sono stufi di buttare soldi in ads che non convertono, corsi che non implementano e agenzie che non producono risultati.
           </p>
-          <div className="flex flex-wrap justify-center gap-4 md:gap-8 text-sm text-text-secondary">
-            <span className="flex items-center gap-1.5"><BarChart3 className="w-4 h-4 text-accent" /> Oltre 340 bot creati</span>
-            <span className="flex items-center gap-1.5"><Target className="w-4 h-4 text-accent" /> 100% in italiano</span>
-            <span className="flex items-center gap-1.5"><RefreshCw className="w-4 h-4 text-accent" /> Sistema auto-migliorante</span>
-            <span className="flex items-center gap-1.5"><Clock className="w-4 h-4 text-accent" /> Setup in 1 weekend</span>
+          <h1 className="red-headline text-[28px] md:text-5xl lg:text-6xl mb-4 leading-tight px-2">
+            Ti Mostro Come Genero <span className="highlight">TUTTO il Mio Marketing</span> Con l'AI — Ads, Landing, Email, VSL — In Un Weekend Invece Che In 3 Mesi
+          </h1>
+          <p className="text-base md:text-lg text-gray-700 max-w-2xl mx-auto mb-4 leading-snug">
+            Ho creato un sistema che usa l'intelligenza artificiale per produrre l'intero marketing di un business. In questo corso ti apro il computer e ti faccio vedere esattamente come faccio. Passo dopo passo. Senza tagli. A <strong>€17</strong>.
+          </p>
+          <img
+            src="/assets/mockup-main.png"
+            alt="Funnel Sprint AI - Corso + 6 Bot Segreti"
+            className="w-full max-w-sm mx-auto mb-4 drop-shadow-2xl"
+            loading="eager"
+          />
+          <CtaButton />
+          <p className="text-xs text-gray-400 mt-2">{'\uD83D\uDD12'} Pagamento sicuro · Accesso immediato · Garanzia 30 giorni soddisfatto o rimborsato</p>
+        </div>
+      </section>
+
+      {/* ===== 3. COS'È FUNNEL SPRINT AI ===== */}
+      <section className="bg-[#FFF9E6] py-12 md:py-16 px-4">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="red-headline text-3xl md:text-4xl text-center mb-8">
+            Cos'è Funnel Sprint AI (e perché è diverso da tutto quello che hai visto)
+          </h2>
+          <div className="text-lg leading-relaxed space-y-5">
+            <p>Funnel Sprint AI è un <strong>corso pratico</strong> dove io, Giuseppe, ti apro lo schermo e ti faccio vedere esattamente come genero <strong>tutto il marketing</strong> di un business usando solo l'intelligenza artificiale.</p>
+            <p>Non è teoria.<br />Non è un PDF da 200 pagine.<br />Non è un corso da guardare e dimenticare.</p>
+            <p>È un <strong>sistema operativo</strong> che ti mostro dal vivo — e che puoi replicare sul TUO business in un weekend.</p>
+          </div>
+          <hr className="border-gray-300 my-8" />
+          <ul className="space-y-3 mb-8 text-lg">
+            {[
+              'Senza dover diventare copywriter.',
+              'Senza dover studiare marketing per 6 mesi.',
+              'Senza dover pagare €4.500/mese per un team di professionisti.',
+            ].map((item, i) => (
+              <li key={i} className="flex items-start gap-3">
+                <XCircle size={22} className="text-red-500 mt-0.5 shrink-0" />
+                <span><strong>{item.split(' ')[0]}</strong> {item.split(' ').slice(1).join(' ')}</span>
+              </li>
+            ))}
+          </ul>
+          <div className="text-lg leading-relaxed space-y-4">
+            <p><strong>Il risultato?</strong></p>
+            <p>In un weekend hai: ricerca di mercato, copy ads, landing page, sequenza email e script VSL. Tutto generato dall'AI, tutto personalizzato sul TUO business, tutto pronto da lanciare.</p>
+            <p>E la parte folle? <strong>Più lo usi, più migliora.</strong> Perché il sistema impara dai TUOI risultati.</p>
+          </div>
+          <CtaButton text="VOGLIO IL SISTEMA COMPLETO A €17" />
+        </div>
+      </section>
+
+      {/* ===== 4. FLOWCHART ===== */}
+      <FlowchartSection />
+
+      {/* ===== 5. SHOCKING TRUTH TABLE ===== */}
+      <ShockingTruthTable />
+
+      {/* ===== 6. SHORTCUT STORY ===== */}
+      <section className="bg-white py-12 md:py-16 px-4">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="red-headline text-3xl md:text-4xl text-center mb-8">
+            Perché ho creato questo corso (e perché lo vendo a €17)
+          </h2>
+          <div className="text-lg leading-relaxed space-y-5">
+            <p>Devo essere onesto con te.</p>
+            <p>18 mesi fa, io ero nella tua stessa situazione.</p>
+            <p>Avevo un business. Sapevo che il marketing era la chiave. Ma ogni volta che dovevo scrivere un'ad, creare una landing page, buttare giù un'email di vendita...</p>
+            <p><strong>Mi bloccavo.</strong></p>
+            <p>Ho speso <strong>€4.347 in corsi di copywriting e marketing</strong> in un anno. Corsi buoni, eh. Teoria impeccabile.</p>
+            <p>Ma la pagina restava vuota.</p>
+            <p>Poi un giorno ho fatto qualcosa di diverso.</p>
+            <p>Ho smesso di cercare di DIVENTARE un copywriter. E ho iniziato a far fare il lavoro all'AI.</p>
+            <p>Ma non nel modo in cui lo fanno tutti — "Ehi ChatGPT, scrivimi un'ad." Quello fa schifo.</p>
+            <p>Ho creato un <strong>sistema</strong>. Ho costruito prompt specializzati. Li ho alimentati con le informazioni del mio business. E ho scoperto una cosa che ha cambiato tutto:</p>
+            <p><strong>Se salvi quello che funziona e lo dai in pasto all'AI come riferimento... il sistema migliora ogni volta.</strong></p>
+            <p>Ho chiamato questo il <strong>Self-Improving System</strong>.</p>
+            <p>In un weekend avevo tutto il mio marketing pronto. Roba che un'agenzia mi avrebbe fatto pagare €3.000-5.000.</p>
+            <p>I miei clienti hanno iniziato a chiedermi: <em>"Come fai? Mi insegni?"</em></p>
+            <p>E così è nato questo corso.</p>
+            <p>Lo vendo a €17 perché <strong>il mio vero business non è il corso.</strong> Il mio vero business è costruire relazioni con imprenditori come te — e offrire servizi premium a chi vuole andare ancora più in profondità.</p>
+            <p>I €17 mi servono a pagarmi le ads. A te servono per cambiare completamente il modo in cui fai marketing.</p>
+            <p className="text-xl font-bold">Mi sembra un deal equo.</p>
+          </div>
+          <CtaButton text="ACCEDO AL CORSO A €17" />
+        </div>
+      </section>
+
+      {/* ===== 7. BONUS SECTION ===== */}
+      <section className="bg-[#FFF9E6] py-12 md:py-16 px-4">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="red-headline text-3xl md:text-4xl text-center mb-4">
+            {'\uD83C\uDF81'} MA ASPETTA — C'è di più.
+          </h2>
+          <p className="text-center text-lg mb-4">Se prendi il corso oggi, <strong>non ricevi solo le lezioni.</strong></p>
+          <p className="text-center text-lg mb-4">Ricevi anche i <strong>6 Prompt Bot Segreti</strong> che ho creato per il mio business — gli stessi identici prompt che uso ogni giorno per generare tutto il mio marketing.</p>
+          <p className="text-center text-lg mb-8">Questi prompt non li trovi da nessuna parte. Non li ho mai condivisi prima.</p>
+          <p className="text-center text-xl font-bold text-green-600 mb-10"><span className="bg-yellow-200 px-2 py-1 rounded">100% GRATIS con l'acquisto!</span></p>
+
+          {/* Bonus 1 */}
+          <div className="bg-white rounded-2xl p-6 md:p-8 shadow-md mb-8">
+            <div className="flex flex-col md:flex-row gap-6 items-start">
+              <img src="/assets/mockup-analisi-mercato.png" alt="Bot Analisi Mercato" className="w-full md:w-48 rounded-lg shrink-0" loading="lazy" />
+              <div>
+                <p className="text-sm font-bold text-red-600 mb-1">{'\uD83C\uDF81'} BONUS SEGRETO #1</p>
+                <h3 className="text-2xl font-extrabold mb-2">Bot Analisi Mercato</h3>
+                <p className="text-lg mb-4 font-semibold text-gray-700">Il tuo analista di mercato personale che lavora 24/7</p>
+                <p className="text-base mb-4">Dagli la tua nicchia e in 5 minuti hai una ricerca di mercato che un consulente ti farebbe pagare €500.</p>
+                <ul className="space-y-2 text-base">
+                  {[
+                    'Avatar dettagliato del tuo cliente ideale — età, paure, desideri, obiezioni, linguaggio esatto',
+                    'Mappa completa dei competitor — chi sono, come si posizionano, dove sono deboli',
+                    'Angoli di vendita pronti da usare — le leve emotive che FUNZIONANO nella tua nicchia',
+                    'Le parole esatte che usa il tuo target — così il tuo copy sembra scritto da qualcuno che li conosce davvero',
+                    'Trend e opportunità nascoste — quello che i tuoi competitor non hanno ancora visto',
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start gap-2"><CheckCircle size={18} className="text-green-500 mt-0.5 shrink-0" /><span>{item}</span></li>
+                  ))}
+                </ul>
+                <p className="mt-4 text-sm">(Valore: <strong>€97</strong>) <span className="font-bold text-green-600">GRATIS</span></p>
+              </div>
+            </div>
+          </div>
+
+          {/* Bonus 2 */}
+          <div className="bg-white rounded-2xl p-6 md:p-8 shadow-md mb-8">
+            <div className="flex flex-col md:flex-row gap-6 items-start">
+              <img src="/assets/mockup-ads-creator.png" alt="Bot Ads Creator" className="w-full md:w-48 rounded-lg shrink-0" loading="lazy" />
+              <div>
+                <p className="text-sm font-bold text-red-600 mb-1">{'\uD83C\uDF81'} BONUS SEGRETO #2</p>
+                <h3 className="text-2xl font-extrabold mb-2">Bot Ads Creator</h3>
+                <p className="text-lg mb-4 font-semibold text-gray-700">Il tuo media buyer AI che genera copy ads in 3 minuti</p>
+                <p className="text-base mb-4">Basta ads scritte "a sentimento". Questo bot genera copy ads professionali per Facebook e Instagram — con hook, body, headline e CTA — personalizzati sul tuo business.</p>
+                <ul className="space-y-2 text-base">
+                  {[
+                    '5-10 varianti di ads pronte da lanciare — così puoi testare subito e trovare la vincente',
+                    'Hook che fermano lo scroll — basati su pattern psicologici comprovati',
+                    'Copy ottimizzato per conversione — non per like o commenti, ma per VENDITE',
+                    'Formati multipli — testo lungo, testo breve, carosello, stories',
+                    'Si adatta al tuo tono di voce — perché è alimentato con il tuo Business DNA',
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start gap-2"><CheckCircle size={18} className="text-green-500 mt-0.5 shrink-0" /><span>{item}</span></li>
+                  ))}
+                </ul>
+                <p className="mt-4 text-sm">(Valore: <strong>€147</strong>) <span className="font-bold text-green-600">GRATIS</span></p>
+              </div>
+            </div>
+          </div>
+
+          {/* Bonus 3 */}
+          <div className="bg-white rounded-2xl p-6 md:p-8 shadow-md mb-8">
+            <div className="flex flex-col md:flex-row gap-6 items-start">
+              <img src="/assets/mockup-email-sequences.png" alt="Bot Email Sequences" className="w-full md:w-48 rounded-lg shrink-0" loading="lazy" />
+              <div>
+                <p className="text-sm font-bold text-red-600 mb-1">{'\uD83C\uDF81'} BONUS SEGRETO #3</p>
+                <h3 className="text-2xl font-extrabold mb-2">Bot Email Sequences</h3>
+                <p className="text-lg mb-4 font-semibold text-gray-700">Il tuo email marketer che scrive sequenze complete in 10 minuti</p>
+                <p className="text-base mb-4">La verità? La maggior parte degli imprenditori non scrive email perché non sa cosa dire. Questo bot risolve il problema per sempre.</p>
+                <ul className="space-y-2 text-base">
+                  {[
+                    'Sequenza welcome — i primi 3-5 messaggi che trasformano un iscritto in un fan',
+                    'Sequenza nurture — contenuto che educa, costruisce fiducia e prepara alla vendita',
+                    'Sequenza vendita — email che vendono senza sembrare spam',
+                    'Subject line che fanno aprire — perché l\'email più bella del mondo è inutile se nessuno la apre',
+                    'Timing e struttura ottimizzati — quando inviare, quanto scrivere, come chiudere',
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start gap-2"><CheckCircle size={18} className="text-green-500 mt-0.5 shrink-0" /><span>{item}</span></li>
+                  ))}
+                </ul>
+                <p className="mt-4 text-sm">(Valore: <strong>€97</strong>) <span className="font-bold text-green-600">GRATIS</span></p>
+              </div>
+            </div>
+          </div>
+
+          {/* Bonus 4 */}
+          <div className="bg-white rounded-2xl p-6 md:p-8 shadow-md mb-8">
+            <div className="flex flex-col md:flex-row gap-6 items-start">
+              <img src="/assets/mockup-vsl-writer.png" alt="Bot VSL Writer" className="w-full md:w-48 rounded-lg shrink-0" loading="lazy" />
+              <div>
+                <p className="text-sm font-bold text-red-600 mb-1">{'\uD83C\uDF81'} BONUS SEGRETO #4</p>
+                <h3 className="text-2xl font-extrabold mb-2">Bot VSL Writer</h3>
+                <p className="text-lg mb-4 font-semibold text-gray-700">Il tuo sceneggiatore AI che scrive script video che vendono</p>
+                <p className="text-base mb-4">Sai che dovresti fare una VSL. Ma ogni volta che apri un documento per scriverla... blocco totale. Questo bot lo elimina.</p>
+                <ul className="space-y-2 text-base">
+                  {[
+                    'Script VSL completo con struttura professionale — i famosi 8 blocchi che usano i top marketer',
+                    'Hook che cattura l\'attenzione nei primi 5 secondi — perché se perdi l\'apertura, hai perso tutto',
+                    'Storytelling che crea connessione emotiva — non nozioni, ma storie che vendono',
+                    'Transizioni e CTA integrati — il viewer viene guidato naturalmente verso l\'azione',
+                    'Adattabile per video lungo o corto — VSL classica, reel, YouTube, webinar',
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start gap-2"><CheckCircle size={18} className="text-green-500 mt-0.5 shrink-0" /><span>{item}</span></li>
+                  ))}
+                </ul>
+                <p className="mt-4 text-sm">(Valore: <strong>€147</strong>) <span className="font-bold text-green-600">GRATIS</span></p>
+              </div>
+            </div>
+          </div>
+
+          {/* Bonus 5 */}
+          <div className="bg-white rounded-2xl p-6 md:p-8 shadow-md mb-8">
+            <div className="flex flex-col md:flex-row gap-6 items-start">
+              <img src="/assets/mockup-landing-copy.png" alt="Bot Landing Page Copy" className="w-full md:w-48 rounded-lg shrink-0" loading="lazy" />
+              <div>
+                <p className="text-sm font-bold text-red-600 mb-1">{'\uD83C\uDF81'} BONUS SEGRETO #5</p>
+                <h3 className="text-2xl font-extrabold mb-2">Bot Landing Page Copy</h3>
+                <p className="text-lg mb-4 font-semibold text-gray-700">Il tuo copywriter AI che genera sales page complete in 30 minuti</p>
+                <p className="text-base mb-4">Una landing page che converte al 5% invece che all'1%? Significa 5 volte più vendite con lo stesso traffico. Questo bot scrive copy che converte.</p>
+                <ul className="space-y-2 text-base">
+                  {[
+                    'Copy completo dall\'hero alla chiusura — headline, sub-headline, bullet, stack offerta, garanzia, FAQ',
+                    'Struttura basata su framework professionali — RMBC, PASTOR, Value Equation',
+                    'Angoli emotivi che toccano i pain point REALI del tuo target — non frasi generiche',
+                    'Copy di garanzia e FAQ che eliminano le obiezioni — così il lettore non ha più scuse per non comprare',
+                    'Ottimizzato per mobile — perché il 70%+ del traffico arriva da smartphone',
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start gap-2"><CheckCircle size={18} className="text-green-500 mt-0.5 shrink-0" /><span>{item}</span></li>
+                  ))}
+                </ul>
+                <p className="mt-4 text-sm">(Valore: <strong>€97</strong>) <span className="font-bold text-green-600">GRATIS</span></p>
+              </div>
+            </div>
+          </div>
+
+          {/* Bonus 6 */}
+          <div className="bg-white rounded-2xl p-6 md:p-8 shadow-md mb-8">
+            <div className="flex flex-col md:flex-row gap-6 items-start">
+              <img src="/assets/mockup-creativo-gemini.png" alt="Bot Creativo Gemini" className="w-full md:w-48 rounded-lg shrink-0" loading="lazy" />
+              <div>
+                <p className="text-sm font-bold text-red-600 mb-1">{'\uD83C\uDF81'} BONUS SEGRETO #6</p>
+                <h3 className="text-2xl font-extrabold mb-2">Bot Creativo Gemini per Statiche</h3>
+                <p className="text-lg mb-4 font-semibold text-gray-700">Il tuo designer AI che crea visual ads professionali in 2 minuti</p>
+                <p className="text-base mb-4">Hai il copy. Ora ti serve la grafica. Questo bot usa Gemini per creare statiche ads che sembrano fatte da un designer da €1.000/mese.</p>
+                <ul className="space-y-2 text-base">
+                  {[
+                    'Statiche ads professionali — niente più Canva brutto, niente più immagini stock',
+                    '10-20 reference di design reali incluse — così Gemini sa esattamente cosa produrre',
+                    'Layout ottimizzati per ogni formato — feed, stories, reel cover, carousel',
+                    'Headline e CTA integrati nel visual — non solo il testo, ma la composizione completa',
+                    'Template colori e font per brand consistency — così tutto il tuo marketing sembra coerente',
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start gap-2"><CheckCircle size={18} className="text-green-500 mt-0.5 shrink-0" /><span>{item}</span></li>
+                  ))}
+                </ul>
+                <p className="mt-4 text-sm">(Valore: <strong>€97</strong>) <span className="font-bold text-green-600">GRATIS</span></p>
+              </div>
+            </div>
+          </div>
+
+          <div className="text-center text-lg font-bold">
+            <p>Totale valore bonus: <strong>€682</strong></p>
+            <p className="text-green-600 text-xl mt-2">Questi €682 di bonus sono GRATIS quando prendi il corso oggi.</p>
           </div>
         </div>
       </section>
 
-      {/* SEZIONE 3 — IL PROBLEMA */}
-      <Section>
-        <h2 className="text-2xl md:text-3xl font-bold mb-8">Fermati un secondo. Quante di queste frasi ti suonano familiari?</h2>
-        <div className="space-y-4 text-left mb-8">
-          {[
-            '"Ho speso €500 in ads e non ho venduto neanche un caffè."',
-            '"So che dovrei fare una VSL ma non ho idea da dove cominciare."',
-            '"Ho pagato un corso da €997 e la mia landing page è ancora vuota."',
-            '"Non sono un copywriter. Non so scrivere copy che converte."',
-            '"Devo fare TUTTO da solo e non ho tempo neanche per respirare."',
-          ].map((t, i) => (
-            <p key={i} className="text-danger font-medium text-lg flex items-start gap-2">
-              <XCircle className="w-5 h-5 shrink-0 mt-1" /> <em>{t}</em>
-            </p>
-          ))}
-        </div>
-        <p className="text-lg mb-4">Se ti sei riconosciuto in anche solo UNA di queste...</p>
-        <p className="text-xl font-bold mb-8">Non è colpa tua.</p>
-
-        <hr className="border-gray-200 my-8" />
-
-        <p className="text-lg mb-6">Il mercato ti ha venduto una bugia enorme:</p>
-        <blockquote className="border-l-4 border-accent pl-6 py-2 mb-6 text-text-secondary italic text-lg">
-          "Impara il copywriting. Impara il media buying. Impara a fare landing page. Impara la SEO. Impara l'email marketing. Impara, impara, impara..."
-        </blockquote>
-        <p className="text-lg mb-4">E tu ci hai creduto.</p>
-        <p className="text-lg mb-4">Hai comprato il corso di marketing. Hai studiato le lezioni. Hai preso appunti.</p>
-        <p className="text-lg mb-4">E poi?</p>
-        <p className="text-xl font-bold mb-4">Poi ti sei seduto davanti allo schermo bianco.</p>
-        <p className="text-lg mb-8">E lì sei rimasto.</p>
-        <p className="text-lg mb-8">
-          Perché c'è una differenza ENORME tra <strong>sapere come si fa</strong> e <strong>farlo davvero</strong>.
-        </p>
-
-        <hr className="border-gray-200 my-8" />
-
-        <p className="text-lg mb-3">Un copywriter professionista costa <strong>€2.000 al mese</strong> (minimo).</p>
-        <p className="text-lg mb-3">Un media buyer? Altri <strong>€1.500 al mese</strong>.</p>
-        <p className="text-lg mb-3">Un designer per le ads? <strong>€1.000 al mese</strong>.</p>
-        <p className="text-xl font-bold my-6">Totale: €4.500 al mese per avere un team marketing.</p>
-        <p className="text-lg mb-4">E se non hai quei soldi? Devi fare tutto da solo.</p>
-        <p className="text-lg">O almeno... era così. Fino ad oggi.</p>
-      </Section>
-
-      {/* SEZIONE 4 — LA STORIA */}
-      <Section bg="bg-bg-secondary">
-        <h2 className="text-2xl md:text-3xl font-bold mb-6">Mi chiamo Giuseppe. E 18 mesi fa ero esattamente dove sei tu adesso.</h2>
-        <div className="text-left space-y-4 text-lg leading-relaxed">
-          <p>Avevo un business digitale. Sapevo che il marketing era tutto. Ma ogni volta che dovevo scrivere un'ad, creare una landing page o buttare giù una sequenza email...</p>
-          <p>...mi bloccavo.</p>
-          <p>Ho speso <strong>€4.347 in corsi di copywriting e marketing</strong> in un anno. Alcuni ottimi. La teoria la sapevo.</p>
-          <p>Ma la pagina rimaneva vuota.</p>
-          <p>Poi è successo qualcosa.</p>
-          <p>Ho iniziato a usare l'AI — ChatGPT, Claude, Poe — non come un giocattolo, ma come uno <strong>strumento di lavoro serio</strong>.</p>
-          <p>Non chiedevo "scrivimi un ad". Quello lo fanno tutti e i risultati fanno schifo.</p>
-          <p>Ho fatto qualcosa di diverso.</p>
-          <p>Ho creato <strong>5 bot specializzati</strong>, ognuno con un compito preciso. E li ho alimentati con le informazioni del MIO business — il mio target, i miei competitor, il mio posizionamento.</p>
-          <p className="font-bold text-xl">Il risultato?</p>
-          <p>In un weekend avevo:</p>
-          <ul className="space-y-2 ml-2">
-            <li className="text-success flex items-center gap-2"><CheckCircle className="w-5 h-5 shrink-0" /> Una ricerca di mercato completa</li>
-            <li className="text-success flex items-center gap-2"><CheckCircle className="w-5 h-5 shrink-0" /> 10 varianti di ads pronte</li>
-            <li className="text-success flex items-center gap-2"><CheckCircle className="w-5 h-5 shrink-0" /> Il copy della landing page</li>
-            <li className="text-success flex items-center gap-2"><CheckCircle className="w-5 h-5 shrink-0" /> Una sequenza email di 5 messaggi</li>
-            <li className="text-success flex items-center gap-2"><CheckCircle className="w-5 h-5 shrink-0" /> Lo script per la VSL</li>
-          </ul>
-          <p>Materiale che un'agenzia mi avrebbe fatto pagare <strong>€3.000-5.000</strong>.</p>
-          <p>Ma la vera svolta non è stata questa.</p>
-          <p>La vera svolta è stata quando ho scoperto il <strong>feedback loop</strong>.</p>
-        </div>
-      </Section>
-
-      {/* SEZIONE 5 — LA SOLUZIONE */}
-      <Section>
-        <h2 className="text-2xl md:text-3xl font-bold mb-6">Ecco cosa rende Funnel Sprint AI diverso da QUALSIASI corso, tool o prompt pack sul mercato.</h2>
-        <div className="text-left space-y-4 text-lg leading-relaxed mb-8">
-          <p>Non è un corso che guardi e dimentichi.</p>
-          <p>Non è un pacchetto di prompt generici.</p>
-          <p>Non è un template che copi e incolli.</p>
-          <p><strong>È un sistema di 5 bot AI specializzati che lavorano insieme — e che diventano più bravi ogni volta che li usi.</strong></p>
-        </div>
-
-        <h3 className="text-xl md:text-2xl font-bold mb-8">Come funziona (in 3 step):</h3>
-
-        {/* Step 1 */}
-        <div className="bg-bg-accent rounded-2xl p-6 md:p-8 mb-6 text-left">
-          <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center mb-3">
-            <ClipboardList className="w-5 h-5 text-accent" />
+      {/* ===== 8. CHI È GIUSEPPE ===== */}
+      <section className="bg-white py-12 md:py-16 px-4">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="red-headline text-3xl md:text-4xl text-center mb-8">Chi c'è dietro questo corso?</h2>
+          <p className="text-lg text-center mb-8 text-gray-700">Mi chiamo <strong>Giuseppe</strong>. E no — non sono un guru del marketing con il Lamborghini a noleggio. Sono un imprenditore digitale che ha trovato un modo migliore di fare le cose.</p>
+          <div className="flex flex-col md:flex-row gap-8 items-start">
+            <img src="/assets/giuseppe-photo.jpg" alt="Giuseppe" className="w-full md:w-72 rounded-xl shadow-lg shrink-0" loading="lazy" />
+            <ul className="space-y-4 text-base">
+              {[
+                'Ho lavorato con decine di imprenditori e freelancer italiani — dal coach che fattura €2.000/mese all\'azienda che ne fa €200.000',
+                'Ho costruito funnel completi per business in nicchie che vanno dal fitness alla consulenza HR, dall\'e-commerce al SaaS',
+                'Ho speso €4.347 in corsi di marketing prima di capire che il problema non era la conoscenza — era l\'esecuzione',
+                'Ho creato un sistema AI che mi permette di generare tutto il marketing di un business in un weekend — e l\'ho testato su decine di progetti reali',
+                'Ho sviluppato il metodo Self-Improving System — un feedback loop che fa migliorare i bot con i tuoi stessi risultati',
+                'I miei clienti hanno generato tra €2.000 e €8.000/mese con funnel costruiti usando questo sistema',
+                'Credo che il marketing nel 2026 non debba essere complicato, costoso o riservato a chi ha un team — e questo corso è la mia missione per dimostrarlo',
+              ].map((item, i) => (
+                <li key={i} className="flex items-start gap-2">
+                  <ArrowRight size={18} className="text-red-500 mt-1 shrink-0" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
           </div>
-          <h4 className="font-bold text-xl mb-3">STEP 1: Compili il Business DNA</h4>
-          <p className="text-text-secondary mb-2">Un documento guidato dove inserisci tutto ciò che i bot devono sapere sul tuo business: chi sei, cosa vendi, chi è il tuo cliente ideale, quali problemi risolvi.</p>
-          <p className="text-sm text-text-secondary italic">Tempo: 30-45 minuti. Lo fai una volta.</p>
+          <CtaButton />
         </div>
+      </section>
 
-        {/* Step 2 */}
-        <div className="bg-bg-accent rounded-2xl p-6 md:p-8 mb-6 text-left">
-          <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center mb-3">
-            <Bot className="w-5 h-5 text-accent" />
-          </div>
-          <h4 className="font-bold text-xl mb-4">STEP 2: Attivi i 5 Bot</h4>
-          <p className="text-text-secondary mb-4">Ogni bot è specializzato in UNA funzione marketing:</p>
-          <div className="space-y-4">
-            <BotCard icon={Search} name="Bot Analisi Mercato" desc="Inserisci la nicchia → ricevi ricerca completa: avatar, competitor, angoli di vendita, parole esatte del tuo target" mockup="/mockup-analisi-mercato.png" />
-            <BotCard icon={FileText} name="Bot VSL Writer" desc="Dagli le info → scrive lo script VSL completo (struttura Paganelli/Georgi)" mockup="/mockup-vsl-writer.png" />
-            <BotCard icon={Megaphone} name="Bot Ads Creator" desc="Genera 5-10 varianti di copy ads per Facebook e Instagram — hook, body, headline, description" mockup="/mockup-ads-creator.png" />
-            <BotCard icon={Mail} name="Bot Email Sequences" desc="Scrive sequenze email complete: welcome, nurture, vendita, post-acquisto" mockup="/mockup-email-sequences.png" />
-            <BotCard icon={Layout} name="Bot Landing Page" desc="Genera il copy completo della landing/sales page — dall'hero alla chiusura" mockup="/mockup-landing-copy.png" />
-          </div>
-          <p className="mt-4 text-text-secondary">
-            Ogni bot alimenta il successivo. Come <strong>scatole cinesi</strong>: la ricerca di mercato diventa il fondamento del copy. Il copy delle ads riflette la landing. Le email riprendono la VSL.
-          </p>
-          <p className="mt-2 font-bold">Tutto è coerente. Tutto è allineato. Tutto parla la stessa lingua.</p>
-        </div>
-
-        {/* Step 3 */}
-        <div className="bg-bg-accent rounded-2xl p-6 md:p-8 mb-8 text-left">
-          <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center mb-3">
-            <RefreshCw className="w-5 h-5 text-accent" />
-          </div>
-          <h4 className="font-bold text-xl mb-3">STEP 3: Il Feedback Loop (La Magia)</h4>
-          <p className="text-text-secondary mb-4">Ecco dove il sistema diventa <strong>imbattibile</strong>.</p>
-          <p className="text-text-secondary mb-2">Lanci le ads. Qualcosa funziona — un hook, un'email, un angolo.</p>
-          <p className="text-text-secondary mb-4">Lo salvi come <strong>file di riferimento</strong> nel bot.</p>
-          <p className="text-text-secondary mb-4">Da quel momento, il bot genera output <strong>basato su ciò che ha DAVVERO funzionato</strong> nel tuo business.</p>
-          <div className="bg-white rounded-xl p-4 border border-gray-200 text-sm text-text-secondary font-mono mb-4">
-            Usi i bot → Lanci → Raccogli risultati →<br />
-            Salvi ciò che funziona come reference →<br />
-            I bot generano output ANCORA migliore →<br />
-            Loop infinito di miglioramento
-          </div>
-          <blockquote className="border-l-4 border-accent pl-4 py-2 font-bold text-text-primary">
-            Non stai comprando un corso. Stai comprando un sistema che diventa più intelligente ogni volta che lo usi.
-          </blockquote>
-        </div>
-
-        <div className="text-left space-y-4 text-lg leading-relaxed mb-8">
-          <p>Nessun corso in Italia offre questo. Nessuno.</p>
-          <p>I corsi invecchiano. I template si esauriscono. I prompt generici danno risultati generici.</p>
-          <p><strong>Il tuo sistema cresce con te.</strong></p>
-        </div>
-
-        <div className="bg-bg-secondary rounded-2xl p-6 text-left">
-          <h4 className="font-bold text-lg mb-4">Funziona su 3 piattaforme (scegli tu):</h4>
-          <ul className="space-y-2 text-text-secondary">
-            <li><strong>Poe.com</strong> — Bot dedicati, pronti all'uso</li>
-            <li><strong>ChatGPT</strong> — Progetti con file di riferimento</li>
-            <li><strong>Claude</strong> — Progetti con knowledge base</li>
-          </ul>
-          <p className="mt-4 text-text-secondary">Il valore non è nella piattaforma. È nel <strong>metodo + i prompt + il feedback loop</strong>. Tu scegli dove lavorare.</p>
-        </div>
-      </Section>
-
-      {/* SEZIONE 6 — TABELLA CONFRONTO */}
-      <Section bg="bg-bg-secondary">
-        <h2 className="text-2xl md:text-3xl font-bold mb-8">Il Metodo Vecchio vs Funnel Sprint AI</h2>
-        <div className="overflow-x-auto">
-          <div className="md:grid md:grid-cols-2 gap-6 space-y-6 md:space-y-0">
-            {/* Colonna Vecchio */}
-            <div className="bg-red-50 border border-red-200 rounded-2xl p-6">
-              <h3 className="text-danger font-bold text-xl mb-4 flex items-center justify-center gap-2"><XCircle className="w-6 h-6" /> Come Facevi Prima</h3>
-              <ul className="space-y-3 text-left text-text-secondary">
-                <li>Fissi lo schermo vuoto per ore</li>
-                <li>Copi le ads degli altri (che non funzionano per te)</li>
-                <li>Cerchi su Google per giorni</li>
-                <li>Non scrivi email. Punto.</li>
-                <li>€2.000-4.500/mese per un team</li>
-                <li>Settimane o mesi per avere tutto</li>
-                <li>Il corso invecchia, il template si esaurisce</li>
-                <li>Devi diventare un esperto</li>
-              </ul>
-            </div>
-            {/* Colonna Nuovo */}
-            <div className="bg-green-50 border border-green-200 rounded-2xl p-6">
-              <h3 className="text-success font-bold text-xl mb-4 flex items-center justify-center gap-2"><CheckCircle className="w-6 h-6" /> Con Funnel Sprint AI</h3>
-              <ul className="space-y-3 text-left text-text-secondary">
-                <li>Il bot scrive in 3 minuti</li>
-                <li>Il bot crea varianti personalizzate sul TUO business</li>
-                <li>Il bot analizza mercato, competitor e avatar in 5 minuti</li>
-                <li>Il bot genera sequenze complete pronte da inviare</li>
-                <li>€17 una volta. Per sempre.</li>
-                <li>Un weekend.</li>
-                <li>Il sistema migliora con i TUOI risultati</li>
-                <li>Devi solo compilare il Business DNA</li>
-              </ul>
-            </div>
+      {/* ===== 9. VIDEO TESTIMONIANZE ===== */}
+      <section className="bg-white py-12 md:py-16 px-4">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="red-headline text-3xl md:text-4xl text-center mb-4">Risultati reali, persone reali</h2>
+          <p className="text-center text-gray-600 text-lg mb-10">Guarda con i tuoi occhi cosa dicono i nostri studenti</p>
+          <div className="grid md:grid-cols-3 gap-6">
+            {[1, 2, 3].map(i => (
+              <div key={i} className="rounded-2xl overflow-hidden shadow-lg aspect-video bg-gray-200 flex items-center justify-center">
+                <p className="text-gray-500 text-sm font-bold">Video Testimonianza {i}<br />(Placeholder)</p>
+              </div>
+            ))}
           </div>
         </div>
-      </Section>
+      </section>
 
-      {/* SEZIONE 7 — STACK OFFERTA */}
-      <Section>
-        <h2 className="text-2xl md:text-3xl font-bold mb-4">Ecco tutto quello che ricevi oggi con Funnel Sprint AI:</h2>
-
-        {/* Main mockup in offer section */}
-        <div className="flex justify-center mb-10">
-          <img src="/mockup-main.png" alt="Funnel Sprint AI — Il sistema completo" className="w-full max-w-[480px] rounded-2xl shadow-lg" />
-        </div>
-
-        <div className="space-y-4 mb-10">
-          <StackCard icon={Search} title="MODULO 1 — Bot Analisi Mercato" desc="Setup completo + prompt + tutorial. Inserisci la nicchia, ricevi: avatar dettagliato, mappa competitor, angoli di vendita, linguaggio esatto del target." value="€97" mockup="/mockup-analisi-mercato.png" />
-          <StackCard icon={FileText} title="MODULO 2 — Bot VSL Writer" desc="Crea script VSL completi con struttura professionale (8 blocchi). Basta dargli il Business DNA e la ricerca di mercato." value="€147" mockup="/mockup-vsl-writer.png" />
-          <StackCard icon={Megaphone} title="MODULO 3 — Bot Ads Creator" desc="Genera 5-10 varianti di copy ads per Facebook e Instagram. Hook, body, headline, description. Pronti da lanciare." value="€127" mockup="/mockup-ads-creator.png" />
-          <StackCard icon={Mail} title="MODULO 4 — Bot Email Sequences" desc="Scrive sequenze email complete: welcome, soap opera, vendita, post-acquisto. Con subject line, preview text e timing." value="€97" mockup="/mockup-email-sequences.png" />
-          <StackCard icon={Layout} title="MODULO 5 — Bot Landing Page Copy" desc="Genera il copy completo della sales page o landing page. Dall'headline alla chiusura, incluse FAQ e garanzia." value="€127" mockup="/mockup-landing-copy.png" />
-          <StackCard icon={ClipboardList} title="BONUS — Il Business DNA (Template Guidato)" desc="Il documento fondamentale che alimenta TUTTI i bot. Compilalo una volta, usalo per sempre. Include domande guidate per estrarre il posizionamento unico del tuo business." value="€47" />
-          <StackCard icon={RefreshCw} title="BONUS — Il Metodo Feedback Loop" desc="La guida step-by-step per trasformare i tuoi bot in un sistema auto-migliorante. Come salvare i file vincenti, come aggiornare le reference, come far crescere il sistema nel tempo." value="€67" />
-          <StackCard icon={Monitor} title="BONUS — Setup Multi-Piattaforma" desc="Tutorial per configurare i bot su Poe, ChatGPT E Claude. Scegli la piattaforma che preferisci — o usale tutte e tre." value="€47" />
-        </div>
-
-        {/* Totale */}
-        <div className="bg-bg-secondary rounded-2xl p-6 mb-8">
-          <div className="flex justify-between items-center text-lg mb-2">
-            <span>5 Moduli Bot Marketing</span><span className="font-bold">€595</span>
+      {/* ===== 10. TRUSTPILOT CARDS ===== */}
+      <section className="bg-[#FFF9E6] py-12 md:py-16 px-4">
+        <div className="max-w-5xl mx-auto">
+          <div className="flex items-center justify-center gap-2 mb-3">
+            <span className="text-[#00b67a] font-extrabold text-lg">Trustpilot</span>
+            <div className="flex gap-0.5">{[...Array(5)].map((_, i) => <Star key={i} size={18} className="fill-[#00b67a] text-[#00b67a]" />)}</div>
           </div>
-          <div className="flex justify-between items-center mb-2">
-            <span>Business DNA Template</span><span className="font-bold">€47</span>
-          </div>
-          <div className="flex justify-between items-center mb-2">
-            <span>Metodo Feedback Loop</span><span className="font-bold">€67</span>
-          </div>
-          <div className="flex justify-between items-center mb-4">
-            <span>Setup Multi-Piattaforma</span><span className="font-bold">€47</span>
-          </div>
-          <hr className="border-gray-300 mb-4" />
-          <div className="flex justify-between items-center text-xl font-bold">
-            <span>Valore Totale</span><span>€756</span>
-          </div>
-        </div>
-
-        <div className="text-center space-y-4 text-lg mb-8">
-          <p className="font-bold text-xl">Ma non pagherai €756.</p>
-          <p>Non pagherai neanche €297.</p>
-          <p>Non pagherai neanche €97.</p>
-        </div>
-
-        <div className="text-center mb-8">
-          <p className="text-lg mb-4">Oggi accedi a TUTTO per soli:</p>
-          <div className="inline-block bg-price-badge rounded-2xl px-8 py-6">
-            <span className="text-danger line-through text-2xl font-bold">€97</span>
-            <span className="text-4xl md:text-6xl font-black text-text-primary ml-4">€17</span>
-          </div>
-          <p className="mt-4 text-lg">Sì, <strong>diciassette euro</strong>.</p>
-          <p className="text-text-secondary">Meno di una pizza e una birra.</p>
-          <p className="text-text-secondary">Meno di un mese di Netflix.</p>
-          <p className="text-text-secondary">Meno di un SINGOLO caffè al giorno per un mese.</p>
-          <p className="font-bold text-lg mt-4">Per un sistema di marketing completo che usi per sempre.</p>
-        </div>
-
-        <CtaButton
-          text="SÌ, VOGLIO FUNNEL SPRINT AI A €17"
-          subtext="Pagamento sicuro con Stripe · Accesso immediato · Garanzia 30 giorni"
-        />
-      </Section>
-
-      {/* SEZIONE 8 — COSA SARAI IN GRADO DI FARE */}
-      <Section bg="bg-bg-accent">
-        <h2 className="text-2xl md:text-3xl font-bold mb-8">Dopo questo weekend, tu sarai in grado di:</h2>
-        <div className="space-y-4 text-left text-lg">
-          {[
-            <><strong>Lanciare ads su Facebook e Instagram</strong> con copy scritto professionalmente — senza aver mai studiato copywriting</>,
-            <><strong>Creare una sales page completa</strong> che converte visitatori in clienti — in 30 minuti invece che in 3 settimane</>,
-            <><strong>Scrivere sequenze email</strong> che vendono in automatico — senza fissare lo schermo vuoto</>,
-            <><strong>Fare ricerche di mercato</strong> che ti dicono ESATTAMENTE cosa vuole il tuo target, con quali parole, e perché compra — in 5 minuti</>,
-            <><strong>Scrivere script VSL</strong> con struttura professionale — anche se non hai mai fatto un video in vita tua</>,
-            <><strong>Avere un sistema che migliora da solo</strong> — più lo usi, più i bot capiscono il tuo business e producono output migliore</>,
-            <><strong>Risparmiare €2.000-4.500 al mese</strong> che spenderesti per un team marketing</>,
-            <><strong>Smettere di procrastinare</strong> — perché il bot elimina il blocco dello "schermo vuoto"</>,
-            <><strong>Lanciare in un weekend</strong> quello che prima ti avrebbe richiesto settimane o mesi</>,
-          ].map((item, i) => (
-            <p key={i} className="text-success flex items-start gap-2"><CheckCircle className="w-5 h-5 shrink-0 mt-1" /> {item}</p>
-          ))}
-        </div>
-      </Section>
-
-      {/* SEZIONE 9 — TESTIMONIANZE */}
-      <Section>
-        <h2 className="text-2xl md:text-3xl font-bold mb-8">Cosa dicono chi ha già usato il sistema:</h2>
-        <div className="grid md:grid-cols-2 gap-6">
-          <Testimonial
-            title="Ho lanciato le mie prime ads profittevoli in 3 giorni"
-            quote="Ero bloccato da mesi. Avevo il corso, avevo la teoria, ma non riuscivo a scrivere UNA riga di copy. Con i bot di Giuseppe ho creato 8 varianti di ads in un pomeriggio. Le prime 3 che ho lanciato mi hanno portato 12 vendite in 72 ore. Il ROAS? 3.2x. Con ads scritte dall'AI. Assurdo."
-            name="Marco T."
-            role="Infobusiness, Torino"
-          />
-          <Testimonial
-            title="€2.847 nel primo mese — e non so scrivere neanche un'email"
-            quote="Io faccio il consulente, non il marketer. Non sapevo da che parte si teneva un funnel. Ho compilato il Business DNA di sabato mattina, creato i 5 bot nel weekend, e lunedì avevo tutto: landing, ads, email. In 30 giorni ho fatturato €2.847 con un investimento in ads di €340. Giuseppe, sei un genio."
-            name="Alessandra R."
-            role="Consulente HR, Milano"
-          />
-          <Testimonial
-            title="Il feedback loop è la cosa più intelligente che abbia mai visto"
-            quote="Ho usato ChatGPT per mesi per scrivere post. Risultati? Meh. Poi ho provato il sistema di Giuseppe. La differenza? Il Business DNA. E soprattutto il feedback loop. Dopo 2 settimane i miei bot generavano copy che sembrava scritto da un copywriter da €3.000/mese. Perché avevano IMPARATO dai miei risultati. Questo vale 100 volte il prezzo."
-            name="Davide M."
-            role="E-commerce, Roma"
-          />
-          <Testimonial
-            title="Ho cancellato il contratto con l'agenzia"
-            quote="Pagavo €1.800/mese un'agenzia che mi mandava report bellissimi e risultati mediocri. Ho provato Funnel Sprint AI per un mese in parallelo. I bot hanno generato ads con CTR più alto del 40% rispetto a quelle dell'agenzia. Ho cancellato il contratto. Risparmio €21.600 l'anno. Per 17 euro."
-            name="Luca P."
-            role="SaaS B2B, Bologna"
-          />
-        </div>
-      </Section>
-
-      {/* SEZIONE 10 — BUMP OFFER */}
-      <Section bg="bg-bg-secondary">
-        <h2 className="text-2xl md:text-3xl font-bold mb-2">AGGIUNGI: Bot Creativo Gemini + Reference Pack (+ €40)</h2>
-        <p className="text-lg font-bold mb-6 text-center">Hai i bot per il copy. Ora aggiungi il bot per la GRAFICA.</p>
-        <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden mb-6">
-          <div className="flex flex-col md:flex-row">
-            <div className="md:w-2/5 shrink-0 bg-bg-accent flex items-center justify-center p-4">
-              <img src="/mockup-creativo-gemini.png" alt="Bot Creativo Gemini" className="w-full max-w-[240px] rounded-xl" />
-            </div>
-            <div className="flex-1 p-6 md:p-8 text-left">
-              <p className="text-lg mb-4">Con il Bot Creativo Gemini puoi:</p>
-              <ul className="space-y-3 text-text-secondary">
-                <li className="flex items-start gap-2"><Palette className="w-5 h-5 shrink-0 mt-0.5 text-accent" /> Creare <strong>statiche ads professionali</strong> in 2 minuti (senza Canva, senza designer)</li>
-                <li className="flex items-start gap-2"><Image className="w-5 h-5 shrink-0 mt-0.5 text-accent" /> Usare <strong>10-20 reference di design reali</strong> come esempi per Gemini</li>
-                <li className="flex items-start gap-2"><PenTool className="w-5 h-5 shrink-0 mt-0.5 text-accent" /> Avere <strong>copy per le statiche</strong> — headline, CTA, layout per ogni formato</li>
-                <li className="flex items-start gap-2"><Layout className="w-5 h-5 shrink-0 mt-0.5 text-accent" /> Ricevere <strong>template formati</strong> — dimensioni, colori, layout ottimizzati per IG e FB</li>
-              </ul>
-              <blockquote className="border-l-4 border-accent pl-4 py-2 mt-6 text-text-secondary italic">
-                "Il 90% delle ads che vedi su Facebook sono brutte. Con questo bot, le tue sembreranno fatte da un designer professionista. In 2 minuti."
-              </blockquote>
-            </div>
+          <h2 className="red-headline text-3xl md:text-4xl text-center mb-10">Cosa dice chi ha già provato il sistema:</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <TrustpilotCard
+              name="Marco T."
+              role="Infobusiness, Torino"
+              date="Febbraio 2026"
+              text="Ero bloccato da mesi. Avevo il corso, avevo la teoria, ma non riuscivo a scrivere UNA riga di copy decente. Con il sistema di Giuseppe ho creato 8 varianti di ads in un pomeriggio. Le prime 3 che ho lanciato mi hanno portato 12 vendite in 72 ore. ROAS 3.2x. Con copy generato dall'AI. Assurdo."
+            />
+            <TrustpilotCard
+              name="Alessandra R."
+              role="Consulente HR, Milano"
+              date="Gennaio 2026"
+              text="Io faccio il consulente, non il marketer. Non sapevo da che parte si teneva un funnel. Ho seguito il corso di sabato, creato i bot nel weekend, e lunedì avevo tutto: landing, ads, email. In 30 giorni ho fatturato €2.847 con €340 di ads. Giuseppe, sei un genio."
+            />
+            <TrustpilotCard
+              name="Davide M."
+              role="E-commerce, Roma"
+              date="Febbraio 2026"
+              text="Ho usato ChatGPT per mesi per scrivere post. Risultati? Meh. Poi ho provato il sistema di Giuseppe. La differenza? Il Business DNA e soprattutto il feedback loop. Dopo 2 settimane i miei bot generavano copy che sembrava scritto da un copywriter da €3.000/mese. Vale 100 volte il prezzo."
+            />
+            <TrustpilotCard
+              name="Luca P."
+              role="SaaS B2B, Bologna"
+              date="Marzo 2026"
+              text="Pagavo €1.800/mese un'agenzia che mi mandava report bellissimi e risultati mediocri. Ho provato il sistema di Giuseppe per un mese in parallelo. I bot hanno generato ads con CTR più alto del 40% rispetto a quelle dell'agenzia. Ho cancellato il contratto. Per €17."
+            />
+            <TrustpilotCard
+              name="Simone G."
+              role="Coach Business, Firenze"
+              date="Febbraio 2026"
+              text="Non sto scherzando. Sabato mattina mi sono messo davanti al computer. Ho seguito il corso, compilato il Business DNA, attivato i bot. Alle 16:00 avevo: ricerca mercato, 6 ads, landing page, 5 email, script VSL. Tutto coerente, tutto allineato. In 4 ore. Prima ci mettevo 3 settimane minimo."
+            />
+            <TrustpilotCard
+              name="Federica L."
+              role="Corsi Online, Napoli"
+              date="Gennaio 2026"
+              text="Avevo una landing page fatta con Canva e preghiere. Conversion rate: 1.2%. Ho usato il Bot Landing Page Copy di Giuseppe e ho riscritto tutto in 30 minuti. Nuovo conversion rate dopo una settimana: 7.3%. Stessa offerta, stesso traffico. Solo copy diverso. €17 meglio spesi della mia vita."
+            />
           </div>
         </div>
-        <label className="flex items-center gap-3 bg-price-badge border-2 border-yellow-400 rounded-xl p-5 cursor-pointer text-left">
-          <input type="checkbox" className="w-5 h-5 accent-cta-primary" />
-          <span className="font-bold text-text-primary">Sì, aggiungi il Bot Creativo Gemini + Reference Pack per soli €40</span>
-        </label>
-      </Section>
+      </section>
 
-      {/* SEZIONE 11 — PREZZO + CTA */}
-      <Section>
-        <h2 className="text-2xl md:text-3xl font-bold mb-6">La domanda non è "posso permettermelo?"</h2>
-        <p className="text-xl font-bold mb-8 text-center">La domanda è: <em>"Posso permettermi di NON averlo?"</em></p>
+      {/* ===== 11. SOCIAL PROOF CARDS ===== */}
+      <SocialProofCards />
 
-        <p className="text-lg mb-4">Pensa a quanto stai spendendo ADESSO:</p>
-        <div className="bg-bg-secondary rounded-2xl p-6 mb-8 text-left">
-          {[
-            { cosa: 'Tempo perso a fissare lo schermo vuoto', costo: 'Incalcolabile' },
-            { cosa: 'Ads che non convertono', costo: '€500-2.000 buttati' },
-            { cosa: 'Corsi che non implementi', costo: '€497-2.997' },
-            { cosa: 'Agenzia mediocre', costo: '€1.500-4.500/mese' },
-          ].map((row, i) => (
-            <div key={i} className="flex justify-between py-3 border-b border-gray-200 last:border-0">
-              <span className="text-text-secondary">{row.cosa}</span>
-              <span className="font-bold text-danger">{row.costo}</span>
-            </div>
-          ))}
-          <div className="flex justify-between pt-4 text-lg font-bold">
-            <span>Costo del NON agire</span>
-            <span className="text-danger">€10.000+ all'anno</span>
+      {/* ===== 12. PRICING BOX ===== */}
+      <section id="pricing-section" className="bg-white py-12 md:py-16 px-4">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="red-headline text-2xl md:text-3xl text-center mb-8">
+            Ecco tutto quello che ricevi oggi:
+          </h2>
+          <PricingBox />
+        </div>
+      </section>
+
+      {/* ===== 13. GARANZIA ===== */}
+      <section className="bg-[#FFF9E6] py-12 md:py-16 px-4">
+        <div className="max-w-3xl mx-auto text-center">
+          <img src="/assets/garanzia-gold.png" alt="Garanzia 30 giorni soddisfatti o rimborsati" className="w-60 md:w-80 mx-auto mb-6 drop-shadow-lg" loading="lazy" />
+          <h2 className="text-2xl md:text-3xl font-extrabold mb-6">{'\uD83D\uDEE1\uFE0F'} La Mia Promessa Personale — Garanzia "Zero Rischi" 30 Giorni</h2>
+          <div className="text-lg leading-relaxed space-y-4 text-left max-w-2xl mx-auto">
+            <p>Ascolta, lo so cosa stai pensando.</p>
+            <p><em>"€17 è niente, ma ho già buttato soldi in cose che non funzionano."</em></p>
+            <p>Ti capisco. Ci sono passato anch'io. Per questo voglio toglierti qualsiasi dubbio.</p>
+            <p>Ecco il mio deal con te:</p>
+            <p>Prendi Funnel Sprint AI. Guarda il corso. Crea i tuoi bot. Compila il Business DNA. Genera il tuo materiale marketing.</p>
+            <p>Usa il sistema per <strong>30 giorni interi</strong>.</p>
+            <p>Se per QUALSIASI motivo non sei soddisfatto — anche se semplicemente hai cambiato idea, anche se hai deciso che non fa per te, anche se il tuo gatto ha camminato sulla tastiera e hai deciso che è un segno — ti rimborso <strong>ogni singolo centesimo</strong>.</p>
+            <p>Nessuna domanda.<br />Nessuna procedura complicata.<br />Nessun modulo da compilare.<br />Nessuna telefonata imbarazzante.</p>
+            <p>Mi scrivi un'email. Ricevi il rimborso entro 48 ore. Fine.</p>
+            <p><strong>Il rischio è completamente sulle MIE spalle.</strong> Non sulle tue.</p>
+            <p>E sai perché posso permettermi di fare questa promessa?</p>
+            <p>Perché so che una volta che vedrai i bot in azione — una volta che genererai le tue prime ads, la tua prima landing, le tue prime email in minuti invece che in settimane...</p>
+            <p><strong>Non vorrai più tornare indietro.</strong></p>
+            <p>Ma se mi sbaglio? Ti riprendi i tuoi €17 e restiamo amici.</p>
+            <p><strong><span className="bg-yellow-200 px-1 rounded">Mi sembra giusto, no?</span></strong></p>
+          </div>
+          <CtaButton text="PROVO SENZA RISCHI — SOLO €17" />
+        </div>
+      </section>
+
+      {/* ===== 14. LONG-FORM SALES LETTER ===== */}
+      <section className="bg-white py-12 md:py-16 px-4">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="red-headline text-2xl md:text-4xl text-center mb-4">
+            La storia che non volevo raccontare (ma che devi sentire)
+          </h2>
+
+          <div className="bg-[#F3F4F6] rounded-2xl p-6 md:p-10 text-lg leading-relaxed space-y-5">
+            <p className="text-gray-600 italic">Caro amico,<br />Mi chiamo Giuseppe.<br />E quello che sto per dirti è la verità nuda e cruda su come facevo marketing fino a 18 mesi fa.</p>
+            <p><strong>Spoiler: faceva schifo.</strong></p>
+            <p>Non perché non fossi intelligente. Non perché non mi impegnassi. Ma perché stavo facendo tutto nel modo sbagliato.</p>
+
+            <h3 className="text-xl font-extrabold text-red-600 mt-8">Come facevo marketing nel modo sbagliato</h3>
+            <p>Ero convinto che per fare marketing dovessi DIVENTARE un marketer.</p>
+            <p>Così ho comprato corsi. Tanti corsi.</p>
+            <p>Il corso di copywriting da €497.<br />Il corso di Facebook Ads da €997.<br />Il corso di funnel da €697.<br />Il corso di email marketing da €397.</p>
+            <p><strong>Totale: €4.347 in un anno.</strong> E sai cosa avevo alla fine?</p>
+            <p>Un sacco di appunti. Un sacco di teoria. E un sacco di pagine vuote.</p>
+            <p>Perché ogni volta che mi sedevo davanti al computer per SCRIVERE qualcosa — un'ad, un'email, una landing page — mi bloccavo.</p>
+            <p>Sapevo la teoria. Ma non riuscivo a metterla in pratica.</p>
+            <p>Il cursore lampeggiava. La pagina restava vuota. E io mi sentivo un idiota.</p>
+
+            <h3 className="text-xl font-extrabold text-red-600 mt-8">Quanto tempo e soldi ho buttato via</h3>
+            <p>Facciamo due conti, perché i numeri fanno male:</p>
+            <ul className="space-y-2">
+              <li><span className="bg-yellow-200 px-1 rounded">€4.347 in corsi</span> che non ho implementato</li>
+              <li><span className="bg-yellow-200 px-1 rounded">€2.800 in ads</span> con copy scritto "a sentimento" — zero conversioni</li>
+              <li><span className="bg-yellow-200 px-1 rounded">€1.200 a un freelancer</span> per una landing page che convertiva allo 0.8%</li>
+              <li><span className="bg-yellow-200 px-1 rounded">~200 ore</span> di tempo perso a fissare lo schermo, guardare tutorial, riscrivere la stessa headline 47 volte</li>
+            </ul>
+            <p><strong>Totale: €8.347 + 200 ore.</strong> Per un marketing che non funzionava.</p>
+            <p>E la cosa più dolorosa? Vedevo altri — persone meno competenti di me, con prodotti peggiori dei miei — che lanciavano, vendevano, crescevano.</p>
+            <p>Mentre io ero lì. Fermo. Con il mio bel quaderno di appunti e zero risultati.</p>
+
+            <h3 className="text-xl font-extrabold text-red-600 mt-8">Il momento di svolta</h3>
+            <p>Poi, un martedì sera di novembre 2024, è successa una cosa strana.</p>
+            <p>Stavo usando ChatGPT per scrivere un post per i social (come facevo sempre, con risultati mediocri). E per errore, invece di dargli un prompt generico, gli ho dato un brief dettagliato del mio business.</p>
+            <p>Chi ero. Cosa vendevo. Chi era il mio cliente. Quali problemi risolvevo. Come parlava il mio target.</p>
+            <p>Il risultato è stato... diverso.</p>
+            <p>Non perfetto. Ma diverso. Più specifico. Più "mio".</p>
+            <p>E lì mi è scattata una lampadina.</p>
+            <p><em>"E se invece di chiedere all'AI di scrivere un'ad generica... la SPECIALIZZASSI per il mio business?"</em></p>
+            <p>Quella notte non ho dormito.</p>
+            <p>Ho passato le 6 ore successive a costruire quello che sarebbe diventato il primo prompt specializzato — il Bot Analisi Mercato.</p>
+            <p>L'ho alimentato con tutte le informazioni del mio business. L'ho strutturato con i framework di copywriting che avevo studiato nei corsi. L'ho testato.</p>
+            <p>Il risultato? Una ricerca di mercato più dettagliata e accurata di quella che un consulente mi aveva fatto pagare €500 sei mesi prima.</p>
+            <p><strong>In 5 minuti.</strong></p>
+            <p>Sono quasi caduto dalla sedia.</p>
+
+            <h3 className="text-xl font-extrabold text-red-600 mt-8">Come ho creato il sistema dei bot</h3>
+            <p>Nei 3 mesi successivi ho fatto una cosa sola: costruire bot.</p>
+            <p>Un bot per le ads. Un bot per le email. Un bot per le VSL. Un bot per le landing page.</p>
+            <p>Ogni bot era specializzato in UNA funzione. Ogni bot era alimentato con il Business DNA — quel documento dove metti TUTTO ciò che il sistema deve sapere sul tuo business.</p>
+            <p>E ogni bot <strong>alimentava il successivo</strong>.</p>
+            <p>La ricerca di mercato diventava la base per il copy delle ads. Il copy delle ads rifletteva la landing page. Le email riprendevano gli angoli della VSL.</p>
+            <p><strong>Tutto coerente. Tutto allineato. Come scatole cinesi.</strong></p>
+            <p>Ma la vera scoperta è arrivata dopo.</p>
+            <p>Ho lanciato le ads. Alcune funzionavano, altre no. Ho preso quelle che funzionavano e le ho date in pasto al bot come <strong>file di riferimento</strong>.</p>
+            <p>E da quel momento... il bot ha iniziato a generare output MIGLIORE.</p>
+            <p>Perché ora sapeva cosa funzionava DAVVERO. Non in teoria. Nel MIO business, con il MIO target, nel MIO mercato.</p>
+            <p>Lanci → Risultati → Salvi ciò che funziona → I bot migliorano → Output migliore → Risultati migliori.</p>
+            <p><strong>Il Self-Improving System era nato.</strong></p>
+
+            <h3 className="text-xl font-extrabold text-red-600 mt-8">"Giuseppe, il bot ha scritto una landing page migliore della mia agenzia"</h3>
+            <p>Il primo a provare il sistema è stato Marco, un amico che faceva infobusiness a Torino.</p>
+            <p>Marco era nella mia stessa situazione di un anno prima: tanta teoria, zero esecuzione. Gli ho dato i bot. Gli ho detto: "Compila il Business DNA e prova."</p>
+            <p>3 giorni dopo mi ha mandato un vocale di 4 minuti dove era mezzo euforico e mezzo incredulo.</p>
+            <p>Aveva lanciato 3 ads. Aveva fatto 12 vendite. ROAS 3.2x.</p>
+            <p><em>"Ma come è possibile? Io non so scrivere copy!"</em></p>
+            <p>Non serviva che sapesse scrivere copy. Il bot lo faceva per lui.</p>
+
+            <h3 className="text-xl font-extrabold text-red-600 mt-8">"Ho risparmiato €21.600 in un anno. Per €17."</h3>
+            <p>Poi c'è stato Luca.</p>
+            <p>Luca ha un SaaS B2B e pagava €1.800/mese a un'agenzia. Report bellissimi. Risultati? Meh.</p>
+            <p>Ha provato il sistema in parallelo per un mese. Le ads generate dai bot avevano un CTR più alto del 40% rispetto a quelle dell'agenzia.</p>
+            <p>Ha cancellato il contratto.</p>
+            <p><strong>€21.600 all'anno risparmiati.</strong> Per €17.</p>
+
+            <h3 className="text-xl font-extrabold text-red-600 mt-8">"Da 1.2% a 7.3% di conversione. Stessa offerta, solo copy diverso."</h3>
+            <p>E poi Federica.</p>
+            <p>Federica vende corsi online a Napoli. Aveva una landing page fatta con Canva e buona volontà. Conversion rate: 1.2%.</p>
+            <p>Ha usato il Bot Landing Page Copy. Ha riscritto tutto in 30 minuti.</p>
+            <p>Dopo una settimana: 7.3% di conversione. Stessa offerta. Stesso traffico. Solo copy diverso.</p>
+            <p><em>"Giuseppe, questo bot scrive meglio del copywriter che avevo pagato €800."</em></p>
+            <p>Sì, Federica. Lo so. È per questo che l'ho creato.</p>
+
+            <h3 className="text-xl font-extrabold mt-8">Il modello controintuitivo</h3>
+            <p>Ecco la cosa che la maggior parte delle persone non capisce:</p>
+            <p><strong>Non devi diventare bravo nel marketing. Devi diventare bravo a far lavorare l'AI per te.</strong></p>
+            <p>È un cambio di paradigma totale.</p>
+            <p>Nel vecchio mondo, dovevi imparare copywriting, media buying, email marketing, design, analytics.</p>
+            <p>Nel nuovo mondo, devi imparare UNA cosa: come dare all'AI le giuste istruzioni e i giusti dati.</p>
+            <p>E questo è esattamente ciò che ti insegno nel corso.</p>
+            <p>Non ti insegno a scrivere copy. Ti insegno a far scrivere copy all'AI come se fosse un copywriter da €3.000/mese che conosce il tuo business meglio di te.</p>
+            <p>Non ti insegno a fare ads. Ti insegno a far creare ads all'AI che convertono più di quelle delle agenzie.</p>
+            <p><strong>Non ti insegno il marketing. Ti insegno come far fare il marketing all'AI.</strong></p>
+            <p>È la shortcut definitiva. Ed è disponibile per chiunque — anche se non hai mai scritto una riga di copy in vita tua.</p>
           </div>
         </div>
+      </section>
 
-        <p className="text-lg mb-6">Oppure...</p>
-
-        <div className="text-center mb-8">
-          <div className="inline-block bg-price-badge rounded-2xl px-8 py-6 mb-4">
-            <span className="text-danger line-through text-2xl font-bold">€97</span>
-            <span className="text-4xl md:text-6xl font-black text-text-primary ml-4">€17</span>
-          </div>
-          <p className="text-lg">Cinque bot AI. Un weekend. Un sistema che cresce con te.</p>
-          <p className="text-xl font-bold mt-2">Per sempre.</p>
-        </div>
-
-        <CtaButton
-          text="VOGLIO IL MIO TEAM AI A €17 — ACCESSO IMMEDIATO"
-          subtext="Pagamento sicuro · Accesso istantaneo · Garanzia 30 giorni · Nessun abbonamento"
-        />
-      </Section>
-
-      {/* SEZIONE 12 — CHI È GIUSEPPE */}
-      <Section bg="bg-bg-secondary">
-        <h2 className="text-2xl md:text-3xl font-bold mb-6">Chi c'è dietro Funnel Sprint AI?</h2>
-        <div className="text-left space-y-4 text-lg leading-relaxed">
-          <p>Mi chiamo <strong>Giuseppe</strong>. Non sono un guru. Non ho un jet privato. Non ti mostrerò screenshot di Stripe.</p>
-          <p>Quello che faccio è semplice: <strong>costruisco sistemi di marketing che funzionano.</strong></p>
-          <p>Ho lavorato con decine di imprenditori italiani — dal freelancer che fattura €2.000 al mese all'azienda che ne fattura €200.000.</p>
-          <p>E ho notato una cosa: <strong>il problema non è mai la strategia. Il problema è l'esecuzione.</strong></p>
-          <p>Tutti sanno che servono ads, landing page, email. Nessuno riesce a FARLE.</p>
-          <p>Funnel Sprint AI è nato per risolvere esattamente questo problema. Non ti insegno teoria. Ti do gli strumenti per FARE.</p>
-          <p>In un weekend.</p>
-        </div>
-      </Section>
-
-      {/* SEZIONE 13 — GARANZIA */}
-      <Section>
-        <div className="bg-white border-2 border-green-300 rounded-2xl p-8 md:p-10">
-          <div className="flex justify-center mb-4">
-            <ShieldCheck className="w-12 h-12 text-success" />
-          </div>
-          <h2 className="text-2xl md:text-3xl font-bold mb-6">Garanzia "Zero Scuse" — 30 Giorni</h2>
-          <div className="text-left space-y-4 text-lg leading-relaxed">
-            <p>Ecco il deal:</p>
-            <p>Prova Funnel Sprint AI per <strong>30 giorni interi</strong>.</p>
-            <p>Crea i bot. Compila il Business DNA. Genera il tuo materiale marketing.</p>
-            <p>Se per QUALSIASI motivo non sei soddisfatto — anche se semplicemente hai cambiato idea — ti rimborso <strong>ogni singolo centesimo</strong>.</p>
-            <p>Nessuna domanda. Nessuna procedura complicata. Nessuna scusa.</p>
-            <p>Ti basta scrivere una email e ricevi il rimborso entro 48 ore.</p>
-            <p><strong>Il rischio è ZERO. È tutto sulle mie spalle.</strong></p>
-            <p>Se non funziona per te, non meriti di pagare. Punto.</p>
-          </div>
-          <div className="mt-8">
-            <CtaButton text="SÌ, VOGLIO PROVARE SENZA RISCHI A €17" />
+      {/* ===== 15. RUOTA DEL CRICETO ===== */}
+      <section className="bg-[#FFF9E6] py-12 md:py-16 px-4">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="red-headline text-2xl md:text-3xl text-center mb-8">{'\uD83D\uDC39'} Sei intrappolato nella Ruota del Criceto del Marketing?</h2>
+          <HamsterWheelVisual />
+          <div className="text-lg leading-relaxed space-y-5 mt-8">
+            <p><strong>Suona familiare?</strong></p>
+            <p>Non è colpa tua. È il SISTEMA che è rotto.</p>
+            <p>Il sistema ti dice: <em>"Impara di più."</em></p>
+            <p>Ma il problema non è la conoscenza. <strong>Il problema è l'esecuzione.</strong></p>
+            <p>E nessun corso al mondo risolverà il problema dell'esecuzione... se il metodo resta lo stesso.</p>
+            <p><strong>Funnel Sprint AI rompe la ruota del criceto.</strong></p>
+            <p>Perché non ti chiede di IMPARARE a fare marketing.</p>
+            <p>Ti chiede di guardare ME che lo faccio con l'AI. E poi di REPLICARE il sistema sul tuo business.</p>
+            <p><strong>In un weekend. Non in 6 mesi.</strong></p>
           </div>
         </div>
-      </Section>
+      </section>
 
-      {/* SEZIONE 14 — CHIUSURA EMOTIVA */}
-      <Section bg="bg-bg-secondary">
-        <h2 className="text-2xl md:text-3xl font-bold mb-6">La scelta è tua.</h2>
-        <div className="text-left space-y-4 text-lg leading-relaxed mb-8">
-          <p>Puoi continuare come stai facendo adesso.</p>
-          <p>Comprare un altro corso da €997 che finirai nella cartella "da guardare".</p>
-          <p>Spendere altri €500 in ads che non convertono perché il copy è stato scritto "a sentimento".</p>
-          <p>Passare un altro weekend a fissare lo schermo vuoto, chiedendoti perché tutti gli altri sembrano riuscirci tranne te.</p>
+      {/* ===== 16. STORIA CONTINUATA ===== */}
+      <section className="bg-white py-12 md:py-16 px-4">
+        <div className="max-w-3xl mx-auto text-lg leading-relaxed space-y-5">
+          <h2 className="red-headline text-2xl md:text-3xl text-center mb-8">"Ho messo l'intero sistema in un corso..."</h2>
+          <p>Dopo aver visto i risultati di Marco, Luca, Alessandra, Federica e decine di altri...</p>
+          <p>...ho deciso di fare una cosa che i miei amici imprenditori mi hanno detto fosse stupida:</p>
+          <p><strong>Ho messo l'intero sistema in un corso da €17.</strong></p>
+          <p>"Sei pazzo," mi hanno detto. "Questo vale almeno €497. Perché lo regali?"</p>
+          <p>Perché il mio obiettivo non è fare soldi con un corso.</p>
+          <p>Il mio obiettivo è mettere questo sistema nelle mani del maggior numero possibile di imprenditori italiani.</p>
+          <p>Perché quando usi il sistema e vedi i risultati... vuoi andare più in profondità. Vuoi che ti aiuti a ottimizzare. Vuoi che riveda il tuo funnel. Vuoi il done-for-you.</p>
+          <p>E a quel punto, ci sono. Con servizi premium per chi vuole il livello successivo.</p>
+          <p>Ma il punto di partenza? <strong>€17.</strong> Perché chiunque deve poter accedere a questo sistema.</p>
+          <p>Anche il freelancer che sta iniziando.<br />Anche il coach che fa €2.000 al mese.<br />Anche lo studente che vuole lanciare il suo primo business.</p>
+          <p><strong>Nessuno dovrebbe rimanere bloccato davanti allo schermo vuoto nel 2026.</strong> L'AI ha reso tutto più facile — devi solo sapere come usarla.</p>
+          <p>E questo è ciò che ti insegno.</p>
         </div>
+      </section>
 
-        <hr className="border-gray-300 my-8" />
-
-        <div className="text-left space-y-4 text-lg leading-relaxed mb-8">
-          <p>Oppure.</p>
-          <p>Puoi investire €17 — meno di una pizza — e avere in un weekend quello che un'agenzia ti farebbe pagare €3.000.</p>
-          <p>Un team di 5 bot AI che lavorano PER TE.</p>
-          <p>Che migliorano OGNI VOLTA che li usi.</p>
-          <p>Che non vanno in ferie. Non chiedono aumenti. Non consegnano in ritardo.</p>
-          <p><strong>E che sono tuoi. Per sempre.</strong></p>
+      {/* ===== 17. CHIUSURA ===== */}
+      <section className="bg-[#FFF9E6] py-12 md:py-16 px-4">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="red-headline text-3xl md:text-4xl text-center mb-8">La scelta è tua.</h2>
+          <div className="text-lg leading-relaxed space-y-5">
+            <p>Puoi chiudere questa pagina.</p>
+            <p>Tornare al tuo schermo vuoto. Al tuo corso da €997 che non hai mai finito. Alle tue ads che non convertono. Al tuo marketing fatto "a sentimento".</p>
+            <p>E fra 6 mesi sarai esattamente dove sei adesso.</p>
+            <p className="text-xl font-bold">Oppure.</p>
+            <p>Puoi investire €17 — meno di una pizza e una birra — e avere in un weekend:</p>
+            <ul className="space-y-3">
+              {[
+                'Un sistema completo per generare TUTTO il tuo marketing con l\'AI',
+                '6 bot segreti che lavorano per te 24/7',
+                'Un metodo che migliora ogni volta che lo usi',
+                'La libertà di non dover più dipendere da agenzie, freelancer o corsi da migliaia di euro',
+              ].map((item, i) => (
+                <li key={i} className="flex items-start gap-2"><CheckCircle size={18} className="text-green-500 mt-0.5 shrink-0" /><span>{item}</span></li>
+              ))}
+            </ul>
+            <p>Fra 30 giorni sarai in uno di questi due posti:</p>
+            <p><strong>Posto A:</strong> Stessa frustrazione. Stesse pagine vuote. Stessi soldi buttati.</p>
+            <p><strong>Posto B:</strong> Un funnel completo. Ads che girano. Email che vendono. Una landing che converte. E bot che diventano più bravi ogni giorno.</p>
+            <p>La differenza?</p>
+            <p className="text-2xl font-extrabold text-red-600">€17 e un weekend.</p>
+            <p>E se non funziona? Hai la garanzia. Ti ridò i soldi. Zero rischi.</p>
+            <p>Ma non ci sarà bisogno. Lo sai già.</p>
+          </div>
+          <CtaButton text="SCELGO IL POSTO B — ACCEDO AL CORSO A €17" />
+          <p className="text-center text-sm text-gray-500 mt-2"><s>€97</s> → €17 · Accesso immediato · 6 bot segreti inclusi · Garanzia 30 giorni · Zero rischi</p>
         </div>
+      </section>
 
-        <hr className="border-gray-300 my-8" />
-
-        <div className="text-left space-y-4 text-lg leading-relaxed mb-8">
-          <p>Fra 30 giorni sarai in uno di questi due posti:</p>
-          <p><strong>Posto A:</strong> Esattamente dove sei adesso. Stesso schermo vuoto. Stesse ads che non convertono. Stessa frustrazione.</p>
-          <p><strong>Posto B:</strong> Con un sistema di marketing funzionante. Ads che girano. Email che vendono. Una landing page che converte. E bot che diventano più bravi ogni giorno.</p>
-          <p>La differenza tra i due posti?</p>
-          <p className="text-xl font-bold">€17 e un weekend.</p>
+      {/* ===== 18. FAQ ===== */}
+      <section className="bg-white py-12 md:py-16 px-4">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-10">Domande Frequenti</h2>
+          <div>
+            <FaqItem
+              q={'"Non sono un esperto di AI. Riesco a seguire il corso?"'}
+              a={'Sì, al 100%. Se sai usare WhatsApp e Google, sai usare questo sistema. Nel corso ti mostro tutto passo dopo passo con screen recording. Non lascio nulla al caso. Ogni clic, ogni passaggio, ogni prompt — lo vedi fare in diretta e lo replichi.'}
+            />
+            <FaqItem
+              q={'"Funziona nel mio settore?"'}
+              a={'Il sistema funziona per qualsiasi business che ha bisogno di marketing: infobusiness, e-commerce, servizi, consulenza, coaching, SaaS, freelancing, corsi online, agenzia. Il Business DNA è progettato per adattarsi a QUALSIASI nicchia — perché sei TU a personalizzarlo con le informazioni del tuo business specifico.'}
+            />
+            <FaqItem
+              q={'"Ma ChatGPT non scrive già copy gratis?"'}
+              a={'Certo. E il risultato è copy generico che suona come tutti gli altri. La differenza con i miei bot è che sono specializzati, alimentati con i TUOI dati e strutturati con framework di copywriting professionali. È la differenza tra chiedere a un passante indicazioni e avere un navigatore GPS che conosce ogni scorciatoia della tua città.'}
+            />
+            <FaqItem
+              q={'"€17 è troppo bello per essere vero. Dov\'è la fregatura?"'}
+              a={'Nessuna fregatura. Il prezzo basso è una scelta strategica: voglio che il maggior numero possibile di imprenditori acceda al sistema. Il mio business si regge sulla fiducia che costruisco con te oggi — e sui servizi premium che offro a chi vuole andare più in profondità. I €17 coprono le ads. Il vero valore per me è la relazione che inizia oggi.'}
+            />
+            <FaqItem
+              q={'"Quanto tempo serve per avere tutto pronto?"'}
+              a={'Il corso si guarda in 5-6 ore (puoi farlo in un weekend). Il Business DNA richiede 30-45 minuti. Ogni bot si configura in 10-15 minuti. Totale: un weekend per un sistema di marketing che usi per sempre.'}
+            />
+            <FaqItem
+              q={'"Su quali piattaforme funzionano i bot?"'}
+              a={'Su tre piattaforme: Poe.com, ChatGPT e Claude. Scegli quella che preferisci — o usale tutte e tre. I bot funzionano con i piani gratuiti. Per un uso intenso, un piano a pagamento (~€20/mese) ti dà accesso illimitato, ma non è obbligatorio per iniziare.'}
+            />
+            <FaqItem
+              q={'"E se non funziona per me?"'}
+              a={'Hai 30 giorni di garanzia completa. Se non sei soddisfatto per qualsiasi motivo — anche se hai semplicemente cambiato idea — ti rimborso ogni centesimo. Una email e basta. Il rischio è zero.'}
+            />
+            <FaqItem
+              q={'"In cosa è diverso dai mille corsi di marketing che esistono?"'}
+              a={'I corsi ti insegnano la teoria. Funnel Sprint AI ti fa VEDERE come faccio io — e poi ti dà gli strumenti per replicare tutto. Non impari a scrivere copy: hai un bot che lo scrive. Non studi le ads: hai un bot che le genera. E soprattutto: il sistema migliora con l\'uso grazie al Self-Improving System. Nessun corso in Italia offre questo.'}
+            />
+          </div>
+          <CtaButton text="INIZIA ORA — ACCEDI AL CORSO A €17" className="mt-8" />
         </div>
+      </section>
 
-        <CtaButton
-          text="SCELGO IL POSTO B — DAMMI I MIEI 5 BOT AI"
-          subtext="€97 → €17 · Accesso immediato · Garanzia 30 giorni · Zero rischi"
-        />
-      </Section>
+      {/* ===== 19. FOOTER ===== */}
+      <footer className="bg-gray-900 text-gray-400 text-center py-8 px-4 text-sm">
+        <p className="mb-2">Funnel Sprint AI — Il primo corso in Italia che ti mostra come generare tutto il tuo marketing con l'AI.</p>
+        <p className="mb-2">Con 6 Bot Segreti inclusi come bonus.</p>
+        <p>&copy; 2026 — Tutti i diritti riservati.</p>
+      </footer>
 
-      {/* SEZIONE 15 — FAQ */}
-      <Section>
-        <h2 className="text-2xl md:text-3xl font-bold mb-8">Domande Frequenti</h2>
-        <div className="space-y-3">
-          {faqs.map((faq, i) => (
-            <FaqItem key={i} question={faq.q} answer={faq.a} />
-          ))}
-        </div>
-      </Section>
-
-      {/* SEZIONE 16 — CTA FINALE */}
-      <Section bg="bg-bg-accent">
-        <CtaButton
-          text="INIZIA ORA — €17 · ACCESSO IMMEDIATO"
-          subtext=""
-        />
-        <p className="mt-6 text-sm text-text-secondary italic text-center">
-          Funnel Sprint AI — Il primo sistema AI italiano che ti dà un team marketing completo in 5 bot.
-        </p>
-        <p className="mt-2 text-xs text-text-secondary text-center">© 2026 — Tutti i diritti riservati.</p>
-      </Section>
-    </main>
+      {/* Overlays */}
+      <StickyCta />
+      <SocialProofTicker />
+      <ExitIntentPopup />
+    </div>
   )
 }
