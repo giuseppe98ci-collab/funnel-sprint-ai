@@ -1,10 +1,14 @@
+import { CheckCircle } from 'lucide-react'
+
 export default function ThankYouPage() {
   return (
     <main className="min-h-screen bg-bg-primary">
       {/* Header */}
       <section className="bg-bg-accent px-5 py-16 md:py-24 text-center">
         <div className="max-w-[800px] mx-auto">
-          <div className="text-5xl mb-6">🎉</div>
+          <div className="flex justify-center mb-6">
+            <CheckCircle className="w-14 h-14 text-success" />
+          </div>
           <h1 className="text-3xl md:text-4xl font-black text-text-primary mb-4">
             Congratulazioni! Il Tuo Acquisto È Confermato.
           </h1>
@@ -17,7 +21,7 @@ export default function ThankYouPage() {
       {/* Accesso */}
       <section className="px-5 py-16 md:py-20">
         <div className="max-w-[800px] mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold mb-8 text-center">Ecco i prossimi step:</h2>
+          <h2 className="text-2xl md:text-3xl font-bold mb-8">Ecco i prossimi step:</h2>
 
           <div className="space-y-4 mb-12">
             {[

@@ -1,6 +1,13 @@
 import CtaButton from '../components/CtaButton'
 import Testimonial from '../components/Testimonial'
 import FaqItem from '../components/FaqItem'
+import {
+  Search, BarChart3, FileText, PenTool, Megaphone, Target,
+  Mail, Send, Layout, Monitor, Palette, Image,
+  Check, CheckCircle, X, XCircle, DollarSign, TrendingUp,
+  Shield, ShieldCheck, Clock, Timer, Star,
+  ClipboardList, Bot, RefreshCw, Zap, Lock
+} from 'lucide-react'
 
 const Section = ({ bg = 'bg-bg-primary', children, className = '' }) => (
   <section className={`${bg} px-5 py-16 md:py-24 ${className}`}>
@@ -43,23 +50,80 @@ const faqs = [
   },
 ]
 
+/* Bot card with mockup image */
+function BotCard({ icon: Icon, name, desc, mockup }) {
+  return (
+    <div className="bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+      <div className="flex flex-col md:flex-row">
+        {mockup && (
+          <div className="md:w-2/5 shrink-0 bg-bg-secondary flex items-center justify-center p-4">
+            <img src={mockup} alt={name} className="w-full max-w-[240px] rounded-xl" />
+          </div>
+        )}
+        <div className="flex-1 p-5 md:p-6 flex gap-4 items-start">
+          <div className="w-10 h-10 rounded-lg bg-bg-accent flex items-center justify-center shrink-0">
+            <Icon className="w-5 h-5 text-accent" />
+          </div>
+          <div>
+            <p className="font-bold text-text-primary">{name}</p>
+            <p className="text-sm text-text-secondary mt-1">{desc}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* Stack item card with optional mockup */
+function StackCard({ icon: Icon, title, desc, value, mockup }) {
+  return (
+    <div className="bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+      <div className="flex flex-col md:flex-row">
+        {mockup && (
+          <div className="md:w-2/5 shrink-0 bg-bg-secondary flex items-center justify-center p-4">
+            <img src={mockup} alt={title} className="w-full max-w-[240px] rounded-xl" />
+          </div>
+        )}
+        <div className="flex-1 p-5 md:p-6 flex gap-4 items-start text-left">
+          <div className="w-10 h-10 rounded-lg bg-bg-accent flex items-center justify-center shrink-0">
+            <Icon className="w-5 h-5 text-accent" />
+          </div>
+          <div className="flex-1">
+            <p className="font-bold text-text-primary mb-1">{title}</p>
+            <p className="text-sm text-text-secondary">{desc}</p>
+          </div>
+          <span className="font-bold text-accent shrink-0">{value}</span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function SalesPage() {
   return (
     <main className="min-h-screen">
       {/* SEZIONE 1 — HERO */}
       <Section bg="bg-bg-accent">
-        <p className="text-text-secondary text-base md:text-lg mb-4">
+        <p className="text-text-secondary text-base md:text-lg mb-4 text-center">
           Per marketer e imprenditori digitali che sono stanchi di pagare corsi, agenzie e freelancer... senza risultati.
         </p>
         <h1 className="text-3xl md:text-5xl font-black leading-tight mb-6 text-text-primary">
           Crea il Tuo Team di 5 Bot AI Che Scrivono Ads, Landing Page, Email e VSL al Posto Tuo — E Che Diventano Più Bravi Ogni Volta Che Li Usi
         </h1>
-        <p className="text-lg md:text-xl text-text-secondary mb-8 leading-relaxed">
+        <p className="text-lg md:text-xl text-text-secondary mb-8 leading-relaxed text-center">
           Non devi diventare copywriter. Non devi studiare marketing per 6 mesi. Ti basta compilare UN documento sul tuo business — e i 5 bot fanno tutto il resto. Per sempre. A €17.
         </p>
-        <p className="text-sm md:text-base text-text-secondary mb-8">
-          ⚡ Setup in un weekend · 🔄 Si auto-migliorano con i tuoi risultati · 💰 Meno di una pizza e una birra
-        </p>
+
+        {/* Hero mockup */}
+        <div className="flex justify-center mb-8">
+          <img src="/mockup-main.png" alt="Funnel Sprint AI" className="w-full max-w-[480px] rounded-2xl shadow-lg" />
+        </div>
+
+        <div className="flex flex-wrap justify-center gap-4 md:gap-6 text-sm md:text-base text-text-secondary mb-8">
+          <span className="flex items-center gap-1.5"><Zap className="w-4 h-4 text-accent" /> Setup in un weekend</span>
+          <span className="flex items-center gap-1.5"><RefreshCw className="w-4 h-4 text-accent" /> Si auto-migliorano con i tuoi risultati</span>
+          <span className="flex items-center gap-1.5"><DollarSign className="w-4 h-4 text-accent" /> Meno di una pizza e una birra</span>
+        </div>
         <CtaButton
           text="SÌ, VOGLIO I MIEI 5 BOT AI A €17"
           subtext="Garanzia 30 giorni soddisfatto o rimborsato — zero rischi."
@@ -69,12 +133,17 @@ export default function SalesPage() {
       {/* SEZIONE 2 — SOCIAL PROOF BAR */}
       <section className="bg-white border-y border-gray-200 px-5 py-6">
         <div className="max-w-[800px] mx-auto text-center">
-          <p className="text-yellow-500 font-bold mb-3">⭐⭐⭐⭐⭐ <span className="text-text-primary">4.8/5</span> da 127+ recensioni</p>
+          <p className="font-bold mb-3 flex items-center justify-center gap-1.5">
+            <span className="flex gap-0.5 text-yellow-500">
+              {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 fill-current" />)}
+            </span>
+            <span className="text-text-primary ml-2">4.8/5</span> <span className="text-text-secondary font-normal">da 127+ recensioni</span>
+          </p>
           <div className="flex flex-wrap justify-center gap-4 md:gap-8 text-sm text-text-secondary">
-            <span>📊 Oltre 340 bot creati</span>
-            <span>🇮🇹 100% in italiano</span>
-            <span>🔄 Sistema auto-migliorante</span>
-            <span>⏱️ Setup in 1 weekend</span>
+            <span className="flex items-center gap-1.5"><BarChart3 className="w-4 h-4 text-accent" /> Oltre 340 bot creati</span>
+            <span className="flex items-center gap-1.5"><Target className="w-4 h-4 text-accent" /> 100% in italiano</span>
+            <span className="flex items-center gap-1.5"><RefreshCw className="w-4 h-4 text-accent" /> Sistema auto-migliorante</span>
+            <span className="flex items-center gap-1.5"><Clock className="w-4 h-4 text-accent" /> Setup in 1 weekend</span>
           </div>
         </div>
       </section>
@@ -90,7 +159,9 @@ export default function SalesPage() {
             '"Non sono un copywriter. Non so scrivere copy che converte."',
             '"Devo fare TUTTO da solo e non ho tempo neanche per respirare."',
           ].map((t, i) => (
-            <p key={i} className="text-danger font-medium text-lg">❌ <em>{t}</em></p>
+            <p key={i} className="text-danger font-medium text-lg flex items-start gap-2">
+              <XCircle className="w-5 h-5 shrink-0 mt-1" /> <em>{t}</em>
+            </p>
           ))}
         </div>
         <p className="text-lg mb-4">Se ti sei riconosciuto in anche solo UNA di queste...</p>
@@ -137,11 +208,11 @@ export default function SalesPage() {
           <p className="font-bold text-xl">Il risultato?</p>
           <p>In un weekend avevo:</p>
           <ul className="space-y-2 ml-2">
-            <li className="text-success">✅ Una ricerca di mercato completa</li>
-            <li className="text-success">✅ 10 varianti di ads pronte</li>
-            <li className="text-success">✅ Il copy della landing page</li>
-            <li className="text-success">✅ Una sequenza email di 5 messaggi</li>
-            <li className="text-success">✅ Lo script per la VSL</li>
+            <li className="text-success flex items-center gap-2"><CheckCircle className="w-5 h-5 shrink-0" /> Una ricerca di mercato completa</li>
+            <li className="text-success flex items-center gap-2"><CheckCircle className="w-5 h-5 shrink-0" /> 10 varianti di ads pronte</li>
+            <li className="text-success flex items-center gap-2"><CheckCircle className="w-5 h-5 shrink-0" /> Il copy della landing page</li>
+            <li className="text-success flex items-center gap-2"><CheckCircle className="w-5 h-5 shrink-0" /> Una sequenza email di 5 messaggi</li>
+            <li className="text-success flex items-center gap-2"><CheckCircle className="w-5 h-5 shrink-0" /> Lo script per la VSL</li>
           </ul>
           <p>Materiale che un'agenzia mi avrebbe fatto pagare <strong>€3.000-5.000</strong>.</p>
           <p>Ma la vera svolta non è stata questa.</p>
@@ -159,11 +230,13 @@ export default function SalesPage() {
           <p><strong>È un sistema di 5 bot AI specializzati che lavorano insieme — e che diventano più bravi ogni volta che li usi.</strong></p>
         </div>
 
-        <h3 className="text-xl md:text-2xl font-bold mb-8 text-center">Come funziona (in 3 step):</h3>
+        <h3 className="text-xl md:text-2xl font-bold mb-8">Come funziona (in 3 step):</h3>
 
         {/* Step 1 */}
         <div className="bg-bg-accent rounded-2xl p-6 md:p-8 mb-6 text-left">
-          <p className="text-2xl mb-2">📋</p>
+          <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center mb-3">
+            <ClipboardList className="w-5 h-5 text-accent" />
+          </div>
           <h4 className="font-bold text-xl mb-3">STEP 1: Compili il Business DNA</h4>
           <p className="text-text-secondary mb-2">Un documento guidato dove inserisci tutto ciò che i bot devono sapere sul tuo business: chi sei, cosa vendi, chi è il tuo cliente ideale, quali problemi risolvi.</p>
           <p className="text-sm text-text-secondary italic">Tempo: 30-45 minuti. Lo fai una volta.</p>
@@ -171,25 +244,17 @@ export default function SalesPage() {
 
         {/* Step 2 */}
         <div className="bg-bg-accent rounded-2xl p-6 md:p-8 mb-6 text-left">
-          <p className="text-2xl mb-2">🤖</p>
+          <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center mb-3">
+            <Bot className="w-5 h-5 text-accent" />
+          </div>
           <h4 className="font-bold text-xl mb-4">STEP 2: Attivi i 5 Bot</h4>
           <p className="text-text-secondary mb-4">Ogni bot è specializzato in UNA funzione marketing:</p>
           <div className="space-y-4">
-            {[
-              { n: '1', icon: '🔍', name: 'Bot Analisi Mercato', desc: 'Inserisci la nicchia → ricevi ricerca completa: avatar, competitor, angoli di vendita, parole esatte del tuo target' },
-              { n: '2', icon: '📝', name: 'Bot VSL Writer', desc: 'Dagli le info → scrive lo script VSL completo (struttura Paganelli/Georgi)' },
-              { n: '3', icon: '📣', name: 'Bot Ads Creator', desc: 'Genera 5-10 varianti di copy ads per Facebook e Instagram — hook, body, headline, description' },
-              { n: '4', icon: '📧', name: 'Bot Email Sequences', desc: 'Scrive sequenze email complete: welcome, nurture, vendita, post-acquisto' },
-              { n: '5', icon: '🖥️', name: 'Bot Landing Page', desc: "Genera il copy completo della landing/sales page — dall'hero alla chiusura" },
-            ].map((bot) => (
-              <div key={bot.n} className="flex gap-4 items-start bg-white rounded-xl p-4 border border-gray-200">
-                <span className="text-2xl">{bot.icon}</span>
-                <div>
-                  <p className="font-bold text-text-primary">{bot.name}</p>
-                  <p className="text-sm text-text-secondary">{bot.desc}</p>
-                </div>
-              </div>
-            ))}
+            <BotCard icon={Search} name="Bot Analisi Mercato" desc="Inserisci la nicchia → ricevi ricerca completa: avatar, competitor, angoli di vendita, parole esatte del tuo target" mockup="/mockup-analisi-mercato.png" />
+            <BotCard icon={FileText} name="Bot VSL Writer" desc="Dagli le info → scrive lo script VSL completo (struttura Paganelli/Georgi)" mockup="/mockup-vsl-writer.png" />
+            <BotCard icon={Megaphone} name="Bot Ads Creator" desc="Genera 5-10 varianti di copy ads per Facebook e Instagram — hook, body, headline, description" mockup="/mockup-ads-creator.png" />
+            <BotCard icon={Mail} name="Bot Email Sequences" desc="Scrive sequenze email complete: welcome, nurture, vendita, post-acquisto" mockup="/mockup-email-sequences.png" />
+            <BotCard icon={Layout} name="Bot Landing Page" desc="Genera il copy completo della landing/sales page — dall'hero alla chiusura" mockup="/mockup-landing-copy.png" />
           </div>
           <p className="mt-4 text-text-secondary">
             Ogni bot alimenta il successivo. Come <strong>scatole cinesi</strong>: la ricerca di mercato diventa il fondamento del copy. Il copy delle ads riflette la landing. Le email riprendono la VSL.
@@ -199,7 +264,9 @@ export default function SalesPage() {
 
         {/* Step 3 */}
         <div className="bg-bg-accent rounded-2xl p-6 md:p-8 mb-8 text-left">
-          <p className="text-2xl mb-2">🔄</p>
+          <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center mb-3">
+            <RefreshCw className="w-5 h-5 text-accent" />
+          </div>
           <h4 className="font-bold text-xl mb-3">STEP 3: Il Feedback Loop (La Magia)</h4>
           <p className="text-text-secondary mb-4">Ecco dove il sistema diventa <strong>imbattibile</strong>.</p>
           <p className="text-text-secondary mb-2">Lanci le ads. Qualcosa funziona — un hook, un'email, un angolo.</p>
@@ -235,12 +302,12 @@ export default function SalesPage() {
 
       {/* SEZIONE 6 — TABELLA CONFRONTO */}
       <Section bg="bg-bg-secondary">
-        <h2 className="text-2xl md:text-3xl font-bold mb-8">❌ Il Metodo Vecchio vs ✅ Funnel Sprint AI</h2>
+        <h2 className="text-2xl md:text-3xl font-bold mb-8">Il Metodo Vecchio vs Funnel Sprint AI</h2>
         <div className="overflow-x-auto">
           <div className="md:grid md:grid-cols-2 gap-6 space-y-6 md:space-y-0">
             {/* Colonna Vecchio */}
             <div className="bg-red-50 border border-red-200 rounded-2xl p-6">
-              <h3 className="text-danger font-bold text-xl mb-4">❌ Come Facevi Prima</h3>
+              <h3 className="text-danger font-bold text-xl mb-4 flex items-center justify-center gap-2"><XCircle className="w-6 h-6" /> Come Facevi Prima</h3>
               <ul className="space-y-3 text-left text-text-secondary">
                 <li>Fissi lo schermo vuoto per ore</li>
                 <li>Copi le ads degli altri (che non funzionano per te)</li>
@@ -254,7 +321,7 @@ export default function SalesPage() {
             </div>
             {/* Colonna Nuovo */}
             <div className="bg-green-50 border border-green-200 rounded-2xl p-6">
-              <h3 className="text-success font-bold text-xl mb-4">✅ Con Funnel Sprint AI</h3>
+              <h3 className="text-success font-bold text-xl mb-4 flex items-center justify-center gap-2"><CheckCircle className="w-6 h-6" /> Con Funnel Sprint AI</h3>
               <ul className="space-y-3 text-left text-text-secondary">
                 <li>Il bot scrive in 3 minuti</li>
                 <li>Il bot crea varianti personalizzate sul TUO business</li>
@@ -272,27 +339,22 @@ export default function SalesPage() {
 
       {/* SEZIONE 7 — STACK OFFERTA */}
       <Section>
-        <h2 className="text-2xl md:text-3xl font-bold mb-10">Ecco tutto quello che ricevi oggi con Funnel Sprint AI:</h2>
+        <h2 className="text-2xl md:text-3xl font-bold mb-4">Ecco tutto quello che ricevi oggi con Funnel Sprint AI:</h2>
+
+        {/* Main mockup in offer section */}
+        <div className="flex justify-center mb-10">
+          <img src="/mockup-main.png" alt="Funnel Sprint AI — Il sistema completo" className="w-full max-w-[480px] rounded-2xl shadow-lg" />
+        </div>
+
         <div className="space-y-4 mb-10">
-          {[
-            { icon: '📦', title: 'MODULO 1 — Bot Analisi Mercato', desc: 'Setup completo + prompt + tutorial. Inserisci la nicchia, ricevi: avatar dettagliato, mappa competitor, angoli di vendita, linguaggio esatto del target.', value: '€97' },
-            { icon: '📦', title: 'MODULO 2 — Bot VSL Writer', desc: 'Crea script VSL completi con struttura professionale (8 blocchi). Basta dargli il Business DNA e la ricerca di mercato.', value: '€147' },
-            { icon: '📦', title: 'MODULO 3 — Bot Ads Creator', desc: 'Genera 5-10 varianti di copy ads per Facebook e Instagram. Hook, body, headline, description. Pronti da lanciare.', value: '€127' },
-            { icon: '📦', title: 'MODULO 4 — Bot Email Sequences', desc: 'Scrive sequenze email complete: welcome, soap opera, vendita, post-acquisto. Con subject line, preview text e timing.', value: '€97' },
-            { icon: '📦', title: 'MODULO 5 — Bot Landing Page Copy', desc: "Genera il copy completo della sales page o landing page. Dall'headline alla chiusura, incluse FAQ e garanzia.", value: '€127' },
-            { icon: '🎁', title: 'BONUS — Il Business DNA (Template Guidato)', desc: 'Il documento fondamentale che alimenta TUTTI i bot. Compilalo una volta, usalo per sempre. Include domande guidate per estrarre il posizionamento unico del tuo business.', value: '€47' },
-            { icon: '🎁', title: 'BONUS — Il Metodo Feedback Loop', desc: 'La guida step-by-step per trasformare i tuoi bot in un sistema auto-migliorante. Come salvare i file vincenti, come aggiornare le reference, come far crescere il sistema nel tempo.', value: '€67' },
-            { icon: '🎁', title: 'BONUS — Setup Multi-Piattaforma', desc: 'Tutorial per configurare i bot su Poe, ChatGPT E Claude. Scegli la piattaforma che preferisci — o usale tutte e tre.', value: '€47' },
-          ].map((item, i) => (
-            <div key={i} className="bg-white border border-gray-200 rounded-xl p-5 md:p-6 flex gap-4 items-start text-left shadow-sm">
-              <span className="text-2xl shrink-0">{item.icon}</span>
-              <div className="flex-1">
-                <p className="font-bold text-text-primary mb-1">{item.title}</p>
-                <p className="text-sm text-text-secondary">{item.desc}</p>
-              </div>
-              <span className="font-bold text-accent shrink-0">{item.value}</span>
-            </div>
-          ))}
+          <StackCard icon={Search} title="MODULO 1 — Bot Analisi Mercato" desc="Setup completo + prompt + tutorial. Inserisci la nicchia, ricevi: avatar dettagliato, mappa competitor, angoli di vendita, linguaggio esatto del target." value="€97" mockup="/mockup-analisi-mercato.png" />
+          <StackCard icon={FileText} title="MODULO 2 — Bot VSL Writer" desc="Crea script VSL completi con struttura professionale (8 blocchi). Basta dargli il Business DNA e la ricerca di mercato." value="€147" mockup="/mockup-vsl-writer.png" />
+          <StackCard icon={Megaphone} title="MODULO 3 — Bot Ads Creator" desc="Genera 5-10 varianti di copy ads per Facebook e Instagram. Hook, body, headline, description. Pronti da lanciare." value="€127" mockup="/mockup-ads-creator.png" />
+          <StackCard icon={Mail} title="MODULO 4 — Bot Email Sequences" desc="Scrive sequenze email complete: welcome, soap opera, vendita, post-acquisto. Con subject line, preview text e timing." value="€97" mockup="/mockup-email-sequences.png" />
+          <StackCard icon={Layout} title="MODULO 5 — Bot Landing Page Copy" desc="Genera il copy completo della sales page o landing page. Dall'headline alla chiusura, incluse FAQ e garanzia." value="€127" mockup="/mockup-landing-copy.png" />
+          <StackCard icon={ClipboardList} title="BONUS — Il Business DNA (Template Guidato)" desc="Il documento fondamentale che alimenta TUTTI i bot. Compilalo una volta, usalo per sempre. Include domande guidate per estrarre il posizionamento unico del tuo business." value="€47" />
+          <StackCard icon={RefreshCw} title="BONUS — Il Metodo Feedback Loop" desc="La guida step-by-step per trasformare i tuoi bot in un sistema auto-migliorante. Come salvare i file vincenti, come aggiornare le reference, come far crescere il sistema nel tempo." value="€67" />
+          <StackCard icon={Monitor} title="BONUS — Setup Multi-Piattaforma" desc="Tutorial per configurare i bot su Poe, ChatGPT E Claude. Scegli la piattaforma che preferisci — o usale tutte e tre." value="€47" />
         </div>
 
         {/* Totale */}
@@ -336,7 +398,7 @@ export default function SalesPage() {
 
         <CtaButton
           text="SÌ, VOGLIO FUNNEL SPRINT AI A €17"
-          subtext="🔒 Pagamento sicuro con Stripe · Accesso immediato · Garanzia 30 giorni"
+          subtext="Pagamento sicuro con Stripe · Accesso immediato · Garanzia 30 giorni"
         />
       </Section>
 
@@ -355,7 +417,7 @@ export default function SalesPage() {
             <><strong>Smettere di procrastinare</strong> — perché il bot elimina il blocco dello "schermo vuoto"</>,
             <><strong>Lanciare in un weekend</strong> quello che prima ti avrebbe richiesto settimane o mesi</>,
           ].map((item, i) => (
-            <p key={i} className="text-success">✅ {item}</p>
+            <p key={i} className="text-success flex items-start gap-2"><CheckCircle className="w-5 h-5 shrink-0 mt-1" /> {item}</p>
           ))}
         </div>
       </Section>
@@ -393,19 +455,26 @@ export default function SalesPage() {
 
       {/* SEZIONE 10 — BUMP OFFER */}
       <Section bg="bg-bg-secondary">
-        <h2 className="text-2xl md:text-3xl font-bold mb-2">🎨 AGGIUNGI: Bot Creativo Gemini + Reference Pack (+ €40)</h2>
-        <p className="text-lg font-bold mb-6">Hai i bot per il copy. Ora aggiungi il bot per la GRAFICA.</p>
-        <div className="bg-white border border-gray-200 rounded-2xl p-6 md:p-8 text-left mb-6">
-          <p className="text-lg mb-4">Con il Bot Creativo Gemini puoi:</p>
-          <ul className="space-y-3 text-text-secondary">
-            <li>🎨 Creare <strong>statiche ads professionali</strong> in 2 minuti (senza Canva, senza designer)</li>
-            <li>📸 Usare <strong>10-20 reference di design reali</strong> come esempi per Gemini</li>
-            <li>✍️ Avere <strong>copy per le statiche</strong> — headline, CTA, layout per ogni formato</li>
-            <li>📐 Ricevere <strong>template formati</strong> — dimensioni, colori, layout ottimizzati per IG e FB</li>
-          </ul>
-          <blockquote className="border-l-4 border-accent pl-4 py-2 mt-6 text-text-secondary italic">
-            "Il 90% delle ads che vedi su Facebook sono brutte. Con questo bot, le tue sembreranno fatte da un designer professionista. In 2 minuti."
-          </blockquote>
+        <h2 className="text-2xl md:text-3xl font-bold mb-2">AGGIUNGI: Bot Creativo Gemini + Reference Pack (+ €40)</h2>
+        <p className="text-lg font-bold mb-6 text-center">Hai i bot per il copy. Ora aggiungi il bot per la GRAFICA.</p>
+        <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden mb-6">
+          <div className="flex flex-col md:flex-row">
+            <div className="md:w-2/5 shrink-0 bg-bg-accent flex items-center justify-center p-4">
+              <img src="/mockup-creativo-gemini.png" alt="Bot Creativo Gemini" className="w-full max-w-[240px] rounded-xl" />
+            </div>
+            <div className="flex-1 p-6 md:p-8 text-left">
+              <p className="text-lg mb-4">Con il Bot Creativo Gemini puoi:</p>
+              <ul className="space-y-3 text-text-secondary">
+                <li className="flex items-start gap-2"><Palette className="w-5 h-5 shrink-0 mt-0.5 text-accent" /> Creare <strong>statiche ads professionali</strong> in 2 minuti (senza Canva, senza designer)</li>
+                <li className="flex items-start gap-2"><Image className="w-5 h-5 shrink-0 mt-0.5 text-accent" /> Usare <strong>10-20 reference di design reali</strong> come esempi per Gemini</li>
+                <li className="flex items-start gap-2"><PenTool className="w-5 h-5 shrink-0 mt-0.5 text-accent" /> Avere <strong>copy per le statiche</strong> — headline, CTA, layout per ogni formato</li>
+                <li className="flex items-start gap-2"><Layout className="w-5 h-5 shrink-0 mt-0.5 text-accent" /> Ricevere <strong>template formati</strong> — dimensioni, colori, layout ottimizzati per IG e FB</li>
+              </ul>
+              <blockquote className="border-l-4 border-accent pl-4 py-2 mt-6 text-text-secondary italic">
+                "Il 90% delle ads che vedi su Facebook sono brutte. Con questo bot, le tue sembreranno fatte da un designer professionista. In 2 minuti."
+              </blockquote>
+            </div>
+          </div>
         </div>
         <label className="flex items-center gap-3 bg-price-badge border-2 border-yellow-400 rounded-xl p-5 cursor-pointer text-left">
           <input type="checkbox" className="w-5 h-5 accent-cta-primary" />
@@ -416,7 +485,7 @@ export default function SalesPage() {
       {/* SEZIONE 11 — PREZZO + CTA */}
       <Section>
         <h2 className="text-2xl md:text-3xl font-bold mb-6">La domanda non è "posso permettermelo?"</h2>
-        <p className="text-xl font-bold mb-8">La domanda è: <em>"Posso permettermi di NON averlo?"</em></p>
+        <p className="text-xl font-bold mb-8 text-center">La domanda è: <em>"Posso permettermi di NON averlo?"</em></p>
 
         <p className="text-lg mb-4">Pensa a quanto stai spendendo ADESSO:</p>
         <div className="bg-bg-secondary rounded-2xl p-6 mb-8 text-left">
@@ -450,7 +519,7 @@ export default function SalesPage() {
 
         <CtaButton
           text="VOGLIO IL MIO TEAM AI A €17 — ACCESSO IMMEDIATO"
-          subtext="🔒 Pagamento sicuro · Accesso istantaneo · Garanzia 30 giorni · Nessun abbonamento"
+          subtext="Pagamento sicuro · Accesso istantaneo · Garanzia 30 giorni · Nessun abbonamento"
         />
       </Section>
 
@@ -471,7 +540,9 @@ export default function SalesPage() {
       {/* SEZIONE 13 — GARANZIA */}
       <Section>
         <div className="bg-white border-2 border-green-300 rounded-2xl p-8 md:p-10">
-          <div className="text-4xl mb-4">🛡️</div>
+          <div className="flex justify-center mb-4">
+            <ShieldCheck className="w-12 h-12 text-success" />
+          </div>
           <h2 className="text-2xl md:text-3xl font-bold mb-6">Garanzia "Zero Scuse" — 30 Giorni</h2>
           <div className="text-left space-y-4 text-lg leading-relaxed">
             <p>Ecco il deal:</p>
@@ -542,10 +613,10 @@ export default function SalesPage() {
           text="INIZIA ORA — €17 · ACCESSO IMMEDIATO"
           subtext=""
         />
-        <p className="mt-6 text-sm text-text-secondary italic">
+        <p className="mt-6 text-sm text-text-secondary italic text-center">
           Funnel Sprint AI — Il primo sistema AI italiano che ti dà un team marketing completo in 5 bot.
         </p>
-        <p className="mt-2 text-xs text-text-secondary">© 2026 — Tutti i diritti riservati.</p>
+        <p className="mt-2 text-xs text-text-secondary text-center">© 2026 — Tutti i diritti riservati.</p>
       </Section>
     </main>
   )
