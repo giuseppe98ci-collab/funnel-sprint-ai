@@ -313,6 +313,57 @@ function FaqItem({ q, a }) {
   )
 }
 
+/* ===== VIDEO TESTIMONIALS ===== */
+const VIDEO_TESTIMONIALS = [
+  { img: '/testimonial-christian.png', name: 'Christian Fantuzzi', video: 'https://assets.cdn.filesafe.space/6600KjjI4Q4k8ICFPzFC/media/67b200ec70fcfe564b249979.mp4' },
+  { img: '/testimonial-don-forex.png', name: 'Don Forex (Luigi Boadi)', video: 'https://assets.cdn.filesafe.space/6600KjjI4Q4k8ICFPzFC/media/67b2007811feb9f58bd24eb3.mp4' },
+  { img: '/testimonial-nick.png', name: 'Nick Parodi', video: 'https://assets.cdn.filesafe.space/6600KjjI4Q4k8ICFPzFC/media/67b1dcba70fcfe01bc248144.mp4' },
+]
+
+function VideoCard({ img, name, video }) {
+  const [playing, setPlaying] = useState(false)
+  return (
+    <div>
+      <div className="relative rounded-xl overflow-hidden shadow-lg cursor-pointer" onClick={() => setPlaying(true)}>
+        {!playing ? (
+          <>
+            <img src={img} alt={`Testimonial ${name}`} className="w-full aspect-video object-cover" loading="lazy" />
+            <div className="absolute inset-0 bg-black/20 flex items-center justify-center hover:bg-black/30 transition-colors">
+              <div className="w-14 h-14 bg-white/90 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
+                <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6 ml-1"><path d="M8 5v14l11-7L8 5z" fill="#DC2626"/></svg>
+              </div>
+            </div>
+          </>
+        ) : (
+          <video
+            src={video}
+            controls
+            autoPlay
+            playsInline
+            className="w-full aspect-video bg-black"
+          />
+        )}
+      </div>
+      <p className="text-center text-sm font-semibold text-gray-700 mt-2">{name}</p>
+    </div>
+  )
+}
+
+function VideoTestimonials() {
+  return (
+    <section className="bg-white py-12 md:py-16 px-4">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="red-headline text-3xl md:text-4xl text-center mb-10">
+          Ascolta chi l'ha già provato:
+        </h2>
+        <div className="grid md:grid-cols-3 gap-6">
+          {VIDEO_TESTIMONIALS.map((t, i) => <VideoCard key={i} {...t} />)}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 /* ===== FLOWCHART SECTION ===== */
 function FlowchartSection() {
   return (
@@ -766,32 +817,7 @@ export default function SalesPage() {
       </section>
 
       {/* ===== 9B. VIDEO TESTIMONIALS ===== */}
-      <section className="bg-white py-12 md:py-16 px-4">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="red-headline text-3xl md:text-4xl text-center mb-10">
-            Ascolta chi l'ha già provato:
-          </h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              { img: '/testimonial-christian.png', name: 'Christian Fantuzzi' },
-              { img: '/testimonial-don-forex.png', name: 'Don Forex (Luigi Boadi)' },
-              { img: '/testimonial-nick.png', name: 'Nick Parodi' },
-            ].map(({ img, name }, i) => (
-              <div key={i} className="group cursor-pointer">
-                <div className="relative rounded-xl overflow-hidden shadow-lg">
-                  <img src={img} alt={`Testimonial ${name}`} className="w-full aspect-video object-cover" loading="lazy" />
-                  <div className="absolute inset-0 bg-black/20 flex items-center justify-center group-hover:bg-black/30 transition-colors">
-                    <div className="w-14 h-14 bg-white/90 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                      <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6 ml-1"><path d="M8 5v14l11-7L8 5z" fill="#DC2626"/></svg>
-                    </div>
-                  </div>
-                </div>
-                <p className="text-center text-sm font-semibold text-gray-700 mt-2">{name}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <VideoTestimonials />
 
       {/* ===== 10. TRUSTPILOT CARDS ===== */}
       <section className="bg-[#FFF9E6] py-12 md:py-16 px-4">
