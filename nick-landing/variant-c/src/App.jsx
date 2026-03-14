@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Users, BarChart3, Wallet, Target, CheckCircle, Send, Radio, TrendingUp, Zap } from 'lucide-react'
 import { trackCTA } from './posthog.js'
 
-const CTA_LINK = 'https://t.me/+xm4vsqS5IwdkYWRk'
+const CTA_LINK = 'https://t.me/m/JeiB1gJsNTZk'
 const VARIANT = 'c'
 
 const FOMO_NAMES = [
