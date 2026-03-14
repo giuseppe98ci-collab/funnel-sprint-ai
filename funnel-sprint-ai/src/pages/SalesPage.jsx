@@ -728,7 +728,7 @@ export default function SalesPage() {
           <h2 className="red-headline text-3xl md:text-4xl text-center mb-8">Chi c'è dietro questo corso?</h2>
           <p className="text-lg text-center mb-8 text-gray-700">Mi chiamo <strong>Giuseppe</strong>. E no — non sono un guru del marketing con il Lamborghini a noleggio. Sono un imprenditore digitale che ha trovato un modo migliore di fare le cose.</p>
           <div className="flex flex-col md:flex-row gap-8 items-start">
-            <img src="/assets/giuseppe-photo.jpg" alt="Giuseppe" className="w-full md:w-72 rounded-xl shadow-lg shrink-0" loading="lazy" />
+            <img src="/giuseppe-photo.png" alt="Giuseppe Cirino" className="w-full md:w-72 rounded-xl shadow-lg shrink-0" loading="lazy" />
             <ul className="space-y-4 text-base">
               {[
                 'Ho lavorato con decine di imprenditori e freelancer italiani — dal coach che fattura €2.000/mese all\'azienda che ne fa €200.000',
