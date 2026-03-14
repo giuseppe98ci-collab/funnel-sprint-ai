@@ -174,54 +174,26 @@ function CountdownBar() {
   )
 }
 
-/* ===== EMAIL CAPTURE BOX ===== */
-function EmailCapture() {
-  const [email, setEmail] = useState('')
-  const [submitted, setSubmitted] = useState(false)
-
-  function handleSubmit(e) {
-    e.preventDefault()
-    if (!email || !email.includes('@')) return
-    localStorage.setItem('fsa_email', email)
-    setSubmitted(true)
-    setTimeout(() => { window.location.href = CTA_URL + '?email=' + encodeURIComponent(email) }, 600)
-  }
-
-  if (submitted) {
-    return (
-      <div className="max-w-sm mx-auto mt-4 bg-green-50 border border-green-200 rounded-xl p-4 text-center">
-        <CheckCircle size={24} className="text-green-500 mx-auto mb-2" />
-        <p className="text-green-700 font-semibold text-sm">Perfetto! Ti stiamo reindirizzando...</p>
-      </div>
-    )
-  }
-
-  return (
-    <form onSubmit={handleSubmit} className="max-w-sm mx-auto mt-4">
-      <input
-        type="email"
-        placeholder="Inserisci la tua email migliore..."
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-        className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent mb-2"
-      />
-      <button
-        type="submit"
-        className="w-full py-3 bg-green-500 hover:bg-green-600 text-white font-bold rounded-lg text-sm transition-colors"
-      >
-        PROCEDI ALL'ACQUISTO →
-      </button>
-      <p className="text-center text-[11px] text-gray-400 mt-1.5">🔒 Zero spam, promesso.</p>
-    </form>
-  )
-}
-
 /* ===== CTA BUTTON ===== */
 function CtaButton({ text = 'SÌ, VOGLIO ACCEDERE AL CORSO A SOLI €17', className = '', showEmail = false }) {
+  const [email, setEmail] = useState('')
+  const [error, setError] = useState(false)
+
+  function handleClick(e) {
+    if (!showEmail) return // no email capture, normal link behavior
+    e.preventDefault()
+    if (!email || !email.includes('@')) {
+      setError(true)
+      return
+    }
+    setError(false)
+    localStorage.setItem('fsa_email', email)
+    window.location.href = CTA_URL + '?email=' + encodeURIComponent(email)
+  }
+
   return (
     <div className={`text-center py-4 ${className}`}>
-      <a href={CTA_URL} className="uiverse-cta">
+      <a href={CTA_URL} onClick={handleClick} className="uiverse-cta">
         <div className="svg-wrapper-1">
           <div className="svg-wrapper">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
@@ -232,7 +204,19 @@ function CtaButton({ text = 'SÌ, VOGLIO ACCEDERE AL CORSO A SOLI €17', classN
         </div>
         <span>{text}</span>
       </a>
-      {showEmail && <EmailCapture />}
+      {showEmail && (
+        <div className="max-w-sm mx-auto mt-3">
+          <input
+            type="email"
+            placeholder="Inserisci la tua email migliore..."
+            value={email}
+            onChange={(e) => { setEmail(e.target.value); setError(false) }}
+            className={`w-full px-4 py-3 border rounded-lg text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent ${error ? 'border-red-400 ring-2 ring-red-300' : 'border-gray-300'}`}
+          />
+          {error && <p className="text-red-500 text-xs mt-1">Inserisci la tua email per procedere</p>}
+          <p className="text-[11px] text-gray-400 mt-1.5">🔒 Zero spam, promesso.</p>
+        </div>
+      )}
     </div>
   )
 }
