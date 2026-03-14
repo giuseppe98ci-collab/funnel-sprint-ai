@@ -317,58 +317,11 @@ function FaqItem({ q, a }) {
 function FlowchartSection() {
   return (
     <section className="py-12 md:py-16 px-4" style={{ background: '#1a1a2e' }}>
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-10 text-white">
+      <div className="max-w-3xl mx-auto">
+        <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-8 text-white">
           Hai due strade davanti a te.
         </h2>
-        <div className="grid md:grid-cols-2 gap-6">
-          {/* Strada 1 */}
-          <div className="bg-white/5 border border-red-500/30 rounded-2xl p-6">
-            <h3 className="text-red-400 font-extrabold text-xl mb-4 flex items-center gap-2"><XCircle size={24} /> Il Vecchio Metodo</h3>
-            <p className="text-gray-400 text-xs mb-3">Fai tutto a mano (e speri che funzioni)</p>
-            <div className="space-y-3 text-gray-300 text-sm">
-              {[
-                'Giorni a cercare info sui competitor',
-                '€2000+ per un copywriter',
-                'Email scritte una per una',
-                'Bloccato sullo script del VSL',
-                'Settimane per le creatività ads',
-                'Ogni pezzo sembra fatto da altri',
-                '3 mesi per un funnel che non converte',
-                'Migliaia spesi senza ritorno',
-              ].map((step, i) => (
-                <div key={i} className="flex items-start gap-2">
-                  <XCircle size={14} className="text-red-400 mt-1 shrink-0" />
-                  <span>{step}</span>
-                </div>
-              ))}
-              <p className="text-center mt-4 text-2xl">😫</p>
-            </div>
-          </div>
-          {/* Strada 2 */}
-          <div className="bg-white/5 border border-green-500/30 rounded-2xl p-6 ring-2 ring-green-400/20">
-            <h3 className="text-green-400 font-extrabold text-xl mb-4 flex items-center gap-2"><CheckCircle size={24} /> Funnel Sprint AI</h3>
-            <p className="text-gray-400 text-xs mb-3">L'AI lavora per te (tu controlli e approvi)</p>
-            <div className="space-y-3 text-gray-300 text-sm">
-              {[
-                'Analisi mercato in 10 minuti',
-                'Landing page pronta in 30 minuti',
-                '7 email generate in un click',
-                'Script VSL mentre bevi il caffè',
-                'Creatività ads pronte subito',
-                'Tutto coerente col Business DNA',
-                'Funnel completo in 48 ore',
-                '€17 al posto di €5000+ di agenzia',
-              ].map((step, i) => (
-                <div key={i} className="flex items-start gap-2">
-                  <CheckCircle size={14} className="text-green-400 mt-1 shrink-0" />
-                  <span>{step}</span>
-                </div>
-              ))}
-              <p className="text-center mt-4 text-2xl">😎</p>
-            </div>
-          </div>
-        </div>
+        <img src="/flowchart.png" alt="Il Vecchio Metodo vs Funnel Sprint AI" className="w-full rounded-xl" loading="lazy" />
         <div className="text-center mt-8 text-gray-300 text-lg">
           <p><strong className="text-white">Stessa destinazione. Due percorsi completamente diversi.</strong></p>
           <p className="mt-2">Il primo ti costa migliaia di euro e mesi di tempo.</p>
