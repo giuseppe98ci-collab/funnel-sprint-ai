@@ -535,19 +535,19 @@ export default function SalesPage() {
       {/* ===== 2. HERO ===== */}
       <section id="hero-section" className="bg-white py-4 md:py-10 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <p className="text-gray-500 text-sm md:text-base mb-3">
-            Per marketer, freelancer, coach e imprenditori digitali che sono stufi di buttare soldi in ads che non convertono, corsi che non implementano e agenzie che non producono risultati.
+          <p className="text-gray-500 text-xs md:text-sm mb-2 max-w-lg mx-auto">
+            Per marketer, freelancer, coach e imprenditori digitali stanchi di buttare soldi in ads, corsi e agenzie che non funzionano.
           </p>
-          <h1 className="red-headline text-[28px] md:text-5xl lg:text-6xl mb-4 leading-tight px-2">
-            Ti Mostro Come Genero <span className="highlight">TUTTO il Mio Marketing</span> Con l'AI — Ads, Landing, Email, VSL — In Un Weekend Invece Che In 3 Mesi
+          <h1 className="red-headline text-[26px] md:text-[42px] lg:text-5xl mb-3 leading-[1.15] px-1">
+            Ti Mostro Come Genero <span className="highlight">TUTTO</span> il Marketing Con l'AI<br className="hidden md:block" /> In Un Weekend
           </h1>
-          <p className="text-base md:text-lg text-gray-700 max-w-2xl mx-auto mb-4 leading-snug">
-            Ho creato un sistema che usa l'intelligenza artificiale per produrre l'intero marketing di un business. In questo corso ti apro il computer e ti faccio vedere esattamente come faccio. Passo dopo passo. Senza tagli. A <strong>€17</strong>.
+          <p className="text-[15px] md:text-lg text-gray-600 max-w-xl mx-auto mb-5 leading-snug">
+            Ads, landing, email, VSL — ti apro il computer e ti faccio vedere <strong>esattamente</strong> come faccio. Passo dopo passo. A <strong>€17</strong>.
           </p>
           <img
             src="/mockup-main.png"
             alt="Funnel Sprint AI - Corso + 6 Bot Segreti"
-            className="w-full max-w-sm mx-auto mb-4 drop-shadow-2xl"
+            className="w-full max-w-lg mx-auto mb-5 drop-shadow-2xl"
             loading="eager"
           />
           <CtaButton showBadge showEmail />
