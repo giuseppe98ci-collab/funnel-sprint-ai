@@ -174,7 +174,7 @@ function CountdownBar() {
   )
 }
 
-/* ===== EMAIL CAPTURE BOX ===== */
+/* ===== EMAIL CAPTURE BOX (dark style) ===== */
 function EmailCapture() {
   const [email, setEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)
@@ -182,55 +182,54 @@ function EmailCapture() {
   function handleSubmit(e) {
     e.preventDefault()
     if (!email || !email.includes('@')) return
-    // Store email in localStorage for checkout
     localStorage.setItem('fsa_email', email)
     setSubmitted(true)
-    // Redirect to checkout after short delay
     setTimeout(() => { window.location.href = CTA_URL + '?email=' + encodeURIComponent(email) }, 600)
   }
 
   if (submitted) {
     return (
-      <div className="max-w-md mx-auto mt-4 bg-green-50 border border-green-200 rounded-xl p-4 text-center">
-        <CheckCircle size={24} className="text-green-500 mx-auto mb-2" />
-        <p className="text-green-700 font-semibold text-sm">Perfetto! Ti stiamo reindirizzando...</p>
+      <div className="max-w-sm mx-auto mt-5 bg-green-900/30 border border-green-500/40 rounded-xl p-4 text-center">
+        <CheckCircle size={24} className="text-green-400 mx-auto mb-2" />
+        <p className="text-green-300 font-semibold text-sm">Perfetto! Ti stiamo reindirizzando...</p>
       </div>
     )
   }
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-4">
-      <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
-        <p className="text-center text-sm font-semibold text-gray-700 mb-3">
-          📧 Inserisci la tua email per procedere all'acquisto:
-        </p>
-        <div className="flex gap-2">
+    <div className="max-w-sm mx-auto mt-5">
+      <div className="bg-[#1a1a2e] rounded-2xl p-6 text-center">
+        <p className="text-white font-black text-3xl md:text-4xl mb-1">SOLO 17€</p>
+        <p className="text-gray-400 text-sm mb-0.5">Prezzo intero: <span className="text-red-400 line-through">97€</span></p>
+        <p className="text-green-400 text-sm font-semibold mb-4">Risparmi 80€ — Offerta limitata</p>
+        <p className="text-gray-300 text-sm mb-3">Inserisci la tua email per accedere:</p>
+        <form onSubmit={handleSubmit}>
           <input
             type="email"
-            placeholder="La tua email migliore..."
+            placeholder="lamiaemail@email.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="flex-1 px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent"
+            className="w-full px-4 py-3.5 bg-[#0d0d1a] border border-gray-600 rounded-lg text-white text-sm placeholder-gray-500 focus:outline-none focus:border-green-400 mb-3"
           />
           <button
             type="submit"
-            className="bg-green-500 hover:bg-green-600 text-white font-bold px-5 py-3 rounded-lg text-sm transition-colors whitespace-nowrap"
+            className="w-full py-3.5 rounded-lg font-bold text-[15px] text-[#1a1a2e] transition-all duration-200 hover:brightness-110"
+            style={{ background: 'linear-gradient(135deg, #d4a843, #c9952e, #b8860b)' }}
           >
-            PROCEDI →
+            ACCEDI ORA A SOLI 17€ →
           </button>
-        </div>
-        <p className="text-center text-[11px] text-gray-400 mt-2">🔒 La tua email è al sicuro. Zero spam, promesso.</p>
+        </form>
       </div>
-    </form>
+    </div>
   )
 }
 
 /* ===== CTA BUTTON ===== */
-function CtaButton({ text = 'SÌ, VOGLIO ACCEDERE AL CORSO A SOLI €17', className = '', showBadge = false, showEmail = false }) {
+function CtaButton({ text = 'SÌ, VOGLIO ACCEDERE AL CORSO A SOLI €17', className = '', showEmail = false }) {
   return (
     <div className={`text-center py-4 ${className}`}>
-      <a href={showEmail ? '#' : CTA_URL} onClick={showEmail ? (e) => { e.preventDefault(); document.querySelector('.fsa-email-input')?.focus() } : undefined} className="uiverse-cta">
+      <a href={CTA_URL} className="uiverse-cta">
         <div className="svg-wrapper-1">
           <div className="svg-wrapper">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
@@ -241,9 +240,6 @@ function CtaButton({ text = 'SÌ, VOGLIO ACCEDERE AL CORSO A SOLI €17', classN
         </div>
         <span>{text}</span>
       </a>
-      {showBadge && (
-        <img src="/secure-checkout.png" alt="Pagamento sicuro" className="mx-auto mt-3 max-w-[280px] md:max-w-[320px] opacity-80" loading="lazy" />
-      )}
       {showEmail && <EmailCapture />}
     </div>
   )
@@ -550,7 +546,7 @@ export default function SalesPage() {
             className="w-full max-w-lg mx-auto mb-5 drop-shadow-2xl"
             loading="eager"
           />
-          <CtaButton showBadge showEmail />
+          <CtaButton showEmail />
           <p className="text-xs text-gray-400 mt-2">{'\uD83D\uDD12'} Pagamento sicuro · Accesso immediato · Garanzia 30 giorni soddisfatto o rimborsato</p>
         </div>
       </section>
@@ -620,7 +616,7 @@ export default function SalesPage() {
             <p>I €17 mi servono a pagarmi le ads. A te servono per cambiare completamente il modo in cui fai marketing.</p>
             <p className="text-xl font-bold">Mi sembra un deal equo.</p>
           </div>
-          <CtaButton text="ACCEDO AL CORSO A €17" showBadge showEmail />
+          <CtaButton text="ACCEDO AL CORSO A €17" showEmail />
         </div>
       </section>
 
@@ -919,7 +915,7 @@ export default function SalesPage() {
             <p>Ma se mi sbaglio? Ti riprendi i tuoi €17 e restiamo amici.</p>
             <p><strong><span className="bg-yellow-200 px-1 rounded">Mi sembra giusto, no?</span></strong></p>
           </div>
-          <CtaButton text="PROVO SENZA RISCHI — SOLO €17" showBadge showEmail />
+          <CtaButton text="PROVO SENZA RISCHI — SOLO €17" showEmail />
         </div>
       </section>
 
@@ -1133,7 +1129,7 @@ export default function SalesPage() {
               a={'I corsi ti insegnano la teoria. Funnel Sprint AI ti fa VEDERE come faccio io — e poi ti dà gli strumenti per replicare tutto. Non impari a scrivere copy: hai un bot che lo scrive. Non studi le ads: hai un bot che le genera. E soprattutto: il sistema migliora con l\'uso grazie al Self-Improving System. Nessun corso in Italia offre questo.'}
             />
           </div>
-          <CtaButton text="INIZIA ORA — ACCEDI AL CORSO A €17" className="mt-8" showBadge showEmail />
+          <CtaButton text="INIZIA ORA — ACCEDI AL CORSO A €17" className="mt-8" showEmail />
         </div>
       </section>
 
