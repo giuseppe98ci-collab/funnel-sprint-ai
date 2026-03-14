@@ -237,7 +237,7 @@ function PricingBox() {
           ['\uD83C\uDF81', 'BONUS: Bot Email Sequences', '€97'],
           ['\uD83C\uDF81', 'BONUS: Bot VSL Writer', '€147'],
           ['\uD83C\uDF81', 'BONUS: Bot Landing Page Copy', '€97'],
-          ['\uD83C\uDF81', 'BONUS: Bot Creativo Gemini per Statiche', '€97'],
+
         ].map(([emoji, item, value], i) => (
           <li key={i} className="flex items-start gap-2">
             <CheckCircle size={18} className="text-green-500 mt-0.5 shrink-0" />
@@ -246,7 +246,7 @@ function PricingBox() {
           </li>
         ))}
       </ul>
-      <p className="text-center text-xs text-gray-500 mb-4">Valore totale: <strong>€879</strong></p>
+      <p className="text-center text-xs text-gray-500 mb-4">Valore totale: <strong>€782</strong></p>
 
       <div className="text-center mb-4">
         <span className="text-gray-400 line-through text-2xl mr-3">€97</span>
@@ -741,34 +741,9 @@ export default function SalesPage() {
             </div>
           </div>
 
-          {/* Bonus 6 */}
-          <div className="bg-white rounded-2xl p-6 md:p-8 shadow-md mb-8">
-            <div className="flex flex-col md:flex-row gap-6 items-start">
-              <img src="/mockup-creativo-gemini.png" alt="Bot Creativo Gemini" className="w-full md:w-48 rounded-lg shrink-0" loading="lazy" />
-              <div>
-                <p className="text-sm font-bold text-red-600 mb-1">{'\uD83C\uDF81'} BONUS SEGRETO #6</p>
-                <h3 className="text-2xl font-extrabold mb-2">Bot Creativo Gemini per Statiche</h3>
-                <p className="text-lg mb-4 font-semibold text-gray-700">Il tuo designer AI che crea visual ads professionali in 2 minuti</p>
-                <p className="text-base mb-4">Hai il copy. Ora ti serve la grafica. Questo bot usa Gemini per creare statiche ads che sembrano fatte da un designer da €1.000/mese.</p>
-                <ul className="space-y-2 text-base">
-                  {[
-                    'Statiche ads professionali — niente più Canva brutto, niente più immagini stock',
-                    '10-20 reference di design reali incluse — così Gemini sa esattamente cosa produrre',
-                    'Layout ottimizzati per ogni formato — feed, stories, reel cover, carousel',
-                    'Headline e CTA integrati nel visual — non solo il testo, ma la composizione completa',
-                    'Template colori e font per brand consistency — così tutto il tuo marketing sembra coerente',
-                  ].map((item, i) => (
-                    <li key={i} className="flex items-start gap-2"><CheckCircle size={18} className="text-green-500 mt-0.5 shrink-0" /><span>{item}</span></li>
-                  ))}
-                </ul>
-                <p className="mt-4 text-sm">(Valore: <strong>€97</strong>) <span className="font-bold text-green-600">GRATIS</span></p>
-              </div>
-            </div>
-          </div>
-
           <div className="text-center text-lg font-bold">
-            <p>Totale valore bonus: <strong>€682</strong></p>
-            <p className="text-green-600 text-xl mt-2">Questi €682 di bonus sono GRATIS quando prendi il corso oggi.</p>
+            <p>Totale valore bonus: <strong>€585</strong></p>
+            <p className="text-green-600 text-xl mt-2">Questi €585 di bonus sono GRATIS quando prendi il corso oggi.</p>
           </div>
         </div>
       </section>
