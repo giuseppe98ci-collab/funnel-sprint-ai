@@ -325,42 +325,47 @@ function FlowchartSection() {
           {/* Strada 1 */}
           <div className="bg-white/5 border border-red-500/30 rounded-2xl p-6">
             <h3 className="text-red-400 font-extrabold text-xl mb-4 flex items-center gap-2"><XCircle size={24} /> Il Vecchio Metodo</h3>
+            <p className="text-gray-400 text-xs mb-3">Fai tutto a mano (e speri che funzioni)</p>
             <div className="space-y-3 text-gray-300 text-sm">
               {[
-                'Compri un corso di marketing (€497-€2.997)',
-                'Studi per settimane',
-                'Ti siedi davanti allo schermo vuoto',
-                'Non riesci a scrivere nulla',
-                'Paghi un\'agenzia (€1.500-€4.500/mese)',
-                'Risultati mediocri',
-                'Ricominci da capo',
+                'Giorni a cercare info sui competitor',
+                '€2000+ per un copywriter',
+                'Email scritte una per una',
+                'Bloccato sullo script del VSL',
+                'Settimane per le creatività ads',
+                'Ogni pezzo sembra fatto da altri',
+                '3 mesi per un funnel che non converte',
+                'Migliaia spesi senza ritorno',
               ].map((step, i) => (
                 <div key={i} className="flex items-start gap-2">
-                  <ChevronDown size={14} className="text-red-400 mt-1 shrink-0" />
+                  <XCircle size={14} className="text-red-400 mt-1 shrink-0" />
                   <span>{step}</span>
                 </div>
               ))}
-              <p className="text-red-400 font-bold text-center mt-4">{'\uD83D\uDD04'} LOOP INFINITO DI FRUSTRAZIONE</p>
+              <p className="text-center mt-4 text-2xl">😫</p>
             </div>
           </div>
           {/* Strada 2 */}
           <div className="bg-white/5 border border-green-500/30 rounded-2xl p-6 ring-2 ring-green-400/20">
             <h3 className="text-green-400 font-extrabold text-xl mb-4 flex items-center gap-2"><CheckCircle size={24} /> Funnel Sprint AI</h3>
+            <p className="text-gray-400 text-xs mb-3">L'AI lavora per te (tu controlli e approvi)</p>
             <div className="space-y-3 text-gray-300 text-sm">
               {[
-                'Guardi il corso (5-6 ore)',
-                'Compili il Business DNA (45 min)',
-                'L\'AI genera TUTTO il tuo marketing',
-                'Lanci in un weekend',
-                'Raccogli dati reali',
-                'Il sistema migliora da solo',
+                'Analisi mercato in 10 minuti',
+                'Landing page pronta in 30 minuti',
+                '7 email generate in un click',
+                'Script VSL mentre bevi il caffè',
+                'Creatività ads pronte subito',
+                'Tutto coerente col Business DNA',
+                'Funnel completo in 48 ore',
+                '€17 al posto di €5000+ di agenzia',
               ].map((step, i) => (
                 <div key={i} className="flex items-start gap-2">
-                  <ChevronDown size={14} className="text-green-400 mt-1 shrink-0" />
+                  <CheckCircle size={14} className="text-green-400 mt-1 shrink-0" />
                   <span>{step}</span>
                 </div>
               ))}
-              <p className="text-green-400 font-bold text-center mt-4">{'\uD83D\uDE80'} LOOP INFINITO DI MIGLIORAMENTO</p>
+              <p className="text-center mt-4 text-2xl">😎</p>
             </div>
           </div>
         </div>
