@@ -174,7 +174,7 @@ function CountdownBar() {
   )
 }
 
-/* ===== EMAIL CAPTURE BOX (dark style) ===== */
+/* ===== EMAIL CAPTURE BOX ===== */
 function EmailCapture() {
   const [email, setEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)
@@ -189,39 +189,31 @@ function EmailCapture() {
 
   if (submitted) {
     return (
-      <div className="max-w-sm mx-auto mt-5 bg-green-900/30 border border-green-500/40 rounded-xl p-4 text-center">
-        <CheckCircle size={24} className="text-green-400 mx-auto mb-2" />
-        <p className="text-green-300 font-semibold text-sm">Perfetto! Ti stiamo reindirizzando...</p>
+      <div className="max-w-sm mx-auto mt-4 bg-green-50 border border-green-200 rounded-xl p-4 text-center">
+        <CheckCircle size={24} className="text-green-500 mx-auto mb-2" />
+        <p className="text-green-700 font-semibold text-sm">Perfetto! Ti stiamo reindirizzando...</p>
       </div>
     )
   }
 
   return (
-    <div className="max-w-sm mx-auto mt-5">
-      <div className="bg-[#1a1a2e] rounded-2xl p-6 text-center">
-        <p className="text-white font-black text-3xl md:text-4xl mb-1">SOLO 17€</p>
-        <p className="text-gray-400 text-sm mb-0.5">Prezzo intero: <span className="text-red-400 line-through">97€</span></p>
-        <p className="text-green-400 text-sm font-semibold mb-4">Risparmi 80€ — Offerta limitata</p>
-        <p className="text-gray-300 text-sm mb-3">Inserisci la tua email per accedere:</p>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="email"
-            placeholder="lamiaemail@email.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="w-full px-4 py-3.5 bg-[#0d0d1a] border border-gray-600 rounded-lg text-white text-sm placeholder-gray-500 focus:outline-none focus:border-green-400 mb-3"
-          />
-          <button
-            type="submit"
-            className="w-full py-3.5 rounded-lg font-bold text-[15px] text-[#1a1a2e] transition-all duration-200 hover:brightness-110"
-            style={{ background: 'linear-gradient(135deg, #d4a843, #c9952e, #b8860b)' }}
-          >
-            ACCEDI ORA A SOLI 17€ →
-          </button>
-        </form>
-      </div>
-    </div>
+    <form onSubmit={handleSubmit} className="max-w-sm mx-auto mt-4">
+      <input
+        type="email"
+        placeholder="Inserisci la tua email migliore..."
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
+        className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent mb-2"
+      />
+      <button
+        type="submit"
+        className="w-full py-3 bg-green-500 hover:bg-green-600 text-white font-bold rounded-lg text-sm transition-colors"
+      >
+        PROCEDI ALL'ACQUISTO →
+      </button>
+      <p className="text-center text-[11px] text-gray-400 mt-1.5">🔒 Zero spam, promesso.</p>
+    </form>
   )
 }
 
