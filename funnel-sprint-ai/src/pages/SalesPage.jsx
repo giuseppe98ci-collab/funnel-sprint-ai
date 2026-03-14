@@ -189,7 +189,7 @@ function CtaButton({ text = 'SÌ, VOGLIO ACCEDERE AL CORSO A SOLI €17', classN
         </div>
         <span>{text}</span>
       </a>
-      <img src="/assets/secure-checkout.png" alt="Pagamento sicuro" className="mx-auto mt-3 max-w-[280px] md:max-w-[320px] opacity-80" loading="lazy" />
+      <img src="/secure-checkout.png" alt="Pagamento sicuro" className="mx-auto mt-3 max-w-[280px] md:max-w-[320px] opacity-80" loading="lazy" />
     </div>
   )
 }
