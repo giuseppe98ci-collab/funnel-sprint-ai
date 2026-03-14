@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { CheckCircle, ShieldCheck, Lock, ArrowRight } from 'lucide-react'
 
-const BUMP_PRICE = 40
+const BUMP_PRICE = 19
 
 export default function CheckoutPage() {
   const [email, setEmail] = useState('')
