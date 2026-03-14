@@ -315,9 +315,9 @@ function FaqItem({ q, a }) {
 
 /* ===== VIDEO TESTIMONIALS ===== */
 const VIDEO_TESTIMONIALS = [
-  { img: '/testimonial-christian.png', name: 'Christian Fantuzzi', video: 'https://assets.cdn.filesafe.space/6600KjjI4Q4k8ICFPzFC/media/67b200ec70fcfe564b249979.mp4' },
-  { img: '/testimonial-don-forex.png', name: 'Don Forex (Luigi Boadi)', video: 'https://assets.cdn.filesafe.space/6600KjjI4Q4k8ICFPzFC/media/67b2007811feb9f58bd24eb3.mp4' },
-  { img: '/testimonial-nick.png', name: 'Nick Parodi', video: 'https://assets.cdn.filesafe.space/6600KjjI4Q4k8ICFPzFC/media/67b1dcba70fcfe01bc248144.mp4' },
+  { img: '/testimonial-christian.png', name: 'Christian Fantuzzi', video: 'https://assets.cdn.filesafe.space/6600KjjI4Q4k8ICFPzFC/media/67b1dcba70fcfe01bc248144.mp4' },
+  { img: '/testimonial-don-forex.png', name: 'Don Forex (Luigi Boadi)', video: 'https://assets.cdn.filesafe.space/6600KjjI4Q4k8ICFPzFC/media/67b200ec70fcfe564b249979.mp4' },
+  { img: '/testimonial-nick.png', name: 'Nick Parodi', video: 'https://assets.cdn.filesafe.space/6600KjjI4Q4k8ICFPzFC/media/67b2007811feb9f58bd24eb3.mp4' },
 ]
 
 function VideoCard({ img, name, video }) {
@@ -818,55 +818,6 @@ export default function SalesPage() {
 
       {/* ===== 9B. VIDEO TESTIMONIALS ===== */}
       <VideoTestimonials />
-
-      {/* ===== 10. TRUSTPILOT CARDS ===== */}
-      <section className="bg-[#FFF9E6] py-12 md:py-16 px-4">
-        <div className="max-w-5xl mx-auto">
-          <div className="flex items-center justify-center gap-2 mb-3">
-            <span className="text-[#00b67a] font-extrabold text-lg">Trustpilot</span>
-            <div className="flex gap-0.5">{[...Array(5)].map((_, i) => <Star key={i} size={18} className="fill-[#00b67a] text-[#00b67a]" />)}</div>
-          </div>
-          <h2 className="red-headline text-3xl md:text-4xl text-center mb-10">Cosa dice chi ha già provato il sistema:</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-            <TrustpilotCard
-              name="Marco T."
-              role="Infobusiness, Torino"
-              date="Febbraio 2026"
-              text="Ero bloccato da mesi. Avevo il corso, avevo la teoria, ma non riuscivo a scrivere UNA riga di copy decente. Con il sistema di Giuseppe ho creato 8 varianti di ads in un pomeriggio. Le prime 3 che ho lanciato mi hanno portato 12 vendite in 72 ore. ROAS 3.2x. Con copy generato dall'AI. Assurdo."
-            />
-            <TrustpilotCard
-              name="Alessandra R."
-              role="Consulente HR, Milano"
-              date="Gennaio 2026"
-              text="Io faccio il consulente, non il marketer. Non sapevo da che parte si teneva un funnel. Ho seguito il corso di sabato, creato i bot nel weekend, e lunedì avevo tutto: landing, ads, email. In 30 giorni ho fatturato €2.847 con €340 di ads. Giuseppe, sei un genio."
-            />
-            <TrustpilotCard
-              name="Davide M."
-              role="E-commerce, Roma"
-              date="Febbraio 2026"
-              text="Ho usato ChatGPT per mesi per scrivere post. Risultati? Meh. Poi ho provato il sistema di Giuseppe. La differenza? Il Business DNA e soprattutto il feedback loop. Dopo 2 settimane i miei bot generavano copy che sembrava scritto da un copywriter da €3.000/mese. Vale 100 volte il prezzo."
-            />
-            <TrustpilotCard
-              name="Luca P."
-              role="SaaS B2B, Bologna"
-              date="Marzo 2026"
-              text="Pagavo €1.800/mese un'agenzia che mi mandava report bellissimi e risultati mediocri. Ho provato il sistema di Giuseppe per un mese in parallelo. I bot hanno generato ads con CTR più alto del 40% rispetto a quelle dell'agenzia. Ho cancellato il contratto. Per €17."
-            />
-            <TrustpilotCard
-              name="Simone G."
-              role="Coach Business, Firenze"
-              date="Febbraio 2026"
-              text="Non sto scherzando. Sabato mattina mi sono messo davanti al computer. Ho seguito il corso, compilato il Business DNA, attivato i bot. Alle 16:00 avevo: ricerca mercato, 6 ads, landing page, 5 email, script VSL. Tutto coerente, tutto allineato. In 4 ore. Prima ci mettevo 3 settimane minimo."
-            />
-            <TrustpilotCard
-              name="Federica L."
-              role="Corsi Online, Napoli"
-              date="Gennaio 2026"
-              text="Avevo una landing page fatta con Canva e preghiere. Conversion rate: 1.2%. Ho usato il Bot Landing Page Copy di Giuseppe e ho riscritto tutto in 30 minuti. Nuovo conversion rate dopo una settimana: 7.3%. Stessa offerta, stesso traffico. Solo copy diverso. €17 meglio spesi della mia vita."
-            />
-          </div>
-        </div>
-      </section>
 
       {/* ===== 11. SOCIAL PROOF CARDS ===== */}
       <SocialProofCards />
