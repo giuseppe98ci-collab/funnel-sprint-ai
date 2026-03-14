@@ -200,7 +200,7 @@ function PricingBox() {
     <div className="bg-white border-2 border-green-500 rounded-2xl p-6 md:p-8 max-w-lg mx-auto shadow-xl">
       <p className="text-center text-sm font-bold text-green-700 uppercase tracking-wide mb-2">Offerta Speciale</p>
       <h3 className="text-center text-2xl md:text-3xl font-extrabold text-gray-900 mb-4">Funnel Sprint AI</h3>
-      <img src="/assets/mockup-main.png" alt="Funnel Sprint AI" className="w-full max-w-md mx-auto mb-6 drop-shadow-2xl" loading="lazy" />
+      <img src="/mockup-main.png" alt="Funnel Sprint AI" className="w-full max-w-md mx-auto mb-6 drop-shadow-2xl" loading="lazy" />
 
       <ul className="space-y-2 mb-4 text-sm">
         {[
@@ -490,7 +490,7 @@ export default function SalesPage() {
             Ho creato un sistema che usa l'intelligenza artificiale per produrre l'intero marketing di un business. In questo corso ti apro il computer e ti faccio vedere esattamente come faccio. Passo dopo passo. Senza tagli. A <strong>€17</strong>.
           </p>
           <img
-            src="/assets/mockup-main.png"
+            src="/mockup-main.png"
             alt="Funnel Sprint AI - Corso + 6 Bot Segreti"
             className="w-full max-w-sm mx-auto mb-4 drop-shadow-2xl"
             loading="eager"
@@ -583,7 +583,7 @@ export default function SalesPage() {
           {/* Bonus 1 */}
           <div className="bg-white rounded-2xl p-6 md:p-8 shadow-md mb-8">
             <div className="flex flex-col md:flex-row gap-6 items-start">
-              <img src="/assets/mockup-analisi-mercato.png" alt="Bot Analisi Mercato" className="w-full md:w-48 rounded-lg shrink-0" loading="lazy" />
+              <img src="/mockup-analisi-mercato.png" alt="Bot Analisi Mercato" className="w-full md:w-48 rounded-lg shrink-0" loading="lazy" />
               <div>
                 <p className="text-sm font-bold text-red-600 mb-1">{'\uD83C\uDF81'} BONUS SEGRETO #1</p>
                 <h3 className="text-2xl font-extrabold mb-2">Bot Analisi Mercato</h3>
@@ -608,7 +608,7 @@ export default function SalesPage() {
           {/* Bonus 2 */}
           <div className="bg-white rounded-2xl p-6 md:p-8 shadow-md mb-8">
             <div className="flex flex-col md:flex-row gap-6 items-start">
-              <img src="/assets/mockup-ads-creator.png" alt="Bot Ads Creator" className="w-full md:w-48 rounded-lg shrink-0" loading="lazy" />
+              <img src="/mockup-ads-creator.png" alt="Bot Ads Creator" className="w-full md:w-48 rounded-lg shrink-0" loading="lazy" />
               <div>
                 <p className="text-sm font-bold text-red-600 mb-1">{'\uD83C\uDF81'} BONUS SEGRETO #2</p>
                 <h3 className="text-2xl font-extrabold mb-2">Bot Ads Creator</h3>
@@ -633,7 +633,7 @@ export default function SalesPage() {
           {/* Bonus 3 */}
           <div className="bg-white rounded-2xl p-6 md:p-8 shadow-md mb-8">
             <div className="flex flex-col md:flex-row gap-6 items-start">
-              <img src="/assets/mockup-email-sequences.png" alt="Bot Email Sequences" className="w-full md:w-48 rounded-lg shrink-0" loading="lazy" />
+              <img src="/mockup-email-sequences.png" alt="Bot Email Sequences" className="w-full md:w-48 rounded-lg shrink-0" loading="lazy" />
               <div>
                 <p className="text-sm font-bold text-red-600 mb-1">{'\uD83C\uDF81'} BONUS SEGRETO #3</p>
                 <h3 className="text-2xl font-extrabold mb-2">Bot Email Sequences</h3>
@@ -658,7 +658,7 @@ export default function SalesPage() {
           {/* Bonus 4 */}
           <div className="bg-white rounded-2xl p-6 md:p-8 shadow-md mb-8">
             <div className="flex flex-col md:flex-row gap-6 items-start">
-              <img src="/assets/mockup-vsl-writer.png" alt="Bot VSL Writer" className="w-full md:w-48 rounded-lg shrink-0" loading="lazy" />
+              <img src="/mockup-vsl-writer.png" alt="Bot VSL Writer" className="w-full md:w-48 rounded-lg shrink-0" loading="lazy" />
               <div>
                 <p className="text-sm font-bold text-red-600 mb-1">{'\uD83C\uDF81'} BONUS SEGRETO #4</p>
                 <h3 className="text-2xl font-extrabold mb-2">Bot VSL Writer</h3>
@@ -683,7 +683,7 @@ export default function SalesPage() {
           {/* Bonus 5 */}
           <div className="bg-white rounded-2xl p-6 md:p-8 shadow-md mb-8">
             <div className="flex flex-col md:flex-row gap-6 items-start">
-              <img src="/assets/mockup-landing-copy.png" alt="Bot Landing Page Copy" className="w-full md:w-48 rounded-lg shrink-0" loading="lazy" />
+              <img src="/mockup-landing-copy.png" alt="Bot Landing Page Copy" className="w-full md:w-48 rounded-lg shrink-0" loading="lazy" />
               <div>
                 <p className="text-sm font-bold text-red-600 mb-1">{'\uD83C\uDF81'} BONUS SEGRETO #5</p>
                 <h3 className="text-2xl font-extrabold mb-2">Bot Landing Page Copy</h3>
@@ -708,7 +708,7 @@ export default function SalesPage() {
           {/* Bonus 6 */}
           <div className="bg-white rounded-2xl p-6 md:p-8 shadow-md mb-8">
             <div className="flex flex-col md:flex-row gap-6 items-start">
-              <img src="/assets/mockup-creativo-gemini.png" alt="Bot Creativo Gemini" className="w-full md:w-48 rounded-lg shrink-0" loading="lazy" />
+              <img src="/mockup-creativo-gemini.png" alt="Bot Creativo Gemini" className="w-full md:w-48 rounded-lg shrink-0" loading="lazy" />
               <div>
                 <p className="text-sm font-bold text-red-600 mb-1">{'\uD83C\uDF81'} BONUS SEGRETO #6</p>
                 <h3 className="text-2xl font-extrabold mb-2">Bot Creativo Gemini per Statiche</h3>
