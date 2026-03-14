@@ -315,9 +315,9 @@ function FaqItem({ q, a }) {
 
 /* ===== VIDEO TESTIMONIALS ===== */
 const VIDEO_TESTIMONIALS = [
-  { img: '/testimonial-don-forex.png', name: 'Don Forex (Luigi Boadi)', video: 'https://assets.cdn.filesafe.space/6600KjjI4Q4k8ICFPzFC/media/67b2007811feb9f58bd24eb3.mp4' },
-  { img: '/testimonial-nick.png', name: 'Nick Parodi', video: 'https://assets.cdn.filesafe.space/6600KjjI4Q4k8ICFPzFC/media/67b1dcba70fcfe01bc248144.mp4' },
-  { img: '/testimonial-christian.png', name: 'Christian Fantuzzi', video: 'https://assets.cdn.filesafe.space/6600KjjI4Q4k8ICFPzFC/media/67b200ec70fcfe564b249979.mp4' },
+  { img: '/testimonial-christian.png', name: 'Christian Fantuzzi', video: 'https://assets.cdn.filesafe.space/6600KjjI4Q4k8ICFPzFC/media/67b2007811feb9f58bd24eb3.mp4' },
+  { img: '/testimonial-don-forex.png', name: 'Don Forex (Luigi Boadi)', video: 'https://assets.cdn.filesafe.space/6600KjjI4Q4k8ICFPzFC/media/67b1dcba70fcfe01bc248144.mp4' },
+  { img: '/testimonial-nick.png', name: 'Nick Parodi', video: 'https://assets.cdn.filesafe.space/6600KjjI4Q4k8ICFPzFC/media/67b200ec70fcfe564b249979.mp4' },
 ]
 
 function VideoCard({ img, name, video }) {
