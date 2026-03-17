@@ -23,19 +23,31 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    const { paymentIntentId, firstName, lastName, email, phone, bumpAdded } = req.body;
+    const { paymentIntentId, firstName: formFirst, lastName: formLast, email: formEmail, phone: formPhone, bumpAdded } = req.body;
 
-    if (!paymentIntentId || !firstName || !lastName || !email || !phone) {
+    if (!paymentIntentId) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
     // Verify payment on Stripe
-    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId, {
+      expand: ['latest_charge'],
+    });
     if (paymentIntent.status !== 'succeeded') {
       return res.status(400).json({ error: 'Payment not completed' });
     }
 
     const amount = paymentIntent.amount;
+    
+    // Get billing details from Stripe charge (Apple Pay/Google Pay provide these)
+    const billing = paymentIntent.latest_charge?.billing_details || {};
+    const stripeName = billing.name || '';
+    const stripeNameParts = stripeName.split(' ');
+    
+    const firstName = formFirst || stripeNameParts[0] || 'N/A';
+    const lastName = formLast || stripeNameParts.slice(1).join(' ') || 'N/A';
+    const email = formEmail || billing.email || paymentIntent.receipt_email || 'N/A';
+    const phone = formPhone || billing.phone || 'N/A';
     const phoneClean = phone.replace(/[^0-9+]/g, '');
 
     // GHL upsert + order + note

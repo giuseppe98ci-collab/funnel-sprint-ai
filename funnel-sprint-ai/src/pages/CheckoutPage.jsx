@@ -374,12 +374,12 @@ export default function CheckoutPage() {
   const [initError, setInitError] = useState('')
 
   useEffect(() => {
-    // Check if returning from a redirect (e.g. 3DS)
+    // Check if returning from a redirect (e.g. 3DS, Apple Pay)
     const params = new URLSearchParams(window.location.search)
-    const piFromUrl = params.get('pi')
+    const piFromUrl = params.get('payment_intent') || params.get('pi')
     const redirectStatus = params.get('redirect_status')
 
-    if (piFromUrl && redirectStatus === 'succeeded') {
+    if (piFromUrl && (redirectStatus === 'succeeded' || redirectStatus)) {
       // Returning from redirect — confirm order in GHL
       const email = localStorage.getItem('fsa_email') || ''
       const savedForm = JSON.parse(localStorage.getItem('fsa_checkout_form') || '{}')
@@ -388,10 +388,10 @@ export default function CheckoutPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           paymentIntentId: piFromUrl,
-          firstName: savedForm.firstName || 'N/A',
-          lastName: savedForm.lastName || 'N/A',
-          email: savedForm.email || email || 'N/A',
-          phone: savedForm.phone || 'N/A',
+          firstName: savedForm.firstName || '',
+          lastName: savedForm.lastName || '',
+          email: savedForm.email || email || '',
+          phone: savedForm.phone || '',
           bumpAdded: savedForm.bumpAdded || false,
         }),
       }).finally(() => {
