@@ -4,6 +4,8 @@ const STRIPE_SK = process.env.STRIPE_SECRET_KEY || 'sk_live_51T5j0PPbCvQnn6IORqs
 const GHL_API_KEY = process.env.GHL_API_KEY || 'pit-ff3ad135-3f51-4072-a533-533bc16038f9';
 const GHL_LOCATION_ID = '6600KjjI4Q4k8ICFPzFC';
 const GHL_VERSION = '2021-07-28';
+// Source ID per tracking ordini - usa un payment link esistente come source
+const GHL_SOURCE_ID = '69495c442024d429282d6509';
 
 const stripe = new Stripe(STRIPE_SK);
 
@@ -58,6 +60,7 @@ export default async function handler(req, res) {
 
     // 2. Upsert contact in GHL
     let contactId = null;
+    let orderId = null;
     try {
       const tags = ['funnel-sprint-ai', 'acquisto-fso'];
       if (bumpAdded) tags.push('acquisto-bump-gemini');
@@ -79,20 +82,59 @@ export default async function handler(req, res) {
       const upsertData = await upsertRes.json();
       contactId = upsertData?.contact?.id;
 
-      // 3. Add order note to contact
+      // 3. Create ORDER in GHL
       if (contactId) {
-        const products = ['✅ Sprint Funnel IA — €17'];
-        if (bumpAdded) products.push('✅ Bot Creativo Gemini — €19');
+        const products = [
+          { 
+            id: '69b8211562bc2b37cb1dc3db', 
+            qty: 1, 
+            name: 'Sprint Funnel IA', 
+            price: 1700 
+          }
+        ];
         
+        if (bumpAdded) {
+          products.push({
+            id: '69b95b03a6c09972a197a3a3',
+            qty: 1,
+            name: 'Bot Creativo Gemini',
+            price: 1900
+          });
+        }
+
+        const orderRes = await fetch('https://services.leadconnectorhq.com/payments/orders', {
+          method: 'POST',
+          headers: ghlHeaders,
+          body: JSON.stringify({
+            altId: GHL_LOCATION_ID,
+            altType: 'location',
+            contactId,
+            source: {
+              type: 'payment_link',
+              id: GHL_SOURCE_ID,
+              name: 'funnel-sprint-ai'
+            },
+            fingerprint: `fsa-${Date.now()}`,
+            trackingId: `fsa-${paymentIntent.id.slice(-12)}`,
+            currency: 'EUR',
+            products
+          }),
+        });
+
+        const orderData = await orderRes.json();
+        if (orderData.order) {
+          orderId = orderData.order._id;
+        }
+
+        // 4. Add note with Stripe details
         const noteBody = [
           '🛒 ORDINE FUNNEL SPRINT AI',
+          `📦 Order ID: ${orderId || 'N/A'}`,
           '',
-          ...products,
+          ...products.map(p => `✅ ${p.name} — €${(p.price / 100).toFixed(0)}`),
           `💰 Totale: €${(amount / 100).toFixed(0)}`,
           `💳 Stripe PaymentIntent: ${paymentIntent.id}`,
           `📅 Data: ${new Date().toISOString().split('T')[0]}`,
-          `📧 ${email}`,
-          `📱 ${phoneClean}`,
         ].join('\n');
 
         await fetch(`https://services.leadconnectorhq.com/contacts/${contactId}/notes`, {
@@ -106,10 +148,11 @@ export default async function handler(req, res) {
       console.error('GHL API error:', ghlError.message || ghlError);
     }
 
-    // 4. Return client secret for Stripe confirmation on frontend
+    // 5. Return client secret for Stripe confirmation on frontend
     return res.status(200).json({ 
       clientSecret: paymentIntent.client_secret,
       contactId,
+      orderId,
     });
   } catch (error) {
     console.error('Checkout error:', error.message || error);
