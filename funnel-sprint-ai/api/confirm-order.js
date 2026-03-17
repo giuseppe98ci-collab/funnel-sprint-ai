@@ -100,6 +100,21 @@ export default async function handler(req, res) {
         const orderData = await orderRes.json();
         if (orderData.order) orderId = orderData.order._id;
 
+        // Mark order as fulfilled (triggers GHL "Ordine Inviato" workflow)
+        if (orderId) {
+          const fulfillItems = products.map(p => ({ priceId: p.id, qty: p.qty }));
+          await fetch(`https://services.leadconnectorhq.com/payments/orders/${orderId}/fulfillments`, {
+            method: 'POST',
+            headers: ghlHeaders,
+            body: JSON.stringify({
+              altId: GHL_LOCATION_ID,
+              altType: 'location',
+              notifyCustomer: false,
+              items: fulfillItems,
+            }),
+          });
+        }
+
         const noteBody = [
           '🛒 ORDINE FUNNEL SPRINT AI',
           `📦 Order ID: ${orderId || 'N/A'}`,
