@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
-import { Elements, CardElement, PaymentRequestButtonElement, useStripe, useElements } from '@stripe/react-stripe-js'
+import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { CheckCircle, ShieldCheck, Lock, ArrowRight, CreditCard } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
@@ -9,19 +9,7 @@ const stripePromise = loadStripe('pk_live_51T5j0PPbCvQnn6IOvN7DaXtZZVFLQfXuVlPbJ
 const BUMP_PRICE = 19
 const BASE_PRICE = 17
 
-const CARD_ELEMENT_OPTIONS = {
-  style: {
-    base: {
-      fontSize: '16px',
-      color: '#1f2937',
-      fontFamily: 'Inter, system-ui, sans-serif',
-      '::placeholder': { color: '#9ca3af' },
-    },
-    invalid: { color: '#dc2626' },
-  },
-}
-
-function CheckoutForm() {
+function CheckoutForm({ paymentIntentId }) {
   const stripe = useStripe()
   const elements = useElements()
   const navigate = useNavigate()
@@ -33,8 +21,6 @@ function CheckoutForm() {
   const [bumpAdded, setBumpAdded] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [paymentRequest, setPaymentRequest] = useState(null)
-  const [canPayWithWallet, setCanPayWithWallet] = useState(false)
 
   const total = BASE_PRICE + (bumpAdded ? BUMP_PRICE : 0)
 
@@ -44,129 +30,71 @@ function CheckoutForm() {
     setEmail(savedEmail)
   }, [])
 
-  // Setup PaymentRequestButton (Apple Pay / Google Pay)
+  // Update PaymentIntent amount when bump changes
   useEffect(() => {
-    if (!stripe) return
-
-    const pr = stripe.paymentRequest({
-      country: 'IT',
-      currency: 'eur',
-      total: {
-        label: 'Funnel Sprint AI',
-        amount: BASE_PRICE * 100,
-      },
-      requestPayerName: true,
-      requestPayerEmail: true,
-      requestPayerPhone: true,
-    })
-
-    pr.canMakePayment().then((result) => {
-      if (result) {
-        setPaymentRequest(pr)
-        setCanPayWithWallet(true)
-      }
-    })
-
-    pr.on('paymentmethod', async (ev) => {
-      try {
-        const payerName = ev.payerName || ''
-        const nameParts = payerName.split(' ')
-        const fn = nameParts[0] || firstName || 'N/A'
-        const ln = nameParts.slice(1).join(' ') || lastName || 'N/A'
-        const em = ev.payerEmail || email || 'N/A'
-        const ph = ev.payerPhone || phone || 'N/A'
-
-        const res = await fetch('/api/checkout', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            firstName: fn,
-            lastName: ln,
-            email: em,
-            phone: ph,
-            bumpAdded,
-          }),
-        })
-
-        const data = await res.json()
-        if (!res.ok) {
-          ev.complete('fail')
-          return
-        }
-
-        const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(
-          data.clientSecret,
-          { payment_method: ev.paymentMethod.id },
-          { handleActions: false }
-        )
-
-        if (confirmError) {
-          ev.complete('fail')
-          setError(confirmError.message)
-        } else {
-          ev.complete('success')
-          if (paymentIntent.status === 'requires_action') {
-            const { error: actionError } = await stripe.confirmCardPayment(data.clientSecret)
-            if (actionError) {
-              setError(actionError.message)
-              return
-            }
-          }
-          localStorage.setItem('fsa_email', em)
-          navigate(`/oto?email=${encodeURIComponent(em)}`)
-        }
-      } catch (err) {
-        ev.complete('fail')
-        setError('Errore durante il pagamento. Riprova.')
-      }
-    })
-  }, [stripe])
-
-  // Update paymentRequest amount when bump changes
-  useEffect(() => {
-    if (paymentRequest) {
-      paymentRequest.update({
-        total: {
-          label: bumpAdded ? 'Funnel Sprint AI + Bot Gemini' : 'Funnel Sprint AI',
-          amount: total * 100,
-        },
-      })
-    }
-  }, [bumpAdded, paymentRequest, total])
+    if (!paymentIntentId) return
+    fetch('/api/payment-intent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ bumpAdded, paymentIntentId }),
+    }).catch(() => {})
+  }, [bumpAdded, paymentIntentId])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (!stripe || !elements) return
 
+    // Validate form fields
+    if (!firstName || !lastName || !email || !phone) {
+      setError('Compila tutti i campi obbligatori.')
+      return
+    }
+
     setLoading(true)
     setError('')
 
     try {
-      // 1. Create PaymentIntent via our API
-      const res = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ firstName, lastName, email, phone, bumpAdded }),
-      })
+      // Save form data for redirect recovery
+      localStorage.setItem('fsa_checkout_form', JSON.stringify({ firstName, lastName, email, phone, bumpAdded }))
+      localStorage.setItem('fsa_email', email)
 
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error || 'Errore nella creazione del pagamento')
-
-      // 2. Confirm payment with Stripe
-      const { error: stripeError, paymentIntent } = await stripe.confirmCardPayment(data.clientSecret, {
-        payment_method: {
-          card: elements.getElement(CardElement),
-          billing_details: {
-            name: `${firstName} ${lastName}`,
-            email,
-            phone,
+      // 1. Confirm payment with Stripe via PaymentElement
+      const { error: stripeError, paymentIntent } = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          payment_method_data: {
+            billing_details: {
+              name: `${firstName} ${lastName}`,
+              email,
+              phone,
+            },
           },
+          return_url: `${window.location.origin}/checkout?pi=${paymentIntentId}`,
         },
+        redirect: 'if_required',
       })
 
       if (stripeError) {
         setError(stripeError.message)
-      } else if (paymentIntent.status === 'succeeded') {
+        setLoading(false)
+        return
+      }
+
+      if (paymentIntent && paymentIntent.status === 'succeeded') {
+        // 2. Confirm order in GHL
+        await fetch('/api/confirm-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            paymentIntentId: paymentIntent.id,
+            firstName,
+            lastName,
+            email,
+            phone,
+            bumpAdded,
+          }),
+        })
+
         localStorage.setItem('fsa_email', email)
         navigate(`/oto?email=${encodeURIComponent(email)}`)
       }
@@ -247,37 +175,15 @@ function CheckoutForm() {
               </div>
             </div>
 
-            {/* Apple Pay / Google Pay */}
-            {canPayWithWallet && paymentRequest && (
-              <div className="bg-white rounded-xl border border-gray-200 p-6 space-y-4">
-                <PaymentRequestButtonElement
-                  options={{
-                    paymentRequest,
-                    style: {
-                      paymentRequestButton: {
-                        type: 'buy',
-                        theme: 'dark',
-                        height: '48px',
-                      },
-                    },
-                  }}
-                />
-                <div className="flex items-center gap-3">
-                  <div className="flex-1 h-px bg-gray-200" />
-                  <span className="text-xs text-gray-400 font-medium uppercase">oppure paga con carta</span>
-                  <div className="flex-1 h-px bg-gray-200" />
-                </div>
-              </div>
-            )}
-
-            {/* Stripe Card Element */}
+            {/* Stripe PaymentElement — shows Card, Apple Pay, Google Pay, etc. */}
             <div className="bg-white rounded-xl border border-gray-200 p-6">
               <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-3">
-                <CreditCard size={16} /> Dati carta di pagamento
+                <CreditCard size={16} /> Metodo di pagamento
               </label>
-              <div className="border border-gray-300 rounded-lg px-4 py-3">
-                <CardElement options={CARD_ELEMENT_OPTIONS} />
-              </div>
+              <PaymentElement options={{
+                layout: 'tabs',
+                wallets: { applePay: 'auto', googlePay: 'auto' },
+              }} />
             </div>
 
             {/* BUMP OFFER */}
@@ -464,9 +370,86 @@ function CheckoutForm() {
 }
 
 export default function CheckoutPage() {
+  const [clientSecret, setClientSecret] = useState(null)
+  const [paymentIntentId, setPaymentIntentId] = useState(null)
+  const [initError, setInitError] = useState('')
+
+  useEffect(() => {
+    // Check if returning from a redirect (e.g. 3DS)
+    const params = new URLSearchParams(window.location.search)
+    const piFromUrl = params.get('pi')
+    const redirectStatus = params.get('redirect_status')
+
+    if (piFromUrl && redirectStatus === 'succeeded') {
+      // Returning from redirect — confirm order in GHL
+      const email = localStorage.getItem('fsa_email') || ''
+      const savedForm = JSON.parse(localStorage.getItem('fsa_checkout_form') || '{}')
+      fetch('/api/confirm-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          paymentIntentId: piFromUrl,
+          firstName: savedForm.firstName || 'N/A',
+          lastName: savedForm.lastName || 'N/A',
+          email: savedForm.email || email || 'N/A',
+          phone: savedForm.phone || 'N/A',
+          bumpAdded: savedForm.bumpAdded || false,
+        }),
+      }).finally(() => {
+        window.location.href = `/oto?email=${encodeURIComponent(savedForm.email || email)}`
+      })
+      return
+    }
+
+    // Create PaymentIntent on mount
+    fetch('/api/payment-intent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ bumpAdded: false }),
+    })
+      .then(r => r.json())
+      .then(data => {
+        if (data.clientSecret) {
+          setClientSecret(data.clientSecret)
+          setPaymentIntentId(data.paymentIntentId)
+        } else {
+          setInitError('Errore inizializzazione pagamento. Ricarica la pagina.')
+        }
+      })
+      .catch(() => setInitError('Errore di connessione. Ricarica la pagina.'))
+  }, [])
+
+  if (initError) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+        <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg px-6 py-4 max-w-md text-center">
+          {initError}
+        </div>
+      </div>
+    )
+  }
+
+  if (!clientSecret) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-gray-400 text-sm">Caricamento checkout...</div>
+      </div>
+    )
+  }
+
   return (
-    <Elements stripe={stripePromise}>
-      <CheckoutForm />
+    <Elements stripe={stripePromise} options={{
+      clientSecret,
+      appearance: {
+        theme: 'stripe',
+        variables: {
+          colorPrimary: '#0D9488',
+          fontFamily: 'Inter, system-ui, sans-serif',
+          borderRadius: '8px',
+        },
+      },
+    }}>
+      <CheckoutForm paymentIntentId={paymentIntentId} />
     </Elements>
   )
 }
