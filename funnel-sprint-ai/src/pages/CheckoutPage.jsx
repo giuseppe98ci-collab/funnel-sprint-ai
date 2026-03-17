@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
-import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
+import { Elements, CardElement, PaymentRequestButtonElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { CheckCircle, ShieldCheck, Lock, ArrowRight, CreditCard } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
@@ -33,6 +33,8 @@ function CheckoutForm() {
   const [bumpAdded, setBumpAdded] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [paymentRequest, setPaymentRequest] = useState(null)
+  const [canPayWithWallet, setCanPayWithWallet] = useState(false)
 
   const total = BASE_PRICE + (bumpAdded ? BUMP_PRICE : 0)
 
@@ -41,6 +43,96 @@ function CheckoutForm() {
     const savedEmail = params.get('email') || localStorage.getItem('fsa_email') || ''
     setEmail(savedEmail)
   }, [])
+
+  // Setup PaymentRequestButton (Apple Pay / Google Pay)
+  useEffect(() => {
+    if (!stripe) return
+
+    const pr = stripe.paymentRequest({
+      country: 'IT',
+      currency: 'eur',
+      total: {
+        label: 'Funnel Sprint AI',
+        amount: BASE_PRICE * 100,
+      },
+      requestPayerName: true,
+      requestPayerEmail: true,
+      requestPayerPhone: true,
+    })
+
+    pr.canMakePayment().then((result) => {
+      if (result) {
+        setPaymentRequest(pr)
+        setCanPayWithWallet(true)
+      }
+    })
+
+    pr.on('paymentmethod', async (ev) => {
+      try {
+        const payerName = ev.payerName || ''
+        const nameParts = payerName.split(' ')
+        const fn = nameParts[0] || firstName || 'N/A'
+        const ln = nameParts.slice(1).join(' ') || lastName || 'N/A'
+        const em = ev.payerEmail || email || 'N/A'
+        const ph = ev.payerPhone || phone || 'N/A'
+
+        const res = await fetch('/api/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            firstName: fn,
+            lastName: ln,
+            email: em,
+            phone: ph,
+            bumpAdded,
+          }),
+        })
+
+        const data = await res.json()
+        if (!res.ok) {
+          ev.complete('fail')
+          return
+        }
+
+        const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(
+          data.clientSecret,
+          { payment_method: ev.paymentMethod.id },
+          { handleActions: false }
+        )
+
+        if (confirmError) {
+          ev.complete('fail')
+          setError(confirmError.message)
+        } else {
+          ev.complete('success')
+          if (paymentIntent.status === 'requires_action') {
+            const { error: actionError } = await stripe.confirmCardPayment(data.clientSecret)
+            if (actionError) {
+              setError(actionError.message)
+              return
+            }
+          }
+          localStorage.setItem('fsa_email', em)
+          navigate(`/oto?email=${encodeURIComponent(em)}`)
+        }
+      } catch (err) {
+        ev.complete('fail')
+        setError('Errore durante il pagamento. Riprova.')
+      }
+    })
+  }, [stripe])
+
+  // Update paymentRequest amount when bump changes
+  useEffect(() => {
+    if (paymentRequest) {
+      paymentRequest.update({
+        total: {
+          label: bumpAdded ? 'Funnel Sprint AI + Bot Gemini' : 'Funnel Sprint AI',
+          amount: total * 100,
+        },
+      })
+    }
+  }, [bumpAdded, paymentRequest, total])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -154,6 +246,29 @@ function CheckoutForm() {
                 />
               </div>
             </div>
+
+            {/* Apple Pay / Google Pay */}
+            {canPayWithWallet && paymentRequest && (
+              <div className="bg-white rounded-xl border border-gray-200 p-6 space-y-4">
+                <PaymentRequestButtonElement
+                  options={{
+                    paymentRequest,
+                    style: {
+                      paymentRequestButton: {
+                        type: 'buy',
+                        theme: 'dark',
+                        height: '48px',
+                      },
+                    },
+                  }}
+                />
+                <div className="flex items-center gap-3">
+                  <div className="flex-1 h-px bg-gray-200" />
+                  <span className="text-xs text-gray-400 font-medium uppercase">oppure paga con carta</span>
+                  <div className="flex-1 h-px bg-gray-200" />
+                </div>
+              </div>
+            )}
 
             {/* Stripe Card Element */}
             <div className="bg-white rounded-xl border border-gray-200 p-6">
