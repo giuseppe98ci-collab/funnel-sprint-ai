@@ -249,37 +249,98 @@ function CheckoutForm() {
             </div>
           </form>
 
-          {/* RIGHT — Order Summary (sticky) */}
+          {/* RIGHT — Product Showcase Sidebar */}
           <div className="md:col-span-2">
-            <div className="bg-white rounded-xl border border-gray-200 p-5 md:sticky md:top-8">
-              <h3 className="font-extrabold text-gray-900 mb-4 text-lg">Riepilogo ordine</h3>
+            <div className="rounded-2xl p-6 md:sticky md:top-8 text-center space-y-6" style={{ backgroundColor: '#0F172A' }}>
 
-              <div className="space-y-3 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Corso Funnel Sprint AI</span>
-                  <span className="font-bold">€{BASE_PRICE}</span>
-                </div>
-                <div className="flex justify-between text-gray-400 text-xs">
-                  <span>+ 5 Bot AI Bonus (GRATIS)</span>
-                  <span className="line-through">€585</span>
-                </div>
-                {bumpAdded && (
-                  <div className="flex justify-between text-green-600">
-                    <span className="font-semibold">+ Bot Creativo Gemini</span>
-                    <span className="font-bold">€{BUMP_PRICE}</span>
-                  </div>
-                )}
-                <div className="border-t border-gray-200 pt-3 flex justify-between">
-                  <span className="font-extrabold text-gray-900 text-lg">Totale</span>
-                  <span className="font-black text-2xl text-green-600">€{total}</span>
+              {/* 1. Product Mockup Display */}
+              <div>
+                <img
+                  src="/mockup-main.png"
+                  alt="Funnel Sprint AI"
+                  className="mx-auto w-56 drop-shadow-2xl"
+                  style={{ filter: 'drop-shadow(0 0 24px rgba(212,168,67,0.25))' }}
+                />
+                <div className="flex items-center justify-center gap-2 mt-4">
+                  {['/mockup-analisi-mercato.png', '/mockup-vsl-writer.png', '/mockup-ads-creator.png', '/mockup-landing-copy.png', '/mockup-email-sequences.png'].map((src) => (
+                    <img key={src} src={src} alt="" className="w-10 h-10 rounded-lg object-cover opacity-80 hover:opacity-100 transition-opacity" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.4)' }} />
+                  ))}
                 </div>
               </div>
 
-              <div className="mt-5 space-y-2 text-xs text-gray-500">
-                <div className="flex items-center gap-1.5"><ShieldCheck size={14} className="text-green-500" /> Pagamento sicuro con Stripe</div>
-                <div className="flex items-center gap-1.5"><ShieldCheck size={14} className="text-green-500" /> Accesso immediato dopo il pagamento</div>
-                <div className="flex items-center gap-1.5"><ShieldCheck size={14} className="text-green-500" /> Garanzia 30 giorni soddisfatto o rimborsato</div>
+              {/* 2. ECCO COSA OTTERRAI */}
+              <div>
+                <h3 className="text-lg font-extrabold uppercase tracking-wider mb-4" style={{ color: '#D4A843' }}>
+                  Ecco cosa otterrai
+                </h3>
+                <ul className="text-left space-y-3 text-sm">
+                  {[
+                    { name: 'Corso Funnel Sprint AI (5 Moduli Video)', desc: 'Il sistema completo per creare il tuo marketing con l\'AI in un weekend' },
+                    { name: 'Bot #1 — Analisi Mercato AI', desc: 'Analizza competitor, pain point e opportunità in 2 minuti' },
+                    { name: 'Bot #2 — VSL Writer AI', desc: 'Genera script video di vendita pronti da registrare' },
+                    { name: 'Bot #3 — Ads Creator AI', desc: '6-10 varianti ads Facebook/Instagram pronte per il testing' },
+                    { name: 'Bot #4 — Landing Page Copy AI', desc: 'Copy completo per la tua sales page, ottimizzato per mobile' },
+                    { name: 'Bot #5 — Email Sequence AI', desc: '5-7 email pronte per il tuo autoresponder' },
+                  ].map((item) => (
+                    <li key={item.name} className="flex items-start gap-2">
+                      <span className="text-green-400 text-base mt-0.5 shrink-0">✅</span>
+                      <div>
+                        <span className="font-bold block" style={{ color: '#D4A843' }}>{item.name}</span>
+                        <span className="italic text-gray-300 text-xs">{item.desc}</span>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
               </div>
+
+              {/* 3. Savings Banner */}
+              <div className="rounded-xl py-4 px-5" style={{ background: 'linear-gradient(135deg, #D4A843 0%, #B8860B 100%)' }}>
+                <p className="text-sm text-white/80">
+                  Valore totale: <span className="line-through">€782</span>
+                </p>
+                <p className="text-3xl font-black text-white mt-1">Oggi solo €17</p>
+              </div>
+
+              {/* 4. Social Proof Bar */}
+              <div className="flex items-center justify-center gap-3 rounded-full py-2 px-4 mx-auto" style={{ backgroundColor: '#1E293B' }}>
+                <div className="flex -space-x-2">
+                  {['M', 'A', 'L', 'S', 'G'].map((initial, i) => (
+                    <div
+                      key={initial}
+                      className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white border-2"
+                      style={{
+                        backgroundColor: ['#3B82F6', '#EF4444', '#10B981', '#F59E0B', '#8B5CF6'][i],
+                        borderColor: '#1E293B',
+                      }}
+                    >
+                      {initial}
+                    </div>
+                  ))}
+                </div>
+                <span className="text-gray-300 text-xs">847 marketer hanno già il loro sistema AI</span>
+              </div>
+
+              {/* 5. Testimonial */}
+              <div className="px-2">
+                <p className="italic text-sm leading-relaxed" style={{ color: '#F5E6C8' }}>
+                  &ldquo;Prima perdevo 3 giorni a scrivere copy per i miei clienti. Ora con i bot di Giuseppe genero tutto in 2 ore. Il ROI? Ho venduto €4.200 di servizi nel primo mese usando i materiali generati.&rdquo;
+                </p>
+                <div className="mt-3">
+                  <p className="font-bold text-white text-sm">— Andrea M.</p>
+                  <p className="italic text-gray-400 text-xs">Digital Marketer</p>
+                  <p className="text-xs mt-1" style={{ color: '#16A34A' }}>
+                    <span className="inline-block w-2 h-2 rounded-full mr-1" style={{ backgroundColor: '#16A34A' }}></span>
+                    Cliente Verificato
+                  </p>
+                </div>
+              </div>
+
+              {/* 6. Guarantee Badge */}
+              <div className="flex items-center justify-center gap-2 rounded-lg py-3 px-4 mx-auto border" style={{ borderColor: '#D4A843', backgroundColor: 'rgba(212,168,67,0.08)' }}>
+                <ShieldCheck size={22} style={{ color: '#D4A843' }} />
+                <span className="text-sm font-semibold" style={{ color: '#D4A843' }}>30 giorni soddisfatto o rimborsato</span>
+              </div>
+
             </div>
           </div>
         </div>
