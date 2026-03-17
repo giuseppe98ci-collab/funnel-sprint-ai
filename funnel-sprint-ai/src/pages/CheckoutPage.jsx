@@ -181,8 +181,7 @@ function CheckoutForm({ paymentIntentId }) {
                 <CreditCard size={16} /> Metodo di pagamento
               </label>
               <PaymentElement options={{
-                layout: 'tabs',
-                wallets: { applePay: 'auto', googlePay: 'auto' },
+                layout: 'accordion',
               }} />
             </div>
 
