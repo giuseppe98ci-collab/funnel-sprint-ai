@@ -4,7 +4,7 @@ import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-
 import { CheckCircle, ShieldCheck, Lock, ArrowRight, CreditCard } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
-const stripePromise = loadStripe('pk_live_51T5j0PPbCvQnn6IOvN7DaXtZZVFLQfXuVlPbJfvHhHkHTbfYeJcbMqOg7VJB8kYZSG3bL1Y1HBUr7zNzZVxe2oeK00UOdpRqcW')
+const stripePromise = loadStripe('pk_live_51T5j0PPbCvQnn6IOymUqHQ4NBjqOaIOeKze37kK0TkjBnz5pUUndjIhmUSOS0MMltcsWBgKafA5FiTGm5l9WrrQD00TxlMDlkd')
 
 const BUMP_PRICE = 19
 const BASE_PRICE = 17
