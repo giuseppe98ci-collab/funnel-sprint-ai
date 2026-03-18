@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import {
   ShieldCheck, CheckCircle, XCircle, ChevronDown, ArrowRight,
   Star, X, Check, BadgeCheck, RefreshCw
 } from 'lucide-react'
-import { trackEvent } from '../utils/tracking'
+import { trackEvent, trackMetaEvent } from '../utils/tracking'
 
 const CTA_URL = '/checkout'
 
@@ -191,6 +191,7 @@ function CtaButton({ text = 'SÌ, VOGLIO ACCEDERE AL CORSO A SOLI €17', classN
     }
     setError(false)
     localStorage.setItem('fsa_email', email)
+    trackMetaEvent('Lead', { content_name: 'Funnel Sprint AI' }, { em: email })
     window.location.href = CTA_URL + '?email=' + encodeURIComponent(email)
   }
 
@@ -512,6 +513,26 @@ function HamsterWheelVisual() {
 
 /* ===== MAIN PAGE ===== */
 export default function SalesPage() {
+  const pricingRef = useRef(null)
+  const viewContentFired = useRef(false)
+
+  useEffect(() => {
+    const el = document.getElementById('pricing-section')
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !viewContentFired.current) {
+          viewContentFired.current = true
+          trackMetaEvent('ViewContent', { content_name: 'Funnel Sprint AI', content_category: 'pricing', value: 17.00, currency: 'EUR' })
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.3 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
   return (
     <div className="min-h-[100dvh]">
       <CountdownBar />

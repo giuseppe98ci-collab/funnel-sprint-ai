@@ -1,10 +1,21 @@
 import Stripe from 'stripe';
+import crypto from 'crypto';
 
 const STRIPE_SK = process.env.STRIPE_SECRET_KEY || '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';
 const GHL_API_KEY = process.env.GHL_API_KEY || 'pit-ff3ad135-3f51-4072-a533-533bc16038f9';
 const GHL_LOCATION_ID = '6600KjjI4Q4k8ICFPzFC';
 const GHL_VERSION = '2021-07-28';
 const GHL_SOURCE_ID = '69495c442024d429282d6509';
+
+const META_PIXEL_ID = '618972313422090';
+const META_ACCESS_TOKEN = process.env.META_CAPI_TOKEN || 'EAAHWm0p7jxsBQ2eM6AvHoYpPJ5kXzZBP5xmUAaaw1fId6YCPmJkWBWWauye7ie9QSZCWAKsRA89UfJfsSyJWSkV1T4oTTqWTYLjUEgyIBuQatqvSPZB10jiz7WNSF1F7aE31gqprlzUgekbHdCpPsZAtoKrI6D17jdL5o7Yuf2UX6iUhnuzoaTcW4ZA5S74JhaQZDZD';
+
+function hashSHA256(value) {
+  if (!value) return undefined;
+  const trimmed = String(value).trim().toLowerCase();
+  if (!trimmed) return undefined;
+  return crypto.createHash('sha256').update(trimmed).digest('hex');
+}
 
 const stripe = new Stripe(STRIPE_SK);
 
@@ -133,6 +144,45 @@ export default async function handler(req, res) {
       }
     } catch (ghlError) {
       console.error('GHL API error:', ghlError.message || ghlError);
+    }
+
+    // Send Purchase event to Meta CAPI (server-side, authoritative)
+    try {
+      const capiPayload = {
+        data: [
+          {
+            event_name: 'Purchase',
+            event_time: Math.floor(Date.now() / 1000),
+            event_id: `purchase-${paymentIntentId}`,
+            event_source_url: 'https://funnel-sprint-ai.vercel.app/checkout',
+            action_source: 'website',
+            user_data: {
+              em: hashSHA256(email) ? [hashSHA256(email)] : undefined,
+              ph: hashSHA256(phoneClean) ? [hashSHA256(phoneClean)] : undefined,
+              fn: hashSHA256(firstName) ? [hashSHA256(firstName)] : undefined,
+              ln: hashSHA256(lastName) ? [hashSHA256(lastName)] : undefined,
+              client_ip_address: req.headers['x-forwarded-for']?.split(',')[0]?.trim(),
+              client_user_agent: req.headers['user-agent'],
+            },
+            custom_data: {
+              value: amount / 100,
+              currency: 'EUR',
+              content_name: 'Funnel Sprint AI',
+            },
+          },
+        ],
+      };
+
+      await fetch(
+        `https://graph.facebook.com/v21.0/${META_PIXEL_ID}/events?access_token=${META_ACCESS_TOKEN}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(capiPayload),
+        }
+      );
+    } catch (capiError) {
+      console.error('Meta CAPI error:', capiError.message || capiError);
     }
 
     return res.status(200).json({ success: true, contactId, orderId });
