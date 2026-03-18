@@ -1,7 +1,10 @@
 import Stripe from 'stripe';
 
 const STRIPE_SK = process.env.STRIPE_SECRET_KEY;
-const stripe = new Stripe(STRIPE_SK);
+if (!STRIPE_SK) {
+  console.error('STRIPE_SECRET_KEY not configured');
+}
+const stripe = STRIPE_SK ? new Stripe(STRIPE_SK) : null;
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
