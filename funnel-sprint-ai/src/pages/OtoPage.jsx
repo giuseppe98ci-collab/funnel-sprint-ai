@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
 import { Clock, CheckCircle, ShieldCheck, ArrowRight, XCircle } from 'lucide-react'
+import { trackEvent } from '../utils/tracking'
 
 export default function OtoPage() {
   const [minutes, setMinutes] = useState(14)
   const [seconds, setSeconds] = useState(59)
 
   useEffect(() => {
+    trackEvent('oto_viewed')
     const timer = setInterval(() => {
       setSeconds(s => {
         if (s === 0) {
@@ -98,6 +100,7 @@ export default function OtoPage() {
         {/* CTA */}
         <a
           href="/grazie"
+          onClick={() => trackEvent('oto_accepted')}
           className="block w-full text-center py-4 rounded-xl font-bold text-lg text-white transition-all duration-200 hover:brightness-110"
           style={{ background: 'linear-gradient(135deg, #22c55e, #16a34a)' }}
         >
@@ -110,7 +113,7 @@ export default function OtoPage() {
 
         {/* Skip */}
         <div className="text-center mt-6">
-          <a href="/grazie" className="text-gray-400 hover:text-gray-600 underline text-sm transition-colors">
+          <a href="/grazie" onClick={() => trackEvent('oto_declined')} className="text-gray-400 hover:text-gray-600 underline text-sm transition-colors">
             No grazie, procedi senza revisione →
           </a>
         </div>

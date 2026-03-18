@@ -3,6 +3,7 @@ import {
   ShieldCheck, CheckCircle, XCircle, ChevronDown, ArrowRight,
   Star, X, Check, BadgeCheck, RefreshCw
 } from 'lucide-react'
+import { trackEvent } from '../utils/tracking'
 
 const CTA_URL = '/checkout'
 
@@ -96,6 +97,7 @@ function ExitIntentPopup() {
       triggered = true
       localStorage.setItem('fsa_exit_shown', '1')
       setOpen(true)
+      trackEvent('exit_intent_shown')
       document.removeEventListener('mouseleave', onLeave)
     }
     return () => {
@@ -122,7 +124,7 @@ function ExitIntentPopup() {
         <p className="text-gray-700 text-center mb-4">Funnel Sprint AI a soli <strong>€17</strong> — il prezzo sale a €97 tra poco</p>
         <p className="text-center font-mono text-3xl font-bold text-red-600 mb-6">{mm}:{ss}</p>
         <div className="text-center">
-          <a href={CTA_URL} className="uiverse-cta">
+          <a href={CTA_URL} onClick={() => trackEvent('exit_intent_clicked')} className="uiverse-cta">
             <div className="svg-wrapper-1"><div className="svg-wrapper">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                 <path fill="none" d="M0 0h24v24H0z"></path>
@@ -180,6 +182,7 @@ function CtaButton({ text = 'SÌ, VOGLIO ACCEDERE AL CORSO A SOLI €17', classN
   const [error, setError] = useState(false)
 
   function handleClick(e) {
+    trackEvent('sales_page_cta_click', { text, showEmail })
     if (!showEmail) return // no email capture, normal link behavior
     e.preventDefault()
     if (!email || !email.includes('@')) {

@@ -3,6 +3,7 @@ import { loadStripe } from '@stripe/stripe-js'
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { CheckCircle, ShieldCheck, Lock, ArrowRight, CreditCard } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { trackEvent } from '../utils/tracking'
 
 const stripePromise = loadStripe('pk_live_51T5j0PPbCvQnn6IOymUqHQ4NBjqOaIOeKze37kK0TkjBnz5pUUndjIhmUSOS0MMltcsWBgKafA5FiTGm5l9WrrQD00TxlMDlkd')
 
@@ -28,6 +29,7 @@ function CheckoutForm({ paymentIntentId }) {
     const params = new URLSearchParams(window.location.search)
     const savedEmail = params.get('email') || localStorage.getItem('fsa_email') || ''
     setEmail(savedEmail)
+    trackEvent('checkout_started')
   }, [])
 
   // Update PaymentIntent amount when bump changes
@@ -52,6 +54,7 @@ function CheckoutForm({ paymentIntentId }) {
 
     setLoading(true)
     setError('')
+    trackEvent('payment_initiated', { amount: total, bumpAdded })
 
     try {
       // Save form data for redirect recovery
@@ -81,6 +84,7 @@ function CheckoutForm({ paymentIntentId }) {
       }
 
       if (paymentIntent && paymentIntent.status === 'succeeded') {
+        trackEvent('payment_success', { amount: total, bumpAdded, paymentMethod: paymentIntent.payment_method_types?.[0] || 'unknown' })
         // 2. Confirm order in GHL
         await fetch('/api/confirm-order', {
           method: 'POST',
@@ -187,7 +191,7 @@ function CheckoutForm({ paymentIntentId }) {
 
             {/* BUMP OFFER */}
             <div
-              onClick={() => setBumpAdded(!bumpAdded)}
+              onClick={() => { const next = !bumpAdded; setBumpAdded(next); trackEvent('checkout_bump_toggled', { bumpAdded: next }) }}
               className={`relative cursor-pointer rounded-xl border-2 border-dashed p-5 transition-all ${
                 bumpAdded
                   ? 'border-green-500 bg-green-50 shadow-md'
