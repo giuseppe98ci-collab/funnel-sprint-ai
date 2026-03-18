@@ -99,7 +99,7 @@ export default function OtoPage() {
 
         {/* CTA */}
         <a
-          href="/grazie"
+          href="/oto-checkout"
           onClick={() => trackEvent('oto_accepted')}
           className="block w-full text-center py-4 rounded-xl font-bold text-lg text-white transition-all duration-200 hover:brightness-110"
           style={{ background: 'linear-gradient(135deg, #22c55e, #16a34a)' }}

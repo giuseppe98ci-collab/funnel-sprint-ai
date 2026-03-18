@@ -8,7 +8,9 @@ import './index.css'
 import SalesPage from './pages/SalesPage.jsx'
 import CheckoutPage from './pages/CheckoutPage.jsx'
 import OtoPage from './pages/OtoPage.jsx'
+import OtoCheckoutPage from './pages/OtoCheckoutPage.jsx'
 import ThankYouPage from './pages/ThankYouPage.jsx'
+import GrazieOtoPage from './pages/GrazieOtoPage.jsx'
 
 // PostHog init
 posthog.init('phc_d4gQQa5rkwJ6oDHQp3EGpDNCooVeciaqchj9gHK6rG8', {
@@ -24,7 +26,9 @@ createRoot(document.getElementById('root')).render(
         <Route path="/" element={<SalesPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/oto" element={<OtoPage />} />
+        <Route path="/oto-checkout" element={<OtoCheckoutPage />} />
         <Route path="/grazie" element={<ThankYouPage />} />
+        <Route path="/grazie-oto" element={<GrazieOtoPage />} />
       </Routes>
       <Analytics />
       <SpeedInsights />
