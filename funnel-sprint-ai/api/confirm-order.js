@@ -1,14 +1,14 @@
 import Stripe from 'stripe';
 import crypto from 'crypto';
 
-const STRIPE_SK = process.env.STRIPE_SECRET_KEY || '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';
-const GHL_API_KEY = process.env.GHL_API_KEY || 'pit-ff3ad135-3f51-4072-a533-533bc16038f9';
+const STRIPE_SK = process.env.STRIPE_SECRET_KEY;
+const GHL_API_KEY = process.env.GHL_API_KEY;
 const GHL_LOCATION_ID = '6600KjjI4Q4k8ICFPzFC';
 const GHL_VERSION = '2021-07-28';
 const GHL_SOURCE_ID = '69495c442024d429282d6509';
 
 const META_PIXEL_ID = '618972313422090';
-const META_ACCESS_TOKEN = process.env.META_CAPI_TOKEN || 'EAAHWm0p7jxsBQ2eM6AvHoYpPJ5kXzZBP5xmUAaaw1fId6YCPmJkWBWWauye7ie9QSZCWAKsRA89UfJfsSyJWSkV1T4oTTqWTYLjUEgyIBuQatqvSPZB10jiz7WNSF1F7aE31gqprlzUgekbHdCpPsZAtoKrI6D17jdL5o7Yuf2UX6iUhnuzoaTcW4ZA5S74JhaQZDZD';
+const META_ACCESS_TOKEN = process.env.META_CAPI_TOKEN;
 
 function hashSHA256(value) {
   if (!value) return undefined;

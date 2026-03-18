@@ -1,7 +1,7 @@
 import crypto from 'crypto'
 
 const PIXEL_ID = '618972313422090'
-const ACCESS_TOKEN = process.env.META_CAPI_TOKEN || 'EAAHWm0p7jxsBQ2eM6AvHoYpPJ5kXzZBP5xmUAaaw1fId6YCPmJkWBWWauye7ie9QSZCWAKsRA89UfJfsSyJWSkV1T4oTTqWTYLjUEgyIBuQatqvSPZB10jiz7WNSF1F7aE31gqprlzUgekbHdCpPsZAtoKrI6D17jdL5o7Yuf2UX6iUhnuzoaTcW4ZA5S74JhaQZDZD'
+const ACCESS_TOKEN = process.env.META_CAPI_TOKEN
 
 function hashSHA256(value) {
   if (!value) return undefined

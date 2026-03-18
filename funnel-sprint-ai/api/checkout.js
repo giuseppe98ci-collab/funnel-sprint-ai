@@ -1,7 +1,7 @@
 import Stripe from 'stripe';
 
-const STRIPE_SK = process.env.STRIPE_SECRET_KEY || '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';
-const GHL_API_KEY = process.env.GHL_API_KEY || 'pit-ff3ad135-3f51-4072-a533-533bc16038f9';
+const STRIPE_SK = process.env.STRIPE_SECRET_KEY;
+const GHL_API_KEY = process.env.GHL_API_KEY;
 const GHL_LOCATION_ID = '6600KjjI4Q4k8ICFPzFC';
 const GHL_VERSION = '2021-07-28';
 // Source ID per tracking ordini - usa un payment link esistente come source

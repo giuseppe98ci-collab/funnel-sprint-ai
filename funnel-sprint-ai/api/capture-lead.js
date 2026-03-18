@@ -1,4 +1,4 @@
-const GHL_API_KEY = process.env.GHL_API_KEY || 'pit-ff3ad135-3f51-4072-a533-533bc16038f9';
+const GHL_API_KEY = process.env.GHL_API_KEY;
 const GHL_LOCATION_ID = '6600KjjI4Q4k8ICFPzFC';
 
 const ghlHeaders = {
