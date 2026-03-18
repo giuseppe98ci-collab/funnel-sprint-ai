@@ -192,6 +192,12 @@ function CtaButton({ text = 'SÌ, VOGLIO ACCEDERE AL CORSO A SOLI €17', classN
     setError(false)
     localStorage.setItem('fsa_email', email)
     trackMetaEvent('Lead', { content_name: 'Funnel Sprint AI' }, { em: email })
+    // Send lead to GHL for email marketing (non-buyers nurture)
+    fetch('/api/capture-lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    }).catch(() => {})
     window.location.href = CTA_URL + '?email=' + encodeURIComponent(email)
   }
 
