@@ -82,8 +82,19 @@ export default async function handler(req, res) {
         }),
       });
 
+      if (!upsertRes.ok) {
+        const errorText = await upsertRes.text();
+        console.error('GHL Upsert error:', errorText);
+        throw new Error(`GHL Upsert failed: ${upsertRes.status}`);
+      }
+      
       const upsertData = await upsertRes.json();
       contactId = upsertData?.contact?.id;
+      
+      if (!contactId) {
+        console.error('GHL Upsert response:', upsertData);
+        throw new Error('GHL did not return contact ID');
+      }
 
       if (contactId) {
         const products = [
@@ -114,7 +125,7 @@ export default async function handler(req, res) {
         // Mark order as fulfilled (triggers GHL "Ordine Inviato" workflow)
         if (orderId) {
           const fulfillItems = products.map(p => ({ priceId: p.id, qty: p.qty }));
-          await fetch(`https://services.leadconnectorhq.com/payments/orders/${orderId}/fulfillments`, {
+          const fulfillRes = await fetch(`https://services.leadconnectorhq.com/payments/orders/${orderId}/fulfillments`, {
             method: 'POST',
             headers: ghlHeaders,
             body: JSON.stringify({
@@ -124,6 +135,31 @@ export default async function handler(req, res) {
               items: fulfillItems,
             }),
           });
+          
+          if (!fulfillRes.ok) {
+            console.error('GHL Fulfillment error:', await fulfillRes.text());
+          }
+          
+          // Record payment to mark order as PAID
+          const recordPaymentRes = await fetch(`https://services.leadconnectorhq.com/payments/orders/${orderId}/record-payment`, {
+            method: 'POST',
+            headers: ghlHeaders,
+            body: JSON.stringify({
+              altId: GHL_LOCATION_ID,
+              altType: 'location',
+              amount: amount,
+              currency: 'EUR',
+              paymentMethod: 'card',
+              paymentProvider: 'stripe',
+              notes: `Pagamento Stripe - PaymentIntent: ${paymentIntentId}`,
+            }),
+          });
+          
+          if (!recordPaymentRes.ok) {
+            console.error('GHL Record Payment error:', await recordPaymentRes.text());
+          } else {
+            console.log('GHL Order marked as PAID:', orderId);
+          }
         }
 
         const noteBody = [
@@ -146,8 +182,12 @@ export default async function handler(req, res) {
       console.error('GHL API error:', ghlError.message || ghlError);
     }
 
-    // Send Purchase event to Meta CAPI (server-side, authoritative)
+    // Send Purchase event to Meta CAPI (server-side ONLY, authoritative)
+    // This is the ONLY place where Purchase event should be sent - never client-side
     try {
+      if (!META_ACCESS_TOKEN) {
+        console.error('Meta CAPI skipped: META_CAPI_TOKEN not configured');
+      } else {
       const capiPayload = {
         data: [
           {
@@ -173,16 +213,24 @@ export default async function handler(req, res) {
         ],
       };
 
-      await fetch(
-        `https://graph.facebook.com/v21.0/${META_PIXEL_ID}/events?access_token=${META_ACCESS_TOKEN}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(capiPayload),
+        const capiRes = await fetch(
+          `https://graph.facebook.com/v21.0/${META_PIXEL_ID}/events?access_token=${META_ACCESS_TOKEN}`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(capiPayload),
+          }
+        );
+        
+        if (!capiRes.ok) {
+          const capiErrorData = await capiRes.json().catch(() => ({}));
+          console.error('Meta CAPI error:', capiRes.status, capiErrorData);
+        } else {
+          console.log('Meta CAPI Purchase event sent successfully');
         }
-      );
+      }
     } catch (capiError) {
-      console.error('Meta CAPI error:', capiError.message || capiError);
+      console.error('Meta CAPI exception:', capiError.message || capiError);
     }
 
     return res.status(200).json({ success: true, contactId, orderId });

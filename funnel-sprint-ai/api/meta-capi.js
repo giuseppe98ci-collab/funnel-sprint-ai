@@ -25,6 +25,12 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Missing event_name' })
     }
 
+    // Purchase events MUST only be sent server-side from confirm-order.js
+    // Block any client-side attempt to send Purchase via this endpoint
+    if (event_name === 'Purchase') {
+      return res.status(403).json({ error: 'Purchase events cannot be sent from the client. They are handled server-side by confirm-order.' })
+    }
+
     const hashedUserData = {}
     if (user_data) {
       if (user_data.em) hashedUserData.em = [hashSHA256(user_data.em)]
